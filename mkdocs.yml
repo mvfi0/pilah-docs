@@ -1,0 +1,81 @@
+site_name: PILAH — Project Documentation
+site_description: Personal planning, progress, and technical notes for PILAH (PPL Semester 5)
+site_author: Muhammad Vegard
+repo_url: https://github.com/mvfi0/pilah-docs
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+
+nav:
+  - Project Overview: index.md
+  - Sprint Reports:
+      - sprints/index.md
+      - Sprint 1:
+          - Plan: sprints/sprint-1/plan.md
+          - Progress: sprints/sprint-1/progress.md
+          - Retrospective: sprints/sprint-1/retrospective.md
+          - Task Plans:
+              - PIL-176 Pencatatan Pencairan: sprints/sprint-1/tasks/PIL-176-pencatatan-pencairan-plan.md
+      - Sprint 2:
+          - Plan: sprints/sprint-2/plan.md
+          - Progress: sprints/sprint-2/progress.md
+          - Retrospective: sprints/sprint-2/retrospective.md
+      - Sprint 3:
+          - Plan: sprints/sprint-3/plan.md
+          - Progress: sprints/sprint-3/progress.md
+          - Retrospective: sprints/sprint-3/retrospective.md
+  - Technical Documentation:
+      - Architecture: technical/architecture.md
+      - Backend: technical/backend.md
+      - Mobile: technical/mobile.md
+      - API: technical/api.md
+  - Testing & QA: testing-qa.md
