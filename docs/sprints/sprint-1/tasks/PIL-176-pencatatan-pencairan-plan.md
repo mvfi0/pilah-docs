@@ -4,11 +4,11 @@
 |---|---|
 | Owner | Vegard |
 | Linear | [PIL-176](https://linear.app/pilah-2/issue/PIL-176) (parent: [PIL-140 CPBI-10](https://linear.app/pilah-2/issue/PIL-140)) |
-| Linear branch | `feature/pil-176` |
+| Linear branch | `feature/pil-176-pencatatan-pencairan-untuk-pengurus` (from `staging`) |
 | Sprint | Sprint 1 — 15 Sep → 1 Oct 2026 · UAT 29 Sep · Sprint Review 1 Oct |
 | PRD features | F13 (pencatatan pencairan tunai/transfer), partially F14 (riwayat) |
 | Repos touched | `pilah-be` (model, service, API) and `pilah-mobile` (pengurus form) |
-| Status | Draft, written 16 Sep 2026 |
+| Status | Backend done and in review ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), CI green); mobile not started. Updated 20 Sep 2026. |
 
 ---
 
@@ -50,7 +50,8 @@ These acceptance criteria from CPBI-10 and PRD §3.13 apply to this task:
 | Full riwayat pencairan screen for pengurus | [PIL-222](https://linear.app/pilah-2/issue/PIL-222) (unassigned) |
 | Editing a recorded pencairan | [PIL-230](https://linear.app/pilah-2/issue/PIL-230) (unassigned) |
 | Jadwal pencairan (F12) | CPBI-10 AC #1, which has no sub-issue yet |
-| Nasabah-side request and status tracking (F13 "pengajuan nasabah", F14) | Sprint 2 per PRD; needs the nasabah role from PIL-152 |
+| Nasabah-side **request/approval** (F13 "pengajuan nasabah") | Sprint 2 per PRD. Nasabah may only *view*, never request or approve (§8 Q9). |
+| Nasabah-side **read** of riwayat pencairan | In Sprint 1 scope per §8 Q9, but likely PIL-222 rather than PIL-176 — confirm the owner. |
 | WhatsApp or push notification on pencairan | CPBI-14 / F16 |
 | Pencairan rows in the Excel export | Follow-up; only the running balance is fixed here |
 
@@ -74,7 +75,10 @@ The API should be designed so that PIL-222 and PIL-230 can build on it without b
 - Permission `IsActivePengelola` gates every pengurus endpoint. Superadmin is already rejected (covered by tests).
 - Error format comes from `api/exceptions.py`: validation errors become **422** `{"errors": {...}}`, and 404 becomes `{"error": "Resource tidak ditemukan"}`.
 - CI (`.github/workflows/ci.yml` on `staging`) runs `ruff check`, `ruff format --check`, `makemigrations --check`, tests with **coverage ≥ 80%**, `manage.py check --deploy`, **mypy strict**, and SonarQube.
-- ⚠️ **Branch divergence:** `origin/staging` is about 900 lines ahead of `main` inside `api/` (type hints, ruff, mypy, and Fly deploy). AGENTS.md says `main` is the baseline, but the team is actively working on `staging`. Confirm the base branch before starting (see §8).
+- ✅ **Base branch resolved (20 Sep):** `staging` is the baseline for every repo; AGENTS.md and the `ship` skill now say so explicitly. `origin/staging` is 11 commits ahead of `main`.
+- ✅ **PIL-152 merged** into `staging` on 20 Sep (`ad1c1f6`). `Nasabah` stays the per-bank membership, so the FK target was unchanged.
+- ⚠️ **Stacked on PIL-188 (#18):** both branches added an `0011_` migration from the same parent, which would have left Django with two leaf nodes. PR #19 is rebased onto #18 and renumbered to `0012_pencairan`, keeping the graph linear. #18 must merge first; GitHub then retargets #19 to `staging`.
+- ~~**PIL-152 lands first:**~~ [PR #15](https://github.com/bank-sampah-PILAH/pilah-be/pull/15) (In Review) adds migrations `0005`–`0010`, `Nasabah.user`, bank hierarchy, and one-membership-per-bank. `Nasabah` stays the per-bank membership, so the FK target is unchanged, but the pencairan migration must be renumbered after it merges. The PR still targets `main` and needs retargeting to `staging`.
 
 ### 3.2 Mobile (`pilah-mobile`, Flutter 3.41 / Dart 3.11)
 
@@ -109,6 +113,9 @@ class Pencairan(TimestampedModel):
         TUNAI = "tunai", "Tunai"
         TRANSFER = "transfer", "Transfer"
 
+    class Status(models.TextChoices):
+        TERCATAT = "tercatat", "Tercatat"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nasabah = models.ForeignKey(Nasabah, on_delete=models.PROTECT, related_name="pencairan")
     bank_sampah = models.ForeignKey(BankSampah, on_delete=models.PROTECT, related_name="pencairan")
@@ -117,6 +124,7 @@ class Pencairan(TimestampedModel):
     nominal = models.DecimalField(max_digits=14, decimal_places=2)
     metode = models.CharField(max_length=20, choices=Metode.choices)
     keterangan = models.TextField(blank=True)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.TERCATAT)
     saldo_sebelum = models.DecimalField(max_digits=14, decimal_places=2)
     saldo_sesudah = models.DecimalField(max_digits=14, decimal_places=2)
 
@@ -132,7 +140,7 @@ class Pencairan(TimestampedModel):
 Notes:
 
 - `saldo_sebelum` / `saldo_sesudah` are receipt snapshots at record time, matching the PRD "Detail Setoran" pattern. PIL-230 will define how edits affect them.
-- No `status` field yet. In Sprint 1 a recorded pencairan is final. Sprint 2 adds status when the nasabah request flow is decided.
+- `status` ships with the single value `tercatat` (§8 Q8). A recorded pencairan is final in Sprint 1; Sprint 2 adds the request lifecycle and PIL-230 adds edits. Shipping the field now keeps the payload stable for both.
 - The migration is purely additive and safe on the existing data.
 - Register it in `api/admin.py`, and add it to the verification counts in `reset_testing_data`.
 
@@ -172,10 +180,11 @@ All endpoints use `permission_classes = [IsActivePengelola]` and are scoped to `
 | Field | Rule |
 |---|---|
 | `nasabah_id` | required UUID; active nasabah of the pengurus' bank |
-| `nominal` | required; `> 0`; max 12 integer digits; `≤ saldo` |
-| `metode` | required; `tunai` or `transfer` |
-| `tanggal` | optional, defaults to now; **not in the future** |
+| `nominal` | required; `> 0`; **whole rupiah, no decimals** (§8 Q5); max 12 integer digits; `≤ saldo` |
+| `metode` | required; `tunai` or `transfer` (no transfer reference fields, §8 Q7) |
+| `tanggal` | optional, defaults to now; **not in the future** (§8 Q4) |
 | `keterangan` | optional; max 255 chars |
+| `status` | not accepted on input; always written as `tercatat` (§8 Q8) |
 
 Returns **201** with the detail payload below. Returns **422** `{"errors": {...}}` on validation failure.
 
@@ -193,6 +202,7 @@ Returns **201** with the detail payload below. Returns **422** `{"errors": {...}
   "nominal": "200000.00",
   "metode": "tunai",
   "keterangan": "Diambil pagi",
+  "status": "tercatat",
   "saldo_sebelum": "465600.00",
   "saldo_sesudah": "265600.00",
   "created_at": "..."
@@ -244,7 +254,8 @@ Add `pencairan = "/api/v1/pencairan"` to `core/constants/endpoints.dart` and reg
 - [ ] Creating a pencairan reduces saldo by the nominal and stores both snapshots and `dicatat_oleh`.
 - [ ] A nominal equal to the saldo succeeds and leaves saldo at 0.
 - [ ] A nominal greater than the saldo returns 422, and **saldo and row count are unchanged**.
-- [ ] Nominal ≤ 0, an invalid metode, or a future tanggal returns 422.
+- [ ] Nominal ≤ 0, a nominal with decimals, an invalid metode, or a future tanggal returns 422.
+- [ ] A created pencairan has `status == "tercatat"`, and a `status` sent in the request body is ignored.
 - [ ] A nasabah from another bank sampah returns 422 (no data leak).
 - [ ] An inactive nasabah returns 422 (see open question Q3).
 - [ ] Two sequential pencairan whose sum exceeds the saldo: the second fails.
@@ -275,10 +286,10 @@ Weekends are 19–20 and 26–27 Sep.
 
 | Date | Work | Output |
 |---|---|---|
-| Wed 16 Sep | Close the open questions (§8) with PO/tech lead, confirm the base branch, finish SSH/`gh` setup and fetch the latest remotes | Answers recorded on PIL-176 |
-| Thu 17 Sep | BE: model, migration, admin, `PencairanService` + unit tests | Local tests green |
-| Fri 18 Sep | BE: serializers, viewset, URLs, isolation and permission tests | Endpoints working locally |
-| Mon 21 Sep | BE: balance helper fix + regression tests; API docs; **open BE PR** | PR `feature/pil-176` (pilah-be) |
+| Wed 16 Sep | Close the open questions (§8) with PO/tech lead, confirm the base branch, finish SSH/`gh` setup and fetch the latest remotes | ✅ Answers recorded 19 Sep (§8); base branch is `staging`; SSH fixed 20 Sep (missing `known_hosts` entry, not access) |
+| Thu 17 – Fri 18 Sep | _Not worked: blocked on SSH access and open questions_ | — |
+| **Sat 20 Sep** (catch-up) | ✅ All backend work in one day: model, migration, admin, service, serializers, viewset, URLs, balance-helper fix, regression tests, README. 8 new tests (39 → 47), 87% coverage. **BE PR opened and self-assigned**, then rebased onto #18 and renumbered to `0012_pencairan`. | [PR #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), CI green in 2m23s |
+| Sun 21 Sep | Freed up — originally the third backend day. Use it to start mobile early, or to address review on #19. | — |
 | Tue 22 Sep | Mobile: scaffold feature, data layer, cubit + tests | — |
 | Wed 23 Sep | Mobile: form page, nasabah picker, validation, confirmation modal | Screen working against local BE |
 | Thu 24 Sep | Mobile: success sheet, refresh saldo, entry points, widget tests; **open mobile PR** | PR `feature/pil-176` (pilah-mobile) |
@@ -304,15 +315,19 @@ Weekends are 19–20 and 26–27 Sep.
 
 ---
 
-## 8. Open questions to resolve before coding
+## 8. Open questions — answered 19 Sep (PM) and 20 Sep (tech lead)
 
-1. **Sprint placement.** The PRD (§2.1–2.2) puts F12–F14 (pencairan) in **Sprint 2**, and the Sprint 1 release lists only CPBI-01, 08, 11, and 20. Linear put CPBI-10 in Sprint 1. Is PIL-176 committed for the Sprint 1 review? This affects UAT scope and the ≥20% AC target.
-2. **Base branch.** Should the branch come from `staging` (where CI, mypy, and deploy live) or `main` (the AGENTS.md baseline)?
-3. **Inactive nasabah.** Can a nonaktif nasabah with remaining saldo still be paid out? The PRD says nasabah with saldo are deactivated, not deleted, which suggests yes. The default here is active-only, matching setoran.
-4. **Backdating.** How far back may `tanggal` be set? It changes the running balance of later setoran.
-5. **Minimum nominal or rounding.** Is there a minimum, or a requirement for whole rupiah (no cents)?
-6. **Jadwal pencairan (F12).** Must a pencairan fall on a scheduled date? The assumption is **no** for Sprint 1, since F12 has no sub-issue.
-7. **Metode transfer.** Is a reference number or bank name needed for transfers, or is `keterangan` enough?
+1. **Sprint placement.** ✅ Committed to Sprint 1. Linear has PIL-176 in cycle Sprint 1 under EPIC04. CPBI-10 counts as done only once pencatatan, pembaruan saldo, **and** riwayat all work, so PIL-222 must be picked up by someone this sprint.
+2. **Base branch.** ✅ `staging`, for every repository. The `ship` skill defaults to it and must never infer `main`. PR #15 (PIL-152) targets `main` only because it predates the guide.
+3. **Inactive nasabah.** ✅ Active only. A nonaktif nasabah cannot be paid out; the remaining saldo stays stored.
+4. **Backdating.** ✅ `tanggal` is the real payout date or the scheduled date. Since no schedule model exists yet, Sprint 1 accepts any past date and **rejects future dates**.
+5. **Minimum nominal or rounding.** ✅ `> 0`, `≤ saldo`, **whole rupiah with no decimals** in Sprint 1. The column stays `Decimal(14,2)`; the serializer rejects cents.
+6. **Jadwal pencairan (F12).** ✅ Belongs to CPBI-10, not CPBI-07 (which covers jadwal kegiatan/penimbangan). It still has no sub-issue, so it stays out of PIL-176. Pengurus record payouts against an existing schedule informally.
+7. **Metode transfer.** ✅ There is no payment gateway, so transfer handling is outside our scope. Keep `metode` and an **optional** `keterangan`; no reference number or bank fields.
+8. **Status.** ✅ New requirement: pengurus and nasabah see nominal, tanggal, metode, **status**, and keterangan. Sprint 1 records one value (`tercatat`); the Sprint 2 request flow and PIL-230 extend it.
+9. **Nasabah visibility.** ✅ Pencairan appears in the nasabah's riwayat aktivitas in Sprint 1, but nasabah can neither request nor approve. PIL-152 gives nasabah accounts a login, so a nasabah-scoped read is now in sprint scope — **open: does it belong to PIL-176 or PIL-222?**
+10. **Nasabah membership.** ✅ Sprint 1 keeps one nasabah in one bank sampah. "Di setiap bank sampah" means each bank sees only its own nasabah and pencairan.
+11. **Immutability.** ✅ Once saved, a pencairan is a valid record. Changes only happen through PIL-230, by authorized users.
 
 ---
 
