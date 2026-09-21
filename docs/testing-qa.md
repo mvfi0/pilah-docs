@@ -10,38 +10,41 @@
 
 | Sprint | Backend tests | Mobile tests | Coverage | UAT result |
 |---|---|---|---|---|
-| Sprint 1 | 56 passing (11 added for PIL-176) | not started | 88% backend overall · 99.1% of PIL-176's new code | pending 29 Sep |
+| Sprint 1 | 68 passing on `staging` + #19 (14 added for PIL-176) | not started | 90% backend overall · 100% of PIL-176's new code | pending 29 Sep |
 
 ## Coverage Detail — Sprint 1
 
 CI gates the **whole backend** at 80%. That figure mostly reflects pre-existing code, so the coverage of the lines a PR adds is measured separately.
 
-### PIL-176 new code (PR #19): 99.1%
+### PIL-176 new code (PR #19): 100%
 
 | File | New statements | Uncovered |
 |---|---|---|
 | `api/services.py` — service, `BalanceService`, export fix | 37 | 0 |
 | `api/serializers.py` — validation, detail | 29 | 0 |
-| `api/views.py` — `PencairanViewSet` | 24 | 1 |
+| `api/views.py` — `PencairanViewSet` | 20 | 0 |
 | `api/models.py` — `Pencairan` | 22 | 0 |
-| `api/admin.py`, `api/urls.py` | 2 | 0 |
-| **Total** | **114** | **1** |
+| `api/admin.py`, `api/urls.py`, `reset_testing_data.py` | 3 | 0 |
+| **Total** | **111** | **0** |
 
-The one uncovered line is the non-paginated fallback in `PencairanViewSet.list`. It can never run, because pagination is on globally (`PAGE_SIZE: 20`); the pattern was copied from `TransaksiViewSet.list`, which has the same dead branch. Deleting it would bring new-code coverage to 100%.
+It was 99.1% until 22 Sep: the only uncovered line was a non-paginated fallback in `PencairanViewSet.list` that could never run, because pagination is on globally (`PAGE_SIZE: 20`). It was copied from `TransaksiViewSet.list`, which still has the same dead branch. Removing it reached 100%.
 
-### Whole backend: 88% (2,448 statements, 297 uncovered)
+### Whole backend: 90% (2,706 statements, 280 uncovered)
 
 The uncovered 12% predates PIL-176:
 
 | File | Coverage | Mostly untested |
 |---|---|---|
 | `management/commands/createsuperadmin.py` | 0% | CLI command, no tests |
-| `management/commands/reset_testing_data.py` | 0% | CLI command, no tests |
 | `api/validators.py` | 71% | phone-number edge cases |
 | `api/views.py` | 74% | Google OAuth start/callback, error paths |
 | `api/services.py` | 85% | WhatsApp/Twilio sending branches |
 
-The two management commands at 0% are the cheapest wins for raising the overall number.
+`reset_testing_data` went from 0% to 100% with PIL-176's tests. `createsuperadmin` at 0% is now the cheapest remaining win.
+
+### Running the suite locally
+
+`config/settings.py` calls `load_dotenv()`, so a local `.env` overrides the environment. `api/test_security_settings.py` (from #20) deletes `DJANGO_DEBUG` and `PILAH_ALLOW_FAKE_GOOGLE_TOKEN` and expects both to fall back to `False`, so it fails if a `.env` sets them. Pass the CI values as real environment variables instead of a `.env` when running the full suite.
 
 ## Bugs Found
 

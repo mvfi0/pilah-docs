@@ -4,7 +4,7 @@
 
 | Linear | Title | Status | PR | Notes |
 |---|---|---|---|---|
-| PIL-176 | Pencatatan pencairan untuk pengurus | Backend in review | [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) | CI green, review findings fixed. #18 merged; #19 needs retargeting to `staging`. Mobile not started. |
+| PIL-176 | Pencatatan pencairan untuk pengurus | Backend in review | [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) | Review findings fixed; retargeted to `staging` and mergeable. Awaiting Heraldo's re-review. Mobile not started. |
 
 ## Daily Log
 
@@ -51,7 +51,13 @@
 
 ### 2026-09-22
 
-- **Plan:** Retarget #19 to `staging` (GitHub did not do it automatically because #18's branch still exists), then start the mobile side of PIL-176.
+- **Done:**
+  - Retargeted #19 to `staging` — GitHub had not done it because #18's branch still exists. The PR diff is exactly my 10 files.
+  - Removed the unreachable non-paginated branch in `PencairanViewSet.list`; new-code coverage is now **100%**.
+  - `reset_testing_data` now also verifies `pencairan` is cleared, with tests that bring the command from 0% to 100% coverage. (The check is for consistency: a leftover pencairan would already imply a leftover nasabah.)
+  - Retargeting exposed a conflict in `api/tests.py` against #20's changes — just an import line (`StringIO` vs `ClassVar`). Merged `staging` into the branch instead of rebasing, so no force-push and Heraldo's review comments stay anchored.
+  - After that merge, `test_security_defaults_fail_closed` (from #20) failed locally only: `settings.py` calls `load_dotenv()`, and my local `.env` sets debug and fake tokens to `true`. With the same values passed as real environment variables — the way CI works — all 68 tests pass.
+- **Next:** Heraldo's re-review, merge #19, start mobile.
 - **Follow-up owed:** after #22 merges, replace the inline rounding with `kalkulasi.bulatkan_rupiah` — promised publicly in the review thread.
 
 ## Deviations from the plan

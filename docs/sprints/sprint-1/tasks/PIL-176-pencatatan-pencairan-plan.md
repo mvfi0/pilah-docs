@@ -8,7 +8,7 @@
 | Sprint | Sprint 1 — 15 Sep → 1 Oct 2026 · UAT 29 Sep · Sprint Review 1 Oct |
 | PRD features | F13 (pencatatan pencairan tunai/transfer), partially F14 (riwayat) |
 | Repos touched | `pilah-be` (model, service, API) and `pilah-mobile` (pengurus form) |
-| Status | Backend in review ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)): CI green, all three review findings fixed, #18 merged — needs retargeting to `staging`. Mobile not started. Updated 22 Sep 2026. |
+| Status | Backend in review ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)): all three review findings fixed, retargeted to `staging`, mergeable, 100% coverage on new code. Awaiting re-review. Mobile not started. Updated 22 Sep 2026. |
 
 ---
 
@@ -77,7 +77,7 @@ The API should be designed so that PIL-222 and PIL-230 can build on it without b
 - CI (`.github/workflows/ci.yml` on `staging`) runs `ruff check`, `ruff format --check`, `makemigrations --check`, tests with **coverage ≥ 80%**, `manage.py check --deploy`, **mypy strict**, and SonarQube.
 - ✅ **Base branch resolved (20 Sep):** `staging` is the baseline for every repo; AGENTS.md and the `ship` skill now say so explicitly. `origin/staging` is 11 commits ahead of `main`.
 - ✅ **PIL-152 merged** into `staging` on 20 Sep (`ad1c1f6`). `Nasabah` stays the per-bank membership, so the FK target was unchanged.
-- ⚠️ **Stacked on PIL-188 (#18):** both branches added an `0011_` migration from the same parent, which would have left Django with two leaf nodes. PR #19 is rebased onto #18 and renumbered to `0012_pencairan`, keeping the graph linear. **#18 merged on 21 Sep.** GitHub does *not* retarget automatically while #18's branch still exists, so #19's base must be switched back to `staging` by hand; a simulated merge into `staging` is clean.
+- ⚠️ **Stacked on PIL-188 (#18):** both branches added an `0011_` migration from the same parent, which would have left Django with two leaf nodes. PR #19 is rebased onto #18 and renumbered to `0012_pencairan`, keeping the graph linear. **#18 merged on 21 Sep.** GitHub does *not* retarget automatically while #18's branch still exists, so #19 was retargeted to `staging` by hand on 22 Sep; the one import-line conflict with #20 was resolved by merging `staging` into the branch.
 - ~~**PIL-152 lands first:**~~ [PR #15](https://github.com/bank-sampah-PILAH/pilah-be/pull/15) (In Review) adds migrations `0005`–`0010`, `Nasabah.user`, bank hierarchy, and one-membership-per-bank. `Nasabah` stays the per-bank membership, so the FK target is unchanged, but the pencairan migration must be renumbered after it merges. The PR still targets `main` and needs retargeting to `staging`.
 
 ### 3.2 Mobile (`pilah-mobile`, Flutter 3.41 / Dart 3.11)
