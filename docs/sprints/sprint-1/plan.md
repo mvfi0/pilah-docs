@@ -26,8 +26,8 @@ Backend first, then mobile, because the mobile form depends on the API contract.
 | On | Why it matters |
 |---|---|
 | PIL-152 (Tristan) | Added `Nasabah.user` and the role hierarchy. Merged into `staging` on 20 Sep; `Nasabah` stays the per-bank membership, so the pencairan foreign key is unaffected. |
-| PIL-188 (Heraldo) | Added an `0011_` migration from the same parent as mine. PR #19 is stacked on it and renumbered to `0012`, so #18 must merge first. |
-| PIL-168 / PIL-224 (Melanton) | Touch the transaction service and serializers. Still Todo, so no conflict so far. |
+| PIL-188 (Heraldo) | Added an `0011_` migration from the same parent as mine; #19 was stacked on it and renumbered to `0012`. **#18 merged 21 Sep** — #19 only needs its base switched back to `staging`. |
+| PIL-168 (Twentism, #22) | Sets the money rule: whole rupiah, rounded down. Pencairan follows it inline for now; swap to `bulatkan_rupiah` once #22 merges. Expect a small `api/tests.py` conflict with #19. |
 | PIL-222 (unassigned) | CPBI-10 is only done once riwayat works, and nobody owns it yet. |
 
 ### Risks
@@ -35,13 +35,13 @@ Backend first, then mobile, because the mobile form depends on the API contract.
 | Risk | Mitigation |
 |---|---|
 | Saldo history wrong after a pencairan | Shared `BalanceService.saldo_at` plus regression tests for both the API and the Excel export |
-| #19 blocked behind #18 | Stacked, CI green, ready to merge the moment #18 lands |
+| #19 blocked behind #18 | Resolved — #18 merged 21 Sep; #19 just needs its base switched to `staging` |
 | Mobile squeezed by the three lost backend days | Backend was compressed into 20 Sep, so the mobile dates are unchanged |
 | PIL-222 unowned, so CPBI-10 cannot close | Raise it with the team; the API is built so PIL-222 can reuse it |
 
 ## Definition of Done
 
 - [x] Acceptance criteria met (backend)
-- [x] Tests written and passing (backend — 47 tests, 87% coverage, CI green)
+- [x] Tests written and passing (backend — 56 tests, 88% overall and 99.1% of new code, CI green)
 - [ ] PR reviewed and merged
 - [ ] Deployed / demoable for UAT

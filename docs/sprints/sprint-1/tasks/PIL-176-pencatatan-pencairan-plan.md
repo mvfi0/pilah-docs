@@ -8,7 +8,7 @@
 | Sprint | Sprint 1 — 15 Sep → 1 Oct 2026 · UAT 29 Sep · Sprint Review 1 Oct |
 | PRD features | F13 (pencatatan pencairan tunai/transfer), partially F14 (riwayat) |
 | Repos touched | `pilah-be` (model, service, API) and `pilah-mobile` (pengurus form) |
-| Status | Backend done and in review ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), CI green); mobile not started. Updated 20 Sep 2026. |
+| Status | Backend in review ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)): CI green, all three review findings fixed, #18 merged — needs retargeting to `staging`. Mobile not started. Updated 22 Sep 2026. |
 
 ---
 
@@ -77,7 +77,7 @@ The API should be designed so that PIL-222 and PIL-230 can build on it without b
 - CI (`.github/workflows/ci.yml` on `staging`) runs `ruff check`, `ruff format --check`, `makemigrations --check`, tests with **coverage ≥ 80%**, `manage.py check --deploy`, **mypy strict**, and SonarQube.
 - ✅ **Base branch resolved (20 Sep):** `staging` is the baseline for every repo; AGENTS.md and the `ship` skill now say so explicitly. `origin/staging` is 11 commits ahead of `main`.
 - ✅ **PIL-152 merged** into `staging` on 20 Sep (`ad1c1f6`). `Nasabah` stays the per-bank membership, so the FK target was unchanged.
-- ⚠️ **Stacked on PIL-188 (#18):** both branches added an `0011_` migration from the same parent, which would have left Django with two leaf nodes. PR #19 is rebased onto #18 and renumbered to `0012_pencairan`, keeping the graph linear. #18 must merge first; GitHub then retargets #19 to `staging`.
+- ⚠️ **Stacked on PIL-188 (#18):** both branches added an `0011_` migration from the same parent, which would have left Django with two leaf nodes. PR #19 is rebased onto #18 and renumbered to `0012_pencairan`, keeping the graph linear. **#18 merged on 21 Sep.** GitHub does *not* retarget automatically while #18's branch still exists, so #19's base must be switched back to `staging` by hand; a simulated merge into `staging` is clean.
 - ~~**PIL-152 lands first:**~~ [PR #15](https://github.com/bank-sampah-PILAH/pilah-be/pull/15) (In Review) adds migrations `0005`–`0010`, `Nasabah.user`, bank hierarchy, and one-membership-per-bank. `Nasabah` stays the per-bank membership, so the FK target is unchanged, but the pencairan migration must be renumbered after it merges. The PR still targets `main` and needs retargeting to `staging`.
 
 ### 3.2 Mobile (`pilah-mobile`, Flutter 3.41 / Dart 3.11)
@@ -289,7 +289,7 @@ Weekends are 19–20 and 26–27 Sep.
 | Wed 16 Sep | Close the open questions (§8) with PO/tech lead, confirm the base branch, finish SSH/`gh` setup and fetch the latest remotes | ✅ Answers recorded 19 Sep (§8); base branch is `staging`; SSH fixed 20 Sep (missing `known_hosts` entry, not access) |
 | Thu 17 – Fri 18 Sep | _Not worked: blocked on SSH access and open questions_ | — |
 | **Sat 20 Sep** (catch-up) | ✅ All backend work in one day: model, migration, admin, service, serializers, viewset, URLs, balance-helper fix, regression tests, README. 8 new tests (39 → 47), 87% coverage. **BE PR opened and self-assigned**, then rebased onto #18 and renumbered to `0012_pencairan`. | [PR #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), CI green in 2m23s |
-| Sun 21 Sep | Freed up — originally the third backend day. Use it to start mobile early, or to address review on #19. | — |
+| Mon 21 Sep | ✅ Addressed Heraldo's review on #19: approved-membership gate, same-instant ordering, rounding legacy sen down. Rebased onto #18's latest; #18 then merged. | 56 tests, 99.1% coverage on new code |
 | Tue 22 Sep | Mobile: scaffold feature, data layer, cubit + tests | — |
 | Wed 23 Sep | Mobile: form page, nasabah picker, validation, confirmation modal | Screen working against local BE |
 | Thu 24 Sep | Mobile: success sheet, refresh saldo, entry points, widget tests; **open mobile PR** | PR `feature/pil-176` (pilah-mobile) |
