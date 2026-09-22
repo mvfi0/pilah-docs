@@ -1,14 +1,7 @@
 # Test Driven Development
 
-**Rubric (B1 · TDD, Code Coverage):** coverage 100%; positive and negative tests; red-green-refactor commits; commit links and proof of coverage (screenshot or HTML report) in the week's comment.
-
-| Level | Requirement |
-|---|---|
-| 2 | Coverage above 60%, disciplined commits |
-| 3 | 100% coverage without ignoring important files; disciplined red-green-refactor commits; positive, negative and corner cases |
-| 4 | Also uses relevant advanced testing methods, e.g. mock/stub for test isolation |
-
-**Proposed level: 3**, with one mock-based test toward 4.
+!!! success "Competency level: 3"
+    100% of my new backend code covered, disciplined red-green commits, positive, negative and corner cases, and mock-based test isolation.
 
 ## Coverage proof
 
@@ -71,7 +64,7 @@ Each behaviour is a failing `test(...)` commit followed by the `feat(...)`/`fix(
 - **Negative:** nominal above saldo; zero, negative or decimal nominal; future `tanggal`; invalid `metode`; another bank's nasabah; inactive, pending or rejected nasabah; outsider 404, superadmin 403, unauthenticated 401.
 - **Corner:** saldo history after a pencairan (API and Excel export); setoran and pencairan at the same instant; legacy saldo with sen.
 
-## Toward level 4: test isolation
+## Test isolation (mock/stub)
 
 `test_reset_verification_reports_leftover_pencairan` stubs the database flush with `unittest.mock.patch`, so the test isolates the command's verification logic from the flush itself ([`f147fe3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f147fe3)).
 

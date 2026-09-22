@@ -1,15 +1,7 @@
 # Security
 
-**Rubric (B6 · Security awareness):** authentication, authorization, and secure data operations.
-
-| Level | Requirement |
-|---|---|
-| 1 | Code that prevents 1 of the OWASP Top 10, **named in the commit message** |
-| 2 | Code that prevents at least 5 of the OWASP Top 10, named in the commit messages |
-| 3 | A scan with Metasploit or similar, explained, with patch steps |
-| 4 | Penetration testing with a video showing the system is secure |
-
-**Proposed level: 1**, once the OWASP items are named in commit messages. The code already prevents them, but the existing commit messages do not name them.
+!!! warning "Competency level: 1"
+    Code prevents OWASP A01 and A04; level 1 also requires the OWASP item to be named in the commit message, which is still to do.
 
 ## Week of 15–21 Sep
 

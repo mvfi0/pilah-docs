@@ -1,14 +1,7 @@
 # Programming
 
-**Rubric (B2 · Best practice, OO, Data Structure, Design Pattern, SOLID):** commit link plus the principle applied, in the week's comment.
-
-| Level | Requirement |
-|---|---|
-| 2 | No special attention to principles, but no violations |
-| 3 | Applies standard principles and can show them in that week's code |
-| 4 | Advanced principles that account for further development or maintenance; testable and demonstrable |
-
-**Proposed level: 3**
+!!! success "Competency level: 3"
+    Standard principles applied and shown in that week's code: single responsibility, a service layer, and extension without modifying existing consumers.
 
 ## Week of 15–21 Sep
 

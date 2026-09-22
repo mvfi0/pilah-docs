@@ -1,14 +1,7 @@
 # AI Literacy
 
-**Rubric (Responsible use of AI):** show the type of AI used during development, with the prompt history as evidence.
-
-| Level | Requirement |
-|---|---|
-| 2 | AI used mostly copy-paste or instant help, without adequate analysis and verification |
-| 3 | AI used critically and responsibly; its responses are analysed and critiqued to improve the work |
-| 4 | AI used strategically, backed by data; usage patterns tracked and used to improve the workflow |
-
-**Proposed level: 3**
+!!! success "Competency level: 3"
+    AI used critically: its output verified, challenged and corrected, with the full prompt history published.
 
 ## How AI was used
 

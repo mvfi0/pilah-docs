@@ -1,15 +1,7 @@
 # Team Development Management
 
-**Rubric (B4 · Issue tracking and code review for other members):** comment on other members' merge requests; approve only if there are no issues; work according to the tracked issues; comment with the link to the peer MR reviewed.
-
-| Level | Requirement |
-|---|---|
-| 1 | Minimal comments, only "ok"/"LGTM", or just an approval |
-| 2 | Comments summarise the positive and negative points of the code |
-| 3 | Detailed comments with feasible suggestions, e.g. code smells |
-| 4 | Detailed comments with significant, feasible performance-related suggestions |
-
-**Proposed level: not yet claimable.** I have not reviewed a peer's merge request yet.
+!!! note "Competency level: not yet claimable"
+    Reviews received and answered, and reviews requested through the team tooling, but no review of a peer's merge request given yet.
 
 ## Week of 15–21 Sep
 
@@ -26,6 +18,10 @@ Heraldo reviewed PR #19 with three findings; each was fixed test-first and answe
 - [Finding 3: same-instant ordering](https://github.com/bank-sampah-PILAH/pilah-be/pull/19#discussion_r4062276317)
 
 This shows engagement with review, but the rubric measures reviews *given*.
+
+## Week of 22–28 Sep
+
+- Requested review from Heraldo on [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) and [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26) through the team's `ask-for-review` skill, which assigns the GitHub reviewer and posts the request to Discord.
 
 ## To do
 
