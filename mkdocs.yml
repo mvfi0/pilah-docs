@@ -81,6 +81,7 @@ nav:
       - Mobile: technical/mobile.md
       - API: technical/api.md
   - Testing & QA: testing-qa.md
+  - Work Log: logs/index.md
   - Individual Review:
       - review/index.md
       - Part B — Hardskills:

@@ -14,10 +14,14 @@
 - **Next:** Get the open questions answered; fix repository access.
 - **Blockers:** `git fetch` failing; questions unanswered, so coding could not start.
 
-### 2026-09-17 – 2026-09-18
+### 2026-09-17
 
-- **Done:** Nothing on PIL-176.
-- **Blockers:** Same two. Backend work slipped by three days.
+- **Done:** Fixed `git fetch`: a missing GitHub entry in `~/.ssh/known_hosts`, not a permissions issue; verified the host key fingerprint against the one GitHub publishes. Checked Sprint 1 status in Linear; moved both app repos to `staging`.
+- **Blockers:** Open questions still unanswered, so coding could not start.
+
+### 2026-09-18
+
+- **Done:** Nothing on PIL-176. Backend work slipped by three days.
 
 ### 2026-09-19
 
@@ -27,7 +31,6 @@
 ### 2026-09-20
 
 - **Done:**
-  - Fixed the fetch problem — it was a missing GitHub entry in `~/.ssh/known_hosts`, not a permissions issue. Verified the host key fingerprint against the one GitHub publishes.
   - Recorded the answers in the task plan; two changed the design (a `status` field, and nasabah-side reading arriving in Sprint 1).
   - Caught up the missed backend days: model, migration, atomic service, API, saldo-history fix, admin, README — TDD throughout, 8 new tests (39 → 47).
   - Opened [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) and self-assigned it. CI passed in 2m23s.
