@@ -21,6 +21,10 @@
 
 - CI measures coverage with `--source=api`, but SonarQube also analyses `config/`, so `config/` lines always show 0%. Changing CI to `--source=api,config` would make SonarQube's numbers accurate for the whole team.
 
+## Why a self-hosted SonarQube
+
+The team runs its own SonarQube Community server (`sonar.heraldoarman.com`) instead of the cloud service because the cloud plan needs a paid subscription once a team has more than 5 members, and this team is larger than that. Self-hosting keeps the same analysis — CI reports every branch to it — at no cost.
+
 ## Local tooling
 
 - SonarQube for IDE (VS Code, 5.10) installed to catch issues while coding.
