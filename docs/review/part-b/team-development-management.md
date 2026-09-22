@@ -1,7 +1,7 @@
 # Team Development Management
 
-!!! note "Competency level: not yet claimable"
-    Reviews received and answered, and reviews requested through the team tooling, but no review of a peer's merge request given yet.
+!!! success "Competency level: 2–3"
+    Reviewed a peer's merge request with a verified finding and a feasible suggestion (pilah-be #22), alongside answering the reviews received on my own PRs.
 
 ## Week of 15–21 Sep
 
@@ -23,6 +23,14 @@ This shows engagement with review, but the rubric measures reviews *given*.
 
 - Requested review from Heraldo on [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) and [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26) through the team's `ask-for-review` skill, which assigns the GitHub reviewer and posts the request to Discord.
 
+### Review given: [pilah-be #22](https://github.com/bank-sampah-PILAH/pilah-be/pull/22) (PIL-168, by Twentism)
+
+[My comment](https://github.com/bank-sampah-PILAH/pilah-be/pull/22#issuecomment-5779340630) on the rounding change:
+
+- **Positive:** rounding down through `bulatkan_rupiah` is consistent, and pencairan in #19 now follows the same rule.
+- **Finding:** `saldo.total_saldo` is rounded when touched, but `saldo_setelah_transaksi` and the export's saldo column still add up the old `total_nilai` values that carry sen. For a PILAH 1.0 nasabah the history can read a few sen above the real saldo: legacy saldo 100,75 + setoran 3.333 gives a saldo of 3.433 but a history of 3.433,75. Checked against the code on #22's head before posting.
+- **Suggestion:** round in those two places too, or record it as a known issue for now.
+
 ## To do
 
-- Review [PR #22](https://github.com/bank-sampah-PILAH/pilah-be/pull/22) (PIL-168, rounding rules). A concrete finding already exists: for nasabah with legacy data, the computed saldo history keeps its sen while #22 rounds the saldo itself down, so the two can disagree.
+- Review more peers' merge requests over the coming weeks.

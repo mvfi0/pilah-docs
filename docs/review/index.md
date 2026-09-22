@@ -11,7 +11,7 @@ Part B is assessed weekly, so evidence on each page is grouped by week.
 | [Test Driven Development](part-b/tdd.md) | **3** | Evidence complete |
 | [Programming](part-b/programming.md) | **3** | Evidence complete |
 | [Development Discipline](part-b/development-discipline.md) | **2** (15–21 Sep) · **3** (22–28 Sep) | Evidence complete |
-| [Team Development Management](part-b/team-development-management.md) | — | No review of a peer's MR given yet |
+| [Team Development Management](part-b/team-development-management.md) | **2–3** | Reviewed pilah-be #22 |
 | [Code Quality](part-b/code-quality.md) | **2–3** | 3 SonarQube issues still to check |
 | [Security](part-b/security.md) | **1** | OWASP items not yet named in commits |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Evidence complete |
