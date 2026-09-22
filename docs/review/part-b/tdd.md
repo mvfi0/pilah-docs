@@ -16,8 +16,34 @@
 ## Coverage proof
 
 - **My changes: 111 of 111 statements covered (100%).** Whole backend: 90%.
-- Full evidence, with diff-cover and SonarQube screenshots: [PIL-176 Coverage](../../sprints/sprint-1/evidence/PIL-176-coverage.md)
+- Full evidence, with how it was measured and a line-by-line breakdown: [PIL-176 Coverage](../../sprints/sprint-1/evidence/PIL-176-coverage.md)
 - HTML report: [pil-176-diff-coverage.html](../../sprints/sprint-1/evidence/pil-176-diff-coverage.html)
+
+### diff-cover: only the lines I changed
+
+![diff-cover report: 111 lines, 0 missing, 100% across 7 files](../../sprints/sprint-1/evidence/diff-cov.png)
+
+Coverage of only the lines my branch changes against `staging`, excluding tests and migrations.
+
+### SonarQube: my code, covered, with authorship
+
+![SonarQube file view of api/services.py lines 404–426: BalanceService with author tooltip muhammad.vegard@ui.ac.id](../../sprints/sprint-1/evidence/sonar-balanceservice-404-426.png)
+
+`BalanceService`: the tooltip shows me as the author (revision `765f90f`); every executable line has a green (covered) bar.
+
+![SonarQube file view of api/services.py lines 450–469: PencairanService write path, all covered](../../sprints/sprint-1/evidence/sonar-pencairanservice-450-469.png)
+
+`PencairanService.create_pencairan`: rounding, record creation and saldo update, all covered. Line 470 onward belongs to another author.
+
+### SonarQube: Coverage on New Code, all 12 files
+
+![SonarQube Measures list, part 1](../../sprints/sprint-1/evidence/sonar-measures-1.png)
+
+![SonarQube Measures list, part 2](../../sprints/sprint-1/evidence/sonar-measures-2.png)
+
+![SonarQube Measures list, part 3: 12 of 12 shown](../../sprints/sprint-1/evidence/sonar-measures-3.png)
+
+The rows below 100% (`config/`, `views.py`, `serializers.py`, `models.py`, `seed_testing_data.py`) are uncovered lines written by other team members since 10 Sep, traced with `git blame` on the [evidence page](../../sprints/sprint-1/evidence/PIL-176-coverage.md#cross-check-with-sonarqube). My lines in those files are covered.
 
 ## Week of 15–21 Sep — red-green pairs
 
