@@ -51,5 +51,9 @@ The follow-up is recorded publicly in the [review thread](https://github.com/ban
 
 ## Prompt history
 
-!!! note "To attach"
-    Export of the Claude Code session (`/export`) as the required prompt-history evidence.
+**[Full prompt history (17–22 Sep 2026)](ai-prompt-history.html)**: 81 prompts, 243 replies and 328 tool calls from the Claude Code session behind PIL-176.
+
+- Each prompt and reply is shown in full, with a timestamp.
+- Each tool call (command, file edit, API query) is shown as one line stating what was run and why, so the verification steps are visible.
+- Omitted: screenshots, the model's internal reasoning, and raw command output.
+- Redacted: webhook URLs, email addresses other than my own, and access tokens.
