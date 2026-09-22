@@ -65,6 +65,7 @@ nav:
           - Retrospective: sprints/sprint-1/retrospective.md
           - Task Plans:
               - PIL-176 Pencatatan Pencairan: sprints/sprint-1/tasks/PIL-176-pencatatan-pencairan-plan.md
+              - PIL-222 Riwayat Pencairan: sprints/sprint-1/tasks/PIL-222-riwayat-pencairan-plan.md
           - Evidence:
               - PIL-176 Coverage: sprints/sprint-1/evidence/PIL-176-coverage.md
       - Sprint 2:
