@@ -3,7 +3,7 @@
 !!! success "Competency level: 3"
     Standard principles applied and shown in that week's code: single responsibility, a service layer, and extension without modifying existing consumers.
 
-## Week of 15–21 Sep
+## 15–21 Sep
 
 ### Single Responsibility + DRY: `BalanceService` — [`5447710`](https://github.com/bank-sampah-PILAH/pilah-be/commit/5447710)
 
@@ -21,7 +21,7 @@ Adding a `PENCAIRAN` type to `Transaksi` with a negative value would have forced
 
 Pencairan uses the same membership filter as setoran (`is_active=True, status=APPROVED`), so both money flows apply one rule.
 
-## Week of 22–28 Sep
+## 22 Sep
 
 ### Removing dead code — [`bd38dc6`](https://github.com/bank-sampah-PILAH/pilah-be/commit/bd38dc6)
 

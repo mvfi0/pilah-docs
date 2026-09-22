@@ -1,9 +1,9 @@
 # Security
 
-!!! warning "Competency level: 1"
-    Code prevents OWASP A01 and A04; level 1 also requires the OWASP item to be named in the commit message, which is still to do.
+!!! success "Competency level: 1"
+    Code prevents OWASP A01 (Broken Access Control) and A04 (Insecure Design), and A01 is named in the commit message of the test that guards it.
 
-## Week of 15–21 Sep
+## 15–21 Sep
 
 ### A01 · Broken Access Control
 
@@ -23,6 +23,12 @@
 | Saldo can never go negative: the service rejects any nominal above the saldo, inside the locked transaction | [`e65ff1d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e65ff1d) |
 | A zero or negative nominal is rejected twice: by the serializer and by a database constraint (`pencairan_nominal_positive`) | [`6615dc8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6615dc8), [`fbab07b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fbab07b) |
 
+## 22 Sep
+
+### A01 named in a commit message
+
+[`8ee88c1 test(pencairan): cover bank scoping of filtered riwayat (OWASP A01)`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8ee88c1), in [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32): another bank's pencairan never appears in the riwayat list, with or without the new period and search filters. The bank filter is applied before any user-supplied filter, so no filter combination can widen the result beyond the pengurus' own bank.
+
 ## To do
 
-- Name the OWASP item in future security-relevant commit messages, e.g. `fix(pencairan): require approved membership (OWASP A01)`.
+- Keep naming the OWASP item in security-relevant commit messages; level 2 needs at least 5 of the Top 10.

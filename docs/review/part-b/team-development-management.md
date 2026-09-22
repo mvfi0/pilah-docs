@@ -3,7 +3,7 @@
 !!! success "Competency level: 2–3"
     Reviewed a peer's merge request with a verified finding and a feasible suggestion (pilah-be #22), alongside answering the reviews received on my own PRs.
 
-## Week of 15–21 Sep
+## 15–21 Sep
 
 ### Issue tracking
 
@@ -19,7 +19,7 @@ Heraldo reviewed PR #19 with three findings; each was fixed test-first and answe
 
 This shows engagement with review, but the rubric measures reviews *given*.
 
-## Week of 22–28 Sep
+## 22 Sep
 
 - Requested review from Heraldo on [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) and [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26) through the team's `ask-for-review` skill, which assigns the GitHub reviewer and posts the request to Discord.
 

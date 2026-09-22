@@ -3,7 +3,7 @@
 !!! warning "Competency level: 2–3"
     All CI checks clean on my code; 3 new SonarQube issues on the shared project are still to be traced to their authors.
 
-## Week of 15–21 Sep
+## 15–21 Sep
 
 ### Automated checks in CI, all passing on PR #19
 

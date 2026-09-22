@@ -9,7 +9,7 @@
 - **Guardrails:** the team's workspace skills (`ship` for the branch/worktree/PR workflow, `tdd` for red-green commits) and CI (ruff, mypy strict, coverage, SonarQube).
 - **My role:** deciding scope and priorities, relaying team decisions (stacking on #18, the rounding rule), approving outward actions (force-pushes, PR comments), and asking for verification before trusting results.
 
-## Week of 15–21 Sep — where verification changed the outcome
+## 15–21 Sep — where verification changed the outcome
 
 | Situation | What verification found |
 |---|---|
@@ -34,7 +34,7 @@ I decided otherwise: the two money flows should be consistent **now**, and the s
 
 The follow-up is recorded publicly in the [review thread](https://github.com/bank-sampah-PILAH/pilah-be/pull/19#discussion_r4062584758): once #22 merges, the inline rounding is replaced with `kalkulasi.bulatkan_rupiah`.
 
-## Week of 22–28 Sep
+## 22 Sep
 
 | Situation | What verification found |
 |---|---|

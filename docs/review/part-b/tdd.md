@@ -35,7 +35,7 @@ Coverage of only the lines my branch changes against `staging`, excluding tests 
 
 The rows below 100% (`config/`, `views.py`, `serializers.py`, `models.py`, `seed_testing_data.py`) are uncovered lines written by other team members since 10 Sep, traced with `git blame` on the [evidence page](../../sprints/sprint-1/evidence/PIL-176-coverage.md#cross-check-with-sonarqube). My lines in those files are covered.
 
-## Week of 15–21 Sep — red-green pairs
+## 15–21 Sep — red-green pairs
 
 Each behaviour is a failing `test(...)` commit followed by the `feat(...)`/`fix(...)` commit that makes it pass.
 
@@ -51,7 +51,7 @@ Each behaviour is a failing `test(...)` commit followed by the `feat(...)`/`fix(
 | Same-instant setoran/pencairan ordered deterministically *(review finding)* | [`7ff2cdf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7ff2cdf) | [`765f90f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/765f90f) |
 | Legacy saldo with sen rounded down *(review finding)* | [`9b135b2`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9b135b2) | [`2981176`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2981176) |
 
-## Week of 22–28 Sep
+## 22 Sep
 
 | Change | Commits |
 |---|---|
