@@ -10,9 +10,6 @@
 
 **Proposed level: 3**
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## Week of 15–21 Sep
 
 ### Single Responsibility + DRY: `BalanceService` — [`5447710`](https://github.com/bank-sampah-PILAH/pilah-be/commit/5447710)

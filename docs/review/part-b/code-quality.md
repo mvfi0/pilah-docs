@@ -11,9 +11,6 @@
 
 **Proposed level: 2–3**, depending on who owns the three open SonarQube issues.
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## Week of 15–21 Sep
 
 ### Automated checks in CI, all passing on PR #19

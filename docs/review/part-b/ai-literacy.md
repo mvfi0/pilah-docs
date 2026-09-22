@@ -10,9 +10,6 @@
 
 **Proposed level: 3**
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## How AI was used
 
 - **Tool:** Claude Code as an agent in VS Code, working in the repository: reading code, running tests and checks, committing, and opening the PR.

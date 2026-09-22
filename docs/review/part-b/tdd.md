@@ -10,9 +10,6 @@
 
 **Proposed level: 3**, with one mock-based test toward 4.
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## Coverage proof
 
 - **My changes: 111 of 111 statements covered (100%).** Whole backend: 90%.

@@ -1,6 +1,6 @@
 # Individual Review
 
-Evidence for the individual review (IR), organised by competency. Each page lists the rubric, the level I am aiming for, and dated evidence with commit and PR links. The claims themselves are written in my own words.
+Evidence for the individual review (IR), organised by competency. Each page lists the rubric, the level I am aiming for, and dated evidence with commit and PR links.
 
 ## Part B — Hardskills: Best Practice
 

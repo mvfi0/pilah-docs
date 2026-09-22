@@ -11,9 +11,6 @@
 
 **Proposed level: 1**, once the OWASP items are named in commit messages. The code already prevents them, but the existing commit messages do not name them.
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## Week of 15–21 Sep
 
 ### A01 · Broken Access Control

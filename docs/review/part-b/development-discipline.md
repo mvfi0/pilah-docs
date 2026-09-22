@@ -12,9 +12,6 @@ A merge request only counts if it is meaningful and beneficial to the project.
 
 **Proposed level: 2 for 15–21 Sep** (one MR). Level 3 needs a second MR in the week of 22–28 Sep.
 
-!!! note "My claim"
-    _To write in my own words._
-
 ## Week of 15–21 Sep
 
 - **One merge request:** [pilah-be PR #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19). Its description covers the summary, key changes, the design decision, out-of-scope items, and the exact validation commands.

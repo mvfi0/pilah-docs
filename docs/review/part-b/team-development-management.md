@@ -11,9 +11,6 @@
 
 **Proposed level: not yet claimable.** I have not reviewed a peer's merge request yet.
 
-!!! note "My claim"
-    _To write once a review is done._
-
 ## Week of 15–21 Sep
 
 ### Issue tracking
