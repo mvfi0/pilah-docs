@@ -1,7 +1,9 @@
 # Test Driven Development
 
 !!! success "Competency level: 3"
-    100% of my new backend code covered, disciplined red-green commits, positive, negative and corner cases, and mock-based test isolation.
+    Both week-1 merge requests built test-first: 100% of my new backend code covered, 88% diff coverage on mobile, disciplined red-green commits, positive, negative and corner cases, and mock-based test isolation.
+
+## Backend — [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)
 
 ## Coverage proof
 
@@ -58,7 +60,29 @@ Each behaviour is a failing `test(...)` commit followed by the `feat(...)`/`fix(
 | Reset command must report leftover pencairan (red → green) | [`f147fe3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f147fe3) → [`b98a29b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/b98a29b) |
 | Refactor: remove unreachable list branch, tests stay green | [`bd38dc6`](https://github.com/bank-sampah-PILAH/pilah-be/commit/bd38dc6) |
 
-## Test cases
+## Mobile — [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26)
+
+Built the same way on 22 Sep: a failing `test(...)` commit for each slice, then the `feat(...)` that makes it pass. 24 new tests, 230 → 254.
+
+| Behaviour | Red | Green |
+|---|---|---|
+| Nominal validated against the saldo | [`27fcd06`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/27fcd06) | [`869ae71`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/869ae71) |
+| Saldo read and pencairan posted with the right body | [`02ddd84`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/02ddd84) | [`dcb7e48`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/dcb7e48) |
+| Form cubit: saldo loading, submission, double-tap guard | [`6f90aab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6f90aab) | [`2eaca63`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/2eaca63) |
+| Form page: confirmation, success sheet, server error inline | [`9887d7e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9887d7e) | [`e30e6ab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/e30e6ab) |
+| Entry point in the nasabah detail sheet, active nasabah only | [`add3e87`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/add3e87) | [`98e9b15`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/98e9b15) |
+
+**Diff coverage 88.07%** on the lines this PR changes (CI gate 25%), overall 33.4%. The uncovered lines are the route builder, the DI wrapper and two pass-throughs.
+
+A widget test caught a real defect rather than confirming the code: the submit button sat below the fold in a `ListView`, so the test could not tap it. The form became a `SingleChildScrollView` and the tests call `ensureVisible` ([`6f4e1ea`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6f4e1ea)).
+
+### Mobile test cases
+
+- **Positive:** valid nominal recorded; saldo reloaded after success; entry point opens the form for an active nasabah.
+- **Negative:** nominal above saldo, zero and empty; server 422 on `nominal` shown inline; other failures shown as a toast; saldo load failure disables submit.
+- **Corner:** nominal exactly equal to the saldo; double tap on submit records once; a saldo with sen floored before validation.
+
+## Backend test cases
 
 - **Positive:** saldo lowered once; list filtered by nasabah; detail readable within the bank.
 - **Negative:** nominal above saldo; zero, negative or decimal nominal; future `tanggal`; invalid `metode`; another bank's nasabah; inactive, pending or rejected nasabah; outsider 404, superadmin 403, unauthenticated 401.

@@ -1,7 +1,7 @@
 # Security
 
 !!! success "Competency level: 1"
-    Code prevents OWASP A01 (Broken Access Control) and A04 (Insecure Design), and A01 is named in the commit message of the test that guards it.
+    Code prevents OWASP A01 (Broken Access Control) and A04 (Insecure Design), each control guarded by a test.
 
 ## 15–21 Sep
 
@@ -23,12 +23,10 @@
 | Saldo can never go negative: the service rejects any nominal above the saldo, inside the locked transaction | [`e65ff1d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e65ff1d) |
 | A zero or negative nominal is rejected twice: by the serializer and by a database constraint (`pencairan_nominal_positive`) | [`6615dc8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6615dc8), [`fbab07b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fbab07b) |
 
-## 22 Sep
+## 22 Sep — mobile
 
-### A01 named in a commit message
-
-[`8ee88c1 test(pencairan): cover bank scoping of filtered riwayat (OWASP A01)`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8ee88c1), in [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32): another bank's pencairan never appears in the riwayat list, with or without the new period and search filters. The bank filter is applied before any user-supplied filter, so no filter combination can widen the result beyond the pengurus' own bank.
+The mobile form sends no security-relevant field of its own: `bank_sampah`, `dicatat_oleh`, `status` and the saldo snapshots are all set by the server, and the entry point is shown only for an active nasabah of the pengurus' own bank ([`98e9b15`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/98e9b15)). The client's validation is a convenience; every rule is enforced again in the backend, and the tests assert both sides.
 
 ## To do
 
-- Keep naming the OWASP item in security-relevant commit messages; level 2 needs at least 5 of the Top 10.
+- Naming the OWASP item in the commit message is done in [week 2](../../review-week-2/part-b/security.md); level 2 needs at least 5 of the Top 10.

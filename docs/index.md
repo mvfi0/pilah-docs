@@ -18,8 +18,8 @@ _What PILAH solves and for whom._
 
 | ID | Feature | Sprint | Status |
 |---|---|---|---|
-| F13 | Pencatatan pencairan (tunai/transfer) | Sprint 1 | Backend in review ([#19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)), mobile not started |
-| F14 | Riwayat pencairan | Sprint 1 (partial) | API groundwork only; the screen is PIL-222, unassigned |
+| F13 | Pencatatan pencairan (tunai/transfer) | Sprint 1 | In review: backend [#19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), mobile [#26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26) |
+| F14 | Riwayat pencairan | Sprint 1 | In review: backend [#32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32), mobile [#27](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/27), both stacked on F13 |
 
 ## Sprint Timeline
 

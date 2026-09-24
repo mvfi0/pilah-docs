@@ -14,7 +14,9 @@ Part B — Hardskills: Best Practice, for Sprint 1 week 1 (15–22 Sep 2026).
 | [Security](part-b/security.md) | **1** | Evidence complete |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Evidence complete |
 
-Work this week:
+Work this week — [PIL-176](https://linear.app/pilah-2/issue/PIL-176) (pencatatan pencairan), one merge request per repository:
 
-- [PIL-176](https://linear.app/pilah-2/issue/PIL-176) (pencatatan pencairan): backend [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19), mobile [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26).
-- [PIL-222](https://linear.app/pilah-2/issue/PIL-222) (riwayat pencairan): backend [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32), mobile [pilah-mobile #27](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/27).
+- Backend: [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19)
+- Mobile: [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26)
+
+[PIL-222](https://linear.app/pilah-2/issue/PIL-222) (riwayat pencairan) is claimed in [week 2](../review-week-2/index.md).
