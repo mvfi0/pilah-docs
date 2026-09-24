@@ -1,6 +1,6 @@
 # Team Development Management
 
-!!! success "Competency level: 2–3"
+!!! success "Competency level: 2"
     Reviewed a peer's merge request with a verified finding and a feasible suggestion (pilah-be #22), alongside answering the reviews received on my own PRs.
 
 ## 15–21 Sep
