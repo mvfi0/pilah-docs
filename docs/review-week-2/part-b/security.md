@@ -7,7 +7,37 @@
 
 [`8ee88c1 test(pencairan): cover bank scoping of filtered riwayat (OWASP A01)`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8ee88c1), in [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32).
 
-Adding `periode`, `nasabah_id` and `search` to the pencairan list is exactly where a scoping bug appears: a user-supplied filter that widens the queryset would leak another bank's payouts. The queryset is always rooted at `filter(bank_sampah=...)` before any filter is applied, and the test asserts that another bank's pencairan never appears — with no filter, with a search matching their nasabah's name, and with each periode.
+Adding `periode`, `nasabah_id` and `search` to the pencairan list is exactly where a scoping bug appears: a user-supplied filter that widens the queryset would leak another bank's payouts.
+
+The defence is ordering. The bank filter is the **root** of the queryset, and every user-supplied filter is chained onto it, so each one can only narrow the result further:
+
+```python title="api/views.py"
+    def get_queryset(self) -> QuerySet[Pencairan]:
+        qs = Pencairan.objects.filter(bank_sampah=_bank_sampah(self.request)).select_related(
+            "nasabah", "bank_sampah", "dicatat_oleh"
+        )
+        nasabah_id = self.request.query_params.get("nasabah_id")
+        search = self.request.query_params.get("search", "")
+        if nasabah_id:
+            qs = qs.filter(nasabah_id=nasabah_id)
+        if len(search) >= 2:
+            qs = qs.filter(nasabah__nama__icontains=search)
+        return qs
+```
+
+`nasabah_id` is the dangerous one: it is a raw UUID from the client, and had it been applied to `Pencairan.objects` instead of to the scoped queryset, any pengurus could have read another bank's payouts by guessing an id.
+
+The test creates a second bank with its own nasabah and pencairan, then asserts the caller sees only their own record under every filter shape — no filter, a search matching the *other* bank's nasabah name, and a periode:
+
+```python title="api/tests.py — test_riwayat_never_shows_another_bank"
+        own = self._pencairan(self.siti, timezone.now())
+
+        for query in ("", "?search=siti", "?periode=hari_ini"):
+            with self.subTest(query=query):
+                self.assertEqual(self._ids(query), {str(own.id)})
+```
+
+The other bank's nasabah is deliberately named "Siti Lain" so that `?search=siti` matches it: if the scoping were wrong, this test fails rather than passing by luck.
 
 | Control | Test |
 |---|---|
