@@ -1,7 +1,7 @@
 # Security
 
 !!! success "Competency level: 1"
-    Code prevents OWASP A01 (Broken Access Control), the risk is named in the commit message of the test that guards it, and the new filters were checked against it before merge.
+    Code prevents OWASP A01 (Broken Access Control), the risk is named in the commit messages of the tests that guard it (on PIL-222 and PIL-230), and new endpoints were checked against it before merge.
 
 ## A01 · Broken Access Control, named in the commit
 
@@ -51,6 +51,30 @@ The reviewer confirmed this independently: "the queryset is always rooted at `fi
 
 This is the SDS rule BR-01/BR-02 in practice: one database serves every bank sampah, so a query that forgets its organisation filter returns other organisations' data without raising an error. A test is the only thing that notices.
 
+## A01 again on PIL-230 — [`60e7256`](https://github.com/bank-sampah-PILAH/pilah-be/commit/60e7256)
+
+`test(pencairan): cover bank scoping and pengurus-only edit and riwayat (OWASP A01)`, in [pilah-be #52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52).
+
+The edit endpoint changes money and the revision history exposes who changed what, so both need two layers: the right **role** and the right **organisation**.
+
+| Caller | `PATCH /pencairan/:id` | `GET /pencairan/:id/riwayat` |
+|---|---|---|
+| Pengurus of another bank | 404 (the pencairan is outside their scoped queryset) | 404 |
+| Nasabah who owns the pencairan | 403 (pengurus only) | 403 (pengurus only, per the PO) |
+
+After both attempts the test asserts the nominal and the saldo are unchanged, so a leak that "only" returned a 200 without saving would still fail.
+
+## Related controls from the 26 Sep review fixes
+
+These guard real weaknesses, but they are not yet named against an OWASP category in a commit, so they are listed here and not counted toward level 2:
+
+| Weakness | Control | Commit |
+|---|---|---|
+| Admin writes bypassing the service could desynchronise a money ledger | Pencairan and revisions are read-only in Django admin | [`9f4a428`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9f4a428), [`2af8c69`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2af8c69) |
+| A backdated payout funded by a later deposit (business-logic flaw) | Reject a tanggal before the nasabah's last activity | [`290bb1d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/290bb1d) |
+| Nasabah reading beyond their own records | Nasabah queryset rooted at `nasabah__user = request.user` | [`3c4aac0`](https://github.com/bank-sampah-PILAH/pilah-be/commit/3c4aac0) |
+| Money records changed without a trace | Every edit stores the replaced version, editor, time and a required reason (append-only) | [`c2ef8a4`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c2ef8a4) |
+
 ## To do
 
-- Level 2 needs at least 5 of the OWASP Top 10 named and guarded; A01 and A04 are covered so far.
+- Level 2 needs at least 5 of the OWASP Top 10 named and guarded; A01 and A04 are covered so far. The controls above could be named in their commits or tests as A04 (Insecure Design, the backdating flaw) and A09 (Security Logging and Monitoring Failures, the audit trail), but only once a test or commit actually says so.

@@ -1,13 +1,17 @@
 # Code Quality
 
 !!! success "Competency level: 3"
-    Every CI quality check passes on both PIL-222 PRs, no SonarQube issue is authored by me, and I traced why the mobile SonarQube project reports nothing at all.
+    Every CI quality check passes on the PIL-222 and PIL-230 PRs, no SonarQube issue is authored by me, and I traced why the mobile SonarQube project reports nothing at all.
 
 ## Automated checks in CI, all passing
 
 **Backend ([#32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32)):** `ruff check`, `ruff format --check`, `mypy --strict`, `makemigrations --check`, `manage.py check --deploy`, coverage ≥ 80% (91%, diff coverage 100%).
 
 **Mobile ([#27](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/27)):** `flutter analyze --fatal-infos`, `dart format --set-exit-if-changed`, coverage and diff-coverage gates (35.3% overall, 87.5% diff).
+
+**PIL-230, backend ([#52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52)):** the same checks as #32, all passing in CI on Postgres; 92% overall, **100% diff coverage**.
+
+**PIL-230, mobile ([#33](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/33)):** `dart format`, `flutter analyze --fatal-infos` clean, 294 tests; 37.8% overall, **82.8% diff coverage**. Run locally on Flutter 3.38.3, the CI version.
 
 ## Quality of the change itself
 
@@ -35,3 +39,10 @@ The SonarQube check on #27 failed, and the mobile dashboard showed "The main bra
 ## Backend SonarQube
 
 No open issue on `pilah-be-staging` is authored by me; the Author facet attributes all 14 to three other team members. The screenshot and the two setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
+
+## Quality of the PIL-230 change
+
+- **No N+1 on the list.** The two new per-row fields would have added one query each per row. They are annotated on the queryset instead, and a test pins the query count ([`0ea7252`](https://github.com/bank-sampah-PILAH/pilah-be/commit/0ea7252) → [`7bceb58`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7bceb58)); details on the [Programming](programming.md) page.
+- **No copied rules.** Recording and editing share the nominal and tanggal validators, on both backend and mobile (`PencairanValidator.nominalEdit` states why the edit check is weaker: the backend replay is the authority on saldo).
+- **Generated code kept out of the diff.** `build_runner` rewrites the whole of `di.config.dart` on Windows. Committing that would have buried two real registrations in 68 lines of reordering, so only the two new `gh.factory` registrations were added.
+- **Tests placed to avoid conflicts.** PIL-230's backend tests are in a new `api/test_pencairan_edit.py`, since four other open PRs append to `api/tests.py`.
