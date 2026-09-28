@@ -25,6 +25,20 @@
 | The emulator "just closed" | Diagnosed from the emulator's verbose log (12 GB needed, 2.9 GB free on C:) instead of reinstalling; the invisible window was found at y = −947 and moved on screen |
 | A chat export offered as AI-literacy evidence | Checked before use: it held only a startup banner from another session, so the history was built from this session's own transcript instead |
 
+## Example: challenging "your PRs are not merged yet"
+
+When I asked whether I could test my features with the release APK, the AI answered confidently that my pencairan PRs were not on `staging`: its check looked for my own commit SHAs there and found none.
+
+That contradicted what I knew from the team (the lead had said he was merging my stack), so I asked it directly: *"Are you sure my pencairan feats not merged yet?"*
+
+Rechecking through the PRs themselves instead of through git ancestry showed:
+
+- All six PRs (backend #19, #32, #52 and mobile #26, #27, #33) had been merged that morning. The lead squash-merged each stack into one commit (`da13b32`, `41ccced`), which is exactly why my original SHAs could never appear on `staging`.
+- The code was live: the staging API answered **401** (login required) on `/api/v1/pencairan` and `/pencairan/:id/riwayat`, where an unmerged route would answer 404.
+- The latest staging APK already contained the features, so I could test that day instead of waiting.
+
+The AI acknowledged the mistake plainly ("I was wrong") and recorded the lesson as a standing rule: check merge state through the PR, then confirm by content, never by commit ancestry alone.
+
 ## Example: deciding instead of accepting the first design
 
 PIL-230 first said only "edit pencairan". The AI's first analysis laid out three options (edit only non-money fields, correct through reversal entries as the SDS's append-only rule suggests, or edit in place) and pointed out the conflict with the SDS. I did not pick from that list on my own: I took the open questions to the PO and lead, the lead and PO disagreed on whether nasabah see old versions, and I chose the PO's version with the lead's approval. The AI then turned the decisions into a design and asked me where the answers still left room:
