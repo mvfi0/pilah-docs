@@ -10,7 +10,7 @@ Part B — Hardskills: Best Practice, for Sprint 1 week 2 (23–29 Sep 2026).
 | [Programming](part-b/programming.md) | **3** | Evidence complete |
 | [Development Discipline](part-b/development-discipline.md) | **3** | Evidence complete |
 | [Team Development Management](part-b/team-development-management.md) | **3** | Review responses on 4 PRs, conflict coordination across 9, review given on pilah-be #64 |
-| [Code Quality](part-b/code-quality.md) | **3** | Evidence complete |
+| [Code Quality](part-b/code-quality.md) | **3** | 2 SonarQube issues on my code fixed in pilah-be #67, not merged yet |
 | [Security](part-b/security.md) | **1** | Evidence complete |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Evidence complete, prompt history published |
 

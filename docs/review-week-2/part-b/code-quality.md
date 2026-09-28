@@ -1,7 +1,7 @@
 # Code Quality
 
 !!! success "Competency level: 3"
-    Every CI quality check passes on the PIL-222 and PIL-230 PRs, no SonarQube issue is authored by me, and I traced why the mobile SonarQube project reports nothing at all.
+    Every CI quality check passes on the PIL-222 and PIL-230 PRs, and I traced why the mobile SonarQube project reports nothing at all. SonarQube found two maintainability issues on my serializer code; both are fixed in [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), which is **not merged yet**, so they still show as open on `pilah-be-staging` until it is.
 
 ## Automated checks in CI, all passing
 
@@ -38,7 +38,24 @@ The SonarQube check on #27 failed, and the mobile dashboard showed "The main bra
 
 ## Backend SonarQube
 
-No open issue on `pilah-be-staging` is authored by me; the Author facet attributes all 14 to three other team members. The screenshot and the two setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
+Two issues on `pilah-be-staging` land on my code, both rule S1192 (duplicated string literal, Maintainability, High) in `api/serializers.py`:
+
+![SonarQube: "Define a constant instead of duplicating this literal "bank_sampah.id" 4 times" at L89 and "dicatat_oleh.id" 3 times at L91](sonar-s1192-serializers.png){ width="620" }
+
+**Root cause.** `"bank_sampah.id"` and `"dicatat_oleh.id"` were already repeated as `source` paths across other members' serializers. My `PencairanDetailSerializer` (from #19) added one more of each, which pushed both to Sonar's threshold of 3, and Sonar reports at the first occurrence, which is my line.
+
+**Fix: [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), open, not merged yet.**
+
+| Step | Commit |
+|---|---|
+| Pin the output first: 4 tests fix `bank_sampah_id` / `dicatat_oleh` in all five serializers that use the paths | [`dd9357e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/dd9357e) |
+| Define each path once ([`_BANK_SAMPAH_ID`, `_DICATAT_OLEH_ID`](https://github.com/bank-sampah-PILAH/pilah-be/blob/7a4fe58/api/serializers.py#L32-L34)) and use it at all 7 places | [`7a4fe58`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7a4fe58) |
+
+The pin tests were checked to guard the change: pointing `_DICATAT_OLEH_ID` at the wrong field made 2 of them fail. 255 tests pass locally with ruff and format clean.
+
+**Status (28 Sep):** #67's CI is red, but not because of this change. Its only failure is 3 `mypy` errors in `api/management/commands/seed_testing_data.py`, which arrived on `staging` with a direct commit ([`372e921`](https://github.com/bank-sampah-PILAH/pilah-be/commit/372e921)) and have turned `staging`'s own CI red too. Once that is fixed on `staging` and #67 is merged, SonarQube should show no issues on my code.
+
+The other open issues on `pilah-be-staging` are attributed to other team members (Author facet); the setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
 
 ## Quality of the PIL-230 change
 
