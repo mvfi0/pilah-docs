@@ -43,6 +43,9 @@ Heraldo's review of the three open PRs produced eight findings. Each fix is a fa
 
 The stale-response tests drive the race deliberately with a `Completer`: one request is held open, a second is issued and completed, then the first is released and asserted not to overwrite the newer filter. 270 → 278 tests.
 
+!!! info "Diff-coverage reports"
+    Line-by-line HTML reports for PIL-230 and the #19 review round, with how each was measured: [PIL-230 coverage evidence](../../sprints/sprint-1/evidence/PIL-230-coverage.md) ([backend](../../sprints/sprint-1/evidence/pil-230-be-diff-coverage.html) · [review round](../../sprints/sprint-1/evidence/pil-176-review2-diff-coverage.html) · [mobile](../../sprints/sprint-1/evidence/pil-230-mobile-diff-coverage.html)).
+
 ## PIL-230 backend — [pilah-be #52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (26 Sep)
 
 From this issue on, every commit subject names its phase: `test(...): [RED] …`, `feat(...): [GREEN] …`.

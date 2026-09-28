@@ -1,7 +1,7 @@
 # Team Development Management
 
 !!! success "Competency level: 2"
-    Answered twelve review findings across four merge requests, each verified before being accepted and replied to inside its own thread, and coordinated merge conflicts with nine other open PRs.
+    Answered twelve review findings across four merge requests, each verified before being accepted and replied to inside its own thread; coordinated merge conflicts with nine other open PRs; and reviewed a teammate's refactor PR with findings backed by running its own checks.
 
 ## Reviews received and answered — 23–24 Sep
 
@@ -35,6 +35,25 @@ Tristan (lead) reviewed [#19](https://github.com/bank-sampah-PILAH/pilah-be/pull
 
 For the backdating finding the reviewer offered two fixes. I brought the trade-off to a decision rather than picking silently: validating at the payout date would leave later receipts stale until PIL-230, while rejecting dates before the nasabah's last activity keeps every snapshot exact. The second was chosen.
 
+## Review given — 28 Sep
+
+I reviewed Heraldo's [pilah-be #64](https://github.com/bank-sampah-PILAH/pilah-be/pull/64) (modular-monolith refactor, 60 files, +4075/−3301), focusing on the pencairan code I own and on the claims in its description. Rather than reading the diff alone, I checked each claim by running it:
+
+- **Behaviour preserved:** diffed every moved pencairan definition against `staging` with Python's `ast`; all were byte-identical, and `app_label = "api"` keeps migrations untouched.
+- **Claims in the description:** the PR says it folds in #49 and #50, but none of their files are in the diff, and both had been reverted on `staging`; CI ran 251 tests, not the 342 claimed.
+- **Its own guard rail:** the architecture test is never discovered by CI (no `tests/__init__.py`), and running it on the PR branch **fails** with 4 boundary violations.
+
+[Full review](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#pullrequestreview-5339555413), with each point linked to its inline comment:
+
+| Finding | Inline comment |
+|---|---|
+| Architecture test not run in CI, fails locally with 4 violations | [thread](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#discussion_r4122881301) |
+| Production code imports `api.services` only so a test patch applies | [thread](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#discussion_r4122881318) |
+| `api.kalkulasi` imported from three `apps/` modules | [thread](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#discussion_r4122881331) |
+| Question: `JadwalKegiatan` placed in the `ledger` context | [thread](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#discussion_r4122881340) |
+
+![My review on pilah-be #64: pencairan moved cleanly; #49 and #50 missing from the diff; the architecture test not enforced; each point linking to its inline comment](review-pr64.png){ width="680" }
+
 ## Coordinating conflicts across the team — 26 Sep
 
 After updating #19, I test-merged it against every open backend PR and left a heads-up on the nine that will conflict, each naming the exact files, the migration leaves involved and how to resolve them:
@@ -51,4 +70,4 @@ PIL-230 had no description. I raised the open questions (recompute, backdating l
 
 ## To do
 
-- Give reviews on other people's merge requests this week; only one was given in [week 1](../../review/part-b/team-development-management.md) (pilah-be #22). The conflict heads-ups above are coordination, not code review, so they do not count toward this.
+- Reviews given so far: pilah-be #22 in [week 1](../../review/part-b/team-development-management.md) and [pilah-be #64](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#pullrequestreview-5339555413) this week. Follow up on #64's answers, and review mobile [#51](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/51) (findings drafted, not yet posted).

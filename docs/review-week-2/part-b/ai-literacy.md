@@ -31,7 +31,7 @@ When I asked whether I could test my features with the release APK, the AI answe
 
 That contradicted what I knew from the team (the lead had said he was merging my stack), so I asked it directly: *"Are you sure my pencairan feats not merged yet?"*
 
-![Prompt history: I ask whether my pencairan features are really not merged; Claude answers "I was wrong", shows both stacks squash-merged into staging, and confirms the staging API serves the new routes](ai-correction-not-merged.png)
+![Prompt history: I ask whether my pencairan features are really not merged; Claude answers "I was wrong", shows both stacks squash-merged into staging, and confirms the staging API serves the new routes](ai-correction-not-merged.png){ width="620" }
 
 Rechecking through the PRs themselves instead of through git ancestry showed:
 

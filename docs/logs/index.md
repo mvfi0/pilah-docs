@@ -45,6 +45,6 @@ Rows are grouped by the date the work happened. The IR pages group the same work
 
 ### Offline UAT and standup — 28 Sep
 
-![Team room during the UAT session: the app on the shared screen and the UAT test case document open on my laptop](uat-standup-1.jpg)
+![Team room during the UAT session: the app on the shared screen and the UAT test case document open on my laptop](uat-standup-1.jpg){ width="340" }
 
-![The team at the standup, working through the UAT](uat-standup-2.jpg)
+![The team at the standup, working through the UAT](uat-standup-2.jpg){ width="520" }

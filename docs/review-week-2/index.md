@@ -4,12 +4,12 @@ Evidence for the individual review (IR), organised by competency. Each page stat
 
 Part B — Hardskills: Best Practice, for Sprint 1 week 2 (23–29 Sep 2026).
 
-| Competency | Level | Status (26 Sep) |
+| Competency | Level | Status (28 Sep) |
 |---|---|---|
 | [Test Driven Development](part-b/tdd.md) | **3** | Evidence complete |
 | [Programming](part-b/programming.md) | **3** | Evidence complete |
 | [Development Discipline](part-b/development-discipline.md) | **3** | Evidence complete |
-| [Team Development Management](part-b/team-development-management.md) | **2** | Review responses on 4 PRs, conflict coordination across 9 |
+| [Team Development Management](part-b/team-development-management.md) | **2** | Review responses on 4 PRs, conflict coordination across 9, review given on pilah-be #64 |
 | [Code Quality](part-b/code-quality.md) | **3** | Evidence complete |
 | [Security](part-b/security.md) | **1** | Evidence complete |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Evidence complete, prompt history published |

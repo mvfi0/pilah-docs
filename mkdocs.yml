@@ -68,6 +68,7 @@ nav:
               - PIL-222 Riwayat Pencairan: sprints/sprint-1/tasks/PIL-222-riwayat-pencairan-plan.md
           - Evidence:
               - PIL-176 Coverage: sprints/sprint-1/evidence/PIL-176-coverage.md
+              - PIL-230 Coverage: sprints/sprint-1/evidence/PIL-230-coverage.md
       - Sprint 2:
           - Plan: sprints/sprint-2/plan.md
           - Progress: sprints/sprint-2/progress.md
