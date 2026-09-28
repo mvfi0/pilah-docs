@@ -121,7 +121,7 @@ Each red test failed for the reason in the finding before its fix: the admin all
 
 ## Closing the mobile gap — [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (28 Sep)
 
-#27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow). 652 → 659 tests.
+Mobile #27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow). 652 → 659 tests.
 
 ## Test validation
 
