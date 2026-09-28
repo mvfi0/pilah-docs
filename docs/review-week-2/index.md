@@ -12,6 +12,7 @@ Part B — Hardskills: Best Practice, for Sprint 1 week 2 (23–29 Sep 2026).
 | [Team Development Management](part-b/team-development-management.md) | **2** | Review responses on 4 PRs, conflict coordination across 9 |
 | [Code Quality](part-b/code-quality.md) | **3** | Evidence complete |
 | [Security](part-b/security.md) | **1** | Evidence complete |
+| [AI Literacy](part-b/ai-literacy.md) | **3** | Evidence complete, prompt history published |
 
 Work this week, one merge request per repository for each issue, each stacked on the one before it:
 
