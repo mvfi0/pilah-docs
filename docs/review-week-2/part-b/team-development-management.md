@@ -1,6 +1,6 @@
 # Team Development Management
 
-!!! success "Competency level: 2"
+!!! success "Competency level: 3"
     Answered twelve review findings across four merge requests, each verified before being accepted and replied to inside its own thread; coordinated merge conflicts with nine other open PRs; and reviewed a teammate's refactor PR with findings backed by running its own checks.
 
 ## Reviews received and answered — 23–24 Sep
@@ -37,6 +37,8 @@ For the backdating finding the reviewer offered two fixes. I brought the trade-o
 
 ## Review given — 28 Sep
 
+Level 3 asks for detailed comments with suggestions for improvement, such as code smells or things tools could suggest, that the owner can feasibly implement. Each point below comes with a concrete, small fix: add `tests/__init__.py` so the guard runs, patch `apps.identity.services` instead of the old module path, and move `kalkulasi` into `shared_kernel`.
+
 I reviewed Heraldo's [pilah-be #64](https://github.com/bank-sampah-PILAH/pilah-be/pull/64) (modular-monolith refactor, 60 files, +4075/−3301), focusing on the pencairan code I own and on the claims in its description. Rather than reading the diff alone, I checked each claim by running it:
 
 - **Behaviour preserved:** diffed every moved pencairan definition against `staging` with Python's `ast`; all were byte-identical, and `app_label = "api"` keeps migrations untouched.
@@ -70,4 +72,4 @@ PIL-230 had no description. I raised the open questions (recompute, backdating l
 
 ## To do
 
-- Reviews given so far: pilah-be #22 in [week 1](../../review/part-b/team-development-management.md) and [pilah-be #64](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#pullrequestreview-5339555413) this week. Follow up on #64's answers, and review mobile [#51](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/51) (findings drafted, not yet posted).
+- Reviews given so far: pilah-be #22 in [week 1](../../review/part-b/team-development-management.md) and [pilah-be #64](https://github.com/bank-sampah-PILAH/pilah-be/pull/64#pullrequestreview-5339555413) this week. Follow up on #64's answers. Mobile [#51](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/51) was merged before my drafted review was posted, so it does not count.

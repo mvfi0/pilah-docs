@@ -1,7 +1,7 @@
 # Test Driven Development
 
 !!! success "Competency level: 3"
-    PIL-222 and PIL-230 built test-first in both repositories (100% backend diff coverage on both, 87.5% and 82.8% on mobile), and every finding from two review rounds fixed with its failing test first.
+    PIL-222 and PIL-230 built test-first with phase-tagged commits; 100% coverage of my backend changes and of the whole mobile pencairan feature; positive, negative and corner cases for every behaviour; every finding from two review rounds fixed with its failing test first.
 
 ## Backend — [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32)
 
@@ -43,8 +43,24 @@ Heraldo's review of the three open PRs produced eight findings. Each fix is a fa
 
 The stale-response tests drive the race deliberately with a `Completer`: one request is held open, a second is issued and completed, then the first is released and asserted not to overwrite the newer filter. 270 → 278 tests.
 
+## Against the level-3 criteria
+
+| Level 3 requires | Evidence |
+|---|---|
+| **100% coverage, without ignoring important files** | Backend: 100% of the lines I changed in [#52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (148) and in the #19 review round (34). Mobile: 100% of all of `lib/features/pencairan` (831 lines) after [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52); only generated `*.g.dart` serializers are excluded. HTML reports below. |
+| **Disciplined red-green-refactor commits** | Every behaviour has a failing-test commit before its implementation; from PIL-230 on, subjects carry `[RED]`/`[GREEN]` ([tables below](#pil-230-backend-pilah-be-52-26-sep)). Tests that pass immediately are labelled `test(...): cover …` instead of pretending to be red. |
+| **Positive, negative and corner cases** | See the next table. |
+
+| Behaviour | Positive | Negative | Corner |
+|---|---|---|---|
+| Edit a pencairan (PIL-230) | metode/keterangan/nominal edited, saldo moves | missing or blank `alasan`; nothing changed; another bank's pencairan (404); a nasabah (403) | a raise today's saldo would cover but that overdraws a **later** pencairan; editing reorders the ledger before a setoran |
+| Tanggal limit (PIL-230) | moved back within 7 days | future date; 8 days back | exactly 7 days back is allowed; repeated edits measured from the **original** tanggal cannot creep back |
+| Record a pencairan (PIL-176) | saldo lowered once | above saldo; invalid nominal; unapproved or other-bank nasabah | payout dated before the last setoran; legacy saldo with sen rounded down; same-instant setoran ordered first |
+| Riwayat (PIL-222) | filter by periode and name | 1-letter search refused | stale response after a newer filter is ignored; month boundary |
+| Mobile edit/history flow | saved edit refreshes the list | leaving without saving refreshes nothing; server 422 shown on its field | double tap sends once; history link only for edited pencairan |
+
 !!! info "Diff-coverage reports"
-    Line-by-line HTML reports for PIL-230 and the #19 review round, with how each was measured: [PIL-230 coverage evidence](../../sprints/sprint-1/evidence/PIL-230-coverage.md) ([backend](../../sprints/sprint-1/evidence/pil-230-be-diff-coverage.html) · [review round](../../sprints/sprint-1/evidence/pil-176-review2-diff-coverage.html) · [mobile](../../sprints/sprint-1/evidence/pil-230-mobile-diff-coverage.html)).
+    Line-by-line HTML reports, with how each was measured: [coverage evidence](../../sprints/sprint-1/evidence/PIL-230-coverage.md) ([backend #52](../../sprints/sprint-1/evidence/pil-230-be-diff-coverage.html) · [#19 review round](../../sprints/sprint-1/evidence/pil-176-review2-diff-coverage.html) · [mobile #33 as merged](../../sprints/sprint-1/evidence/pil-230-mobile-diff-coverage.html) · [**whole mobile pencairan feature, 100%**](../../sprints/sprint-1/evidence/pencairan-mobile-coverage.html)).
 
 ## PIL-230 backend — [pilah-be #52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (26 Sep)
 
@@ -102,6 +118,10 @@ The entry-point tests pump a real `GoRouter` with stub edit and history routes, 
 Plus a coverage test that a nasabah still cannot record a pencairan once list and detail accept them ([`8287130`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8287130)). Every line the four fixes added is covered; the only uncovered lines in #19's diff come from the `staging` merge.
 
 Each red test failed for the reason in the finding before its fix: the admin allowed `add`, history said Rp 7.001 against a stored Rp 7.000,50, a payout dated before the only setoran was accepted (201), and a nasabah got 403.
+
+## Closing the mobile gap — [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (28 Sep)
+
+#27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow). 652 → 659 tests.
 
 ## Test validation
 
