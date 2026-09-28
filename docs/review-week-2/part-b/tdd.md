@@ -1,7 +1,7 @@
 # Test Driven Development
 
-!!! success "Competency level: 3"
-    PIL-222 and PIL-230 built test-first with phase-tagged commits; 100% coverage of my backend changes and of the whole mobile pencairan feature; positive, negative and corner cases for every behaviour; every finding from two review rounds fixed with its failing test first.
+!!! success "Competency level: 4"
+    Level 3 met: PIL-222 and PIL-230 built test-first with phase-tagged commits; 100% coverage of my backend changes and of the whole mobile pencairan feature; positive, negative and corner cases for every behaviour; every finding from two review rounds fixed with its failing test first. Level 4: advanced test isolation in the commits: mocks and stubs of the use-case and network layers, captured requests, `Completer`-controlled races, and stub routes in a real router.
 
 ## Backend — [pilah-be #32](https://github.com/bank-sampah-PILAH/pilah-be/pull/32)
 
@@ -50,6 +50,8 @@ The stale-response tests drive the race deliberately with a `Completer`: one req
 | **100% coverage, without ignoring important files** | Backend: 100% of the lines I changed in [#52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (148) and in the #19 review round (34). Mobile: 100% of all of `lib/features/pencairan` (831 lines) after [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52); only generated `*.g.dart` serializers are excluded. HTML reports below. |
 | **Disciplined red-green-refactor commits** | Every behaviour has a failing-test commit before its implementation; from PIL-230 on, subjects carry `[RED]`/`[GREEN]` ([tables below](#pil-230-backend-pilah-be-52-26-sep)). Tests that pass immediately are labelled `test(...): cover …` instead of pretending to be red. |
 | **Positive, negative and corner cases** | See the next table. |
+
+Level 4 adds *"relevant advanced testing methods in the commits, e.g. mock/stub for test isolation"*: see [Test isolation](#test-isolation-mocks-stubs-and-controlled-async) below.
 
 | Behaviour | Positive | Negative | Corner |
 |---|---|---|---|
@@ -122,6 +124,20 @@ Each red test failed for the reason in the finding before its fix: the admin all
 ## Closing the mobile gap — [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (28 Sep)
 
 Mobile #27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow). 652 → 659 tests.
+
+## Test isolation: mocks, stubs and controlled async
+
+The mobile tests isolate each layer from the one below it, so a failure points at one unit. 49 uses of mocks, stubs and `Completer`s across 8 pencairan test files this week:
+
+| Technique | What it isolates | Commit |
+|---|---|---|
+| Mock of the use-case layer (`_MockUseCases extends Mock implements PencairanUseCases`), `when(...)` stubs, `verify(...).called(1)` | the edit cubit from the repository and network | [`76aa268`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/76aa268) |
+| Mocked `NetworkService` | the repository from HTTP, capturing the exact PATCH body sent | [`f04bb89`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/f04bb89), [`c196e8f`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/c196e8f) |
+| Stubbed use cases behind real widgets, `captureAny()` | the edit form and history page from the data layer, checking the request the form builds | [`288a78f`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/288a78f), [`d500d13`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/d500d13) |
+| `Completer`-controlled async | races: a double tap sends one edit; a slow older riwayat response cannot overwrite a newer filter | [`76aa268`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/76aa268), [`8358c87`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/8358c87) |
+| Stub routes in a real `GoRouter` | navigation from the real pages: what the sheet pushes (`extra`), and reloading only after a real save | [`3bfe914`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3bfe914), [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) |
+
+The backend tests deliberately do not mock: they run the API against a real test database, because the behaviour under test (row locks, the ledger replay, query counts) only exists in the database.
 
 ## Test validation
 
