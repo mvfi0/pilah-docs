@@ -1,7 +1,7 @@
 # Commitment, Work Ethic
 
 !!! success "Competency level: 3"
-    19 h 40 min of logged work in the week of 22–28 Sep, above the 17-hour minimum, with the time allocated across the week and output that merged.
+    20 h 10 min of logged work in the week of 22–28 Sep, above the 17-hour minimum, with the time allocated across the week, regular attendance at the team's standups, and output that merged.
 
 The rubric's level 1 is under 17 hours a week; level 3 is disciplined, quality work equivalent to 17 hours a week.
 
@@ -9,9 +9,13 @@ The rubric's level 1 is under 17 hours a week; level 3 is disciplined, quality w
 
 The hours, their sources and every work block are in the **[Work Log, week of 22–28 Sep](../../logs/index.md#week-of-2228-sep)**:
 
-- **19 h 40 min** in total, of which 3 h is the offline UAT and standup session on 28 Sep ([photos](../../logs/index.md#offline-uat-and-standup-28-sep)).
+- **20 h 10 min** in total, of which 3 h is the offline UAT and standup session on 28 Sep ([photos](../../logs/index.md#offline-uat-and-standup-28-sep)) and 30 min the Discord standups.
 - Durations come from the Claude Code session and commit timestamps, split into blocks at gaps over 45 minutes; the few rows with no session behind them are marked as estimates or self-reported.
 - Work was spread over the week (22, 23–24, 25, 26, 27 and 28 Sep) rather than done in one sitting.
+
+## Standups
+
+The team holds a daily standup on Discord every **Monday, Wednesday and Friday**, about 15–30 minutes, to share progress, plans and blockers. I attended both Discord standups this week (Wed 23 and Fri 25 Sep), and the Monday one on 28 Sep was held offline together with the UAT. Each Discord standup is counted in the work log at the lower bound of 15 minutes.
 
 ## Output of that time
 
