@@ -21,3 +21,5 @@ Work this week, one merge request per repository for each issue, each stacked on
 - Two review rounds on the week-1 PRs also land here: Heraldo's on #26 and #27 (23–24 Sep), and Tristan's on #19 (26 Sep).
 
 Week 1 (PIL-176) is claimed separately: [IR Part B Sprint 1 Week 1](../review/index.md).
+
+Part C (softskills) for this week: [IR Part C](../review-part-c/index.md).

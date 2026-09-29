@@ -84,21 +84,27 @@ nav:
       - API: technical/api.md
   - Testing & QA: testing-qa.md
   - Work Log: logs/index.md
-  - IR Part B Sprint 1 Week 1:
-      - review/index.md
-      - TDD: review/part-b/tdd.md
-      - Programming: review/part-b/programming.md
-      - Development Discipline: review/part-b/development-discipline.md
-      - Team Development Management: review/part-b/team-development-management.md
-      - Code Quality: review/part-b/code-quality.md
-      - Security: review/part-b/security.md
-      - AI Literacy: review/part-b/ai-literacy.md
-  - IR Part B Sprint 1 Week 2:
-      - review-week-2/index.md
-      - TDD: review-week-2/part-b/tdd.md
-      - Programming: review-week-2/part-b/programming.md
-      - Development Discipline: review-week-2/part-b/development-discipline.md
-      - Team Development Management: review-week-2/part-b/team-development-management.md
-      - Code Quality: review-week-2/part-b/code-quality.md
-      - Security: review-week-2/part-b/security.md
-      - AI Literacy: review-week-2/part-b/ai-literacy.md
+  - IR Part B:
+      - Sprint 1 Week 1:
+          - review/index.md
+          - TDD: review/part-b/tdd.md
+          - Programming: review/part-b/programming.md
+          - Development Discipline: review/part-b/development-discipline.md
+          - Team Development Management: review/part-b/team-development-management.md
+          - Code Quality: review/part-b/code-quality.md
+          - Security: review/part-b/security.md
+          - AI Literacy: review/part-b/ai-literacy.md
+      - Sprint 1 Week 2:
+          - review-week-2/index.md
+          - TDD: review-week-2/part-b/tdd.md
+          - Programming: review-week-2/part-b/programming.md
+          - Development Discipline: review-week-2/part-b/development-discipline.md
+          - Team Development Management: review-week-2/part-b/team-development-management.md
+          - Code Quality: review-week-2/part-b/code-quality.md
+          - Security: review-week-2/part-b/security.md
+          - AI Literacy: review-week-2/part-b/ai-literacy.md
+  - IR Part C:
+      - review-part-c/index.md
+      - Sprint 1 Week 2:
+          - Aptitude, Applying Knowledge: review-part-c/sprint-1-week-2/aptitude.md
+          - Commitment, Work Ethic: review-part-c/sprint-1-week-2/commitment.md
