@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <title>Diff Coverage</title>
+        <style>
+            .src-snippet { margin-top: 2em; }
+            .src-name { font-weight: bold; }
+            .snippets {
+                border-top: 1px solid #bdbdbd;
+                border-bottom: 1px solid #bdbdbd;
+            }
+            pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #ffcccc }
+.c { color: #3D7B7B; font-style: italic } /* Comment */
+.err { border: 1px solid #F00 } /* Error */
+.k { color: #008000; font-weight: bold } /* Keyword */
+.o { color: #666 } /* Operator */
+.ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+.cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+.cp { color: #9C6500 } /* Comment.Preproc */
+.cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+.c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+.cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+.gd { color: #A00000 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.gr { color: #E40000 } /* Generic.Error */
+.gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.gi { color: #008400 } /* Generic.Inserted */
+.go { color: #717171 } /* Generic.Output */
+.gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.gt { color: #04D } /* Generic.Traceback */
+.kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #008000 } /* Keyword.Pseudo */
+.kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #B00040 } /* Keyword.Type */
+.m { color: #666 } /* Literal.Number */
+.s { color: #BA2121 } /* Literal.String */
+.na { color: #687822 } /* Name.Attribute */
+.nb { color: #008000 } /* Name.Builtin */
+.nc { color: #00F; font-weight: bold } /* Name.Class */
+.no { color: #800 } /* Name.Constant */
+.nd { color: #A2F } /* Name.Decorator */
+.ni { color: #717171; font-weight: bold } /* Name.Entity */
+.ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+.nf { color: #00F } /* Name.Function */
+.nl { color: #767600 } /* Name.Label */
+.nn { color: #00F; font-weight: bold } /* Name.Namespace */
+.nt { color: #008000; font-weight: bold } /* Name.Tag */
+.nv { color: #19177C } /* Name.Variable */
+.ow { color: #A2F; font-weight: bold } /* Operator.Word */
+.w { color: #BBB } /* Text.Whitespace */
+.mb { color: #666 } /* Literal.Number.Bin */
+.mf { color: #666 } /* Literal.Number.Float */
+.mh { color: #666 } /* Literal.Number.Hex */
+.mi { color: #666 } /* Literal.Number.Integer */
+.mo { color: #666 } /* Literal.Number.Oct */
+.sa { color: #BA2121 } /* Literal.String.Affix */
+.sb { color: #BA2121 } /* Literal.String.Backtick */
+.sc { color: #BA2121 } /* Literal.String.Char */
+.dl { color: #BA2121 } /* Literal.String.Delimiter */
+.sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.s2 { color: #BA2121 } /* Literal.String.Double */
+.se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+.sh { color: #BA2121 } /* Literal.String.Heredoc */
+.si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+.sx { color: #008000 } /* Literal.String.Other */
+.sr { color: #A45A77 } /* Literal.String.Regex */
+.s1 { color: #BA2121 } /* Literal.String.Single */
+.ss { color: #19177C } /* Literal.String.Symbol */
+.bp { color: #008000 } /* Name.Builtin.Pseudo */
+.fm { color: #00F } /* Name.Function.Magic */
+.vc { color: #19177C } /* Name.Variable.Class */
+.vg { color: #19177C } /* Name.Variable.Global */
+.vi { color: #19177C } /* Name.Variable.Instance */
+.vm { color: #19177C } /* Name.Variable.Magic */
+.il { color: #666 } /* Literal.Number.Integer.Long */
+.diff-cover-covered-line { background-color: #ddffdd; }
+        </style>
+    </head>
+    <body>
+        <h1>Diff Coverage</h1>
+        <p>Diff: a6cdfe6...HEAD, staged and unstaged changes</p>
+        <ul>
+            <li><b>Total</b>: 325 lines</li>
+            <li><b>Missing</b>: 56 lines</li>
+            <li><b>Coverage</b>: 82%</li>
+        </ul>
+        <table border="1">
+            <tr>
+                <th>Source File</th>
+                <th>Diff Coverage (%)</th>
+                <th>Missing Lines</th>
+            </tr>
+            <tr>
+                <td>lib/core/router/app_router_config.dart</td>
+                <td>0.0%</td>
+                <td>135,138-139,141,144-145</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/data/model/mapper/pencairan_mapper.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/data/model/responses/revisi_pencairan_response.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/data/pencairan_repository_impl.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/data/remote/pencairan_remote_data_sources.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/domain/model/pencairan.dart</td>
+                <td>60.0%</td>
+                <td>53-54</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/domain/model/revisi_pencairan.dart</td>
+                <td>12.5%</td>
+                <td>31-42,54-55</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/domain/pencairan_interactor.dart</td>
+                <td>0.0%</td>
+                <td>32,36,38,42</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/domain/pencairan_validator.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/blocs/edit_pencairan_cubit.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/blocs/edit_pencairan_state.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/blocs/revisi_pencairan_cubit.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/pages/edit_pencairan_page.dart</td>
+                <td>78.0%</td>
+                <td>22,24,26-28,70-75,78,80-85,87-89,103,133,136</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart</td>
+                <td>91.9%</td>
+                <td>18,20,22-24,32</td>
+            </tr>
+            <tr>
+                <td>lib/features/pencairan/presentation/pages/riwayat_pencairan_page.dart</td>
+                <td>100%</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <div class="src-snippet">
+            <div class="src-name">lib/core/router/app_router_config.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/core/router/app_router_config.dart-131" name="lib/core/router/app_router_config.dart-131"></a><span class="w">        </span><span class="nl">name:</span><span class="w"> </span><span class="n">RiwayatPencairanPage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-132" name="lib/core/router/app_router_config.dart-132"></a><span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="lib/core/router/app_router_config.dart-133" name="lib/core/router/app_router_config.dart-133"></a><span class="w">            </span><span class="n">RiwayatPencairanPage</span><span class="p">(</span><span class="nl">args:</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">extra</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">RiwayatPencairanArgs</span><span class="o">?</span><span class="p">),</span>
+<a id="lib/core/router/app_router_config.dart-134" name="lib/core/router/app_router_config.dart-134"></a><span class="w">      </span><span class="p">),</span>
+<a id="lib/core/router/app_router_config.dart-135" name="lib/core/router/app_router_config.dart-135"></a><span class="hll"><span class="w">      </span><span class="n">GoRoute</span><span class="p">(</span>
+</span><a id="lib/core/router/app_router_config.dart-136" name="lib/core/router/app_router_config.dart-136"></a><span class="w">        </span><span class="nl">path:</span><span class="w"> </span><span class="n">EditPencairanPage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-137" name="lib/core/router/app_router_config.dart-137"></a><span class="w">        </span><span class="nl">name:</span><span class="w"> </span><span class="n">EditPencairanPage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-138" name="lib/core/router/app_router_config.dart-138"></a><span class="hll"><span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+</span><a id="lib/core/router/app_router_config.dart-139" name="lib/core/router/app_router_config.dart-139"></a><span class="hll"><span class="w">            </span><span class="n">EditPencairanPage</span><span class="p">(</span><span class="nl">pencairan:</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">extra</span><span class="o">!</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Pencairan</span><span class="p">),</span>
+</span><a id="lib/core/router/app_router_config.dart-140" name="lib/core/router/app_router_config.dart-140"></a><span class="w">      </span><span class="p">),</span>
+<a id="lib/core/router/app_router_config.dart-141" name="lib/core/router/app_router_config.dart-141"></a><span class="hll"><span class="w">      </span><span class="n">GoRoute</span><span class="p">(</span>
+</span><a id="lib/core/router/app_router_config.dart-142" name="lib/core/router/app_router_config.dart-142"></a><span class="w">        </span><span class="nl">path:</span><span class="w"> </span><span class="n">RevisiPencairanPage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-143" name="lib/core/router/app_router_config.dart-143"></a><span class="w">        </span><span class="nl">name:</span><span class="w"> </span><span class="n">RevisiPencairanPage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-144" name="lib/core/router/app_router_config.dart-144"></a><span class="hll"><span class="w">        </span><span class="nl">builder:</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+</span><a id="lib/core/router/app_router_config.dart-145" name="lib/core/router/app_router_config.dart-145"></a><span class="hll"><span class="w">            </span><span class="n">RevisiPencairanPage</span><span class="p">(</span><span class="nl">pencairanId:</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">extra</span><span class="o">!</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">String</span><span class="p">),</span>
+</span><a id="lib/core/router/app_router_config.dart-146" name="lib/core/router/app_router_config.dart-146"></a><span class="w">      </span><span class="p">),</span>
+<a id="lib/core/router/app_router_config.dart-147" name="lib/core/router/app_router_config.dart-147"></a><span class="w">      </span><span class="n">GoRoute</span><span class="p">(</span>
+<a id="lib/core/router/app_router_config.dart-148" name="lib/core/router/app_router_config.dart-148"></a><span class="w">        </span><span class="nl">path:</span><span class="w"> </span><span class="n">InviteGatePage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+<a id="lib/core/router/app_router_config.dart-149" name="lib/core/router/app_router_config.dart-149"></a><span class="w">        </span><span class="nl">name:</span><span class="w"> </span><span class="n">InviteGatePage</span><span class="p">.</span><span class="n">route</span><span class="p">,</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+        <div class="src-snippet">
+            <div class="src-name">lib/features/pencairan/domain/model/pencairan.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/domain/model/pencairan.dart-49" name="lib/features/pencairan/domain/model/pencairan.dart-49"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">keterangan</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-50" name="lib/features/pencairan/domain/model/pencairan.dart-50"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">alasan</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-51" name="lib/features/pencairan/domain/model/pencairan.dart-51"></a><span class="w">  </span><span class="p">});</span>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-52" name="lib/features/pencairan/domain/model/pencairan.dart-52"></a>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-53" name="lib/features/pencairan/domain/model/pencairan.dart-53"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/domain/model/pencairan.dart-54" name="lib/features/pencairan/domain/model/pencairan.dart-54"></a><span class="hll"><span class="w">  </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">?&gt;</span><span class="w"> </span><span class="kd">get</span><span class="w"> </span><span class="n">props</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">nominal</span><span class="p">,</span><span class="w"> </span><span class="n">metode</span><span class="p">,</span><span class="w"> </span><span class="n">tanggal</span><span class="p">,</span><span class="w"> </span><span class="n">keterangan</span><span class="p">,</span><span class="w"> </span><span class="n">alasan</span><span class="p">];</span>
+</span><a id="lib/features/pencairan/domain/model/pencairan.dart-55" name="lib/features/pencairan/domain/model/pencairan.dart-55"></a><span class="p">}</span>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-56" name="lib/features/pencairan/domain/model/pencairan.dart-56"></a>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-57" name="lib/features/pencairan/domain/model/pencairan.dart-57"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Pencairan</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/domain/model/pencairan.dart-58" name="lib/features/pencairan/domain/model/pencairan.dart-58"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+        <div class="src-snippet">
+            <div class="src-name">lib/features/pencairan/domain/model/revisi_pencairan.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-27" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-27"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">diubahOlehNama</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-28" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-28"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">diubahPada</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-29" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-29"></a><span class="w">  </span><span class="p">});</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-30" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-30"></a>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-31" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-31"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-32" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-32"></a><span class="hll"><span class="w">  </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">?&gt;</span><span class="w"> </span><span class="kd">get</span><span class="w"> </span><span class="n">props</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-33" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-33"></a><span class="hll"><span class="w">        </span><span class="n">versi</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-34" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-34"></a><span class="hll"><span class="w">        </span><span class="n">tanggal</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-35" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-35"></a><span class="hll"><span class="w">        </span><span class="n">nominal</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-36" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-36"></a><span class="hll"><span class="w">        </span><span class="n">metode</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-37" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-37"></a><span class="hll"><span class="w">        </span><span class="n">keterangan</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-38" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-38"></a><span class="hll"><span class="w">        </span><span class="n">saldoSebelum</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-39" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-39"></a><span class="hll"><span class="w">        </span><span class="n">saldoSesudah</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-40" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-40"></a><span class="hll"><span class="w">        </span><span class="n">alasan</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-41" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-41"></a><span class="hll"><span class="w">        </span><span class="n">diubahOlehNama</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-42" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-42"></a><span class="hll"><span class="w">        </span><span class="n">diubahPada</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-43" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-43"></a><span class="w">      </span><span class="p">];</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-44" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-44"></a><span class="p">}</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-45" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-45"></a>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-46" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-46"></a><span class="c1">/// `GET /api/v1/pencairan/{id}/riwayat`: the current pencairan and its replaced</span>
+</pre></div></td></tr></table></div>
+
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-50" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-50"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">RevisiPencairan</span><span class="o">&gt;</span><span class="w"> </span><span class="n">revisi</span><span class="p">;</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-51" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-51"></a>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-52" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-52"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">RiwayatRevisiPencairan</span><span class="p">({</span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">pencairan</span><span class="p">,</span><span class="w"> </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">revisi</span><span class="p">});</span>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-53" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-53"></a>
+<a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-54" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-54"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-55" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-55"></a><span class="hll"><span class="w">  </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">?&gt;</span><span class="w"> </span><span class="kd">get</span><span class="w"> </span><span class="n">props</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">pencairan</span><span class="p">,</span><span class="w"> </span><span class="n">revisi</span><span class="p">];</span>
+</span><a id="lib/features/pencairan/domain/model/revisi_pencairan.dart-56" name="lib/features/pencairan/domain/model/revisi_pencairan.dart-56"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+        <div class="src-snippet">
+            <div class="src-name">lib/features/pencairan/domain/pencairan_interactor.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/domain/pencairan_interactor.dart-28" name="lib/features/pencairan/domain/pencairan_interactor.dart-28"></a><span class="w">    </span><span class="n">RiwayatPencairanFilter</span><span class="w"> </span><span class="n">filter</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-29" name="lib/features/pencairan/domain/pencairan_interactor.dart-29"></a><span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-30" name="lib/features/pencairan/domain/pencairan_interactor.dart-30"></a><span class="w">      </span><span class="n">_repository</span><span class="p">.</span><span class="n">getRiwayat</span><span class="p">(</span><span class="n">filter</span><span class="p">);</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-31" name="lib/features/pencairan/domain/pencairan_interactor.dart-31"></a>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-32" name="lib/features/pencairan/domain/pencairan_interactor.dart-32"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/domain/pencairan_interactor.dart-33" name="lib/features/pencairan/domain/pencairan_interactor.dart-33"></a><span class="w">  </span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Either</span><span class="o">&lt;</span><span class="n">NetworkException</span><span class="p">,</span><span class="w"> </span><span class="n">Pencairan</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">editPencairan</span><span class="p">(</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-34" name="lib/features/pencairan/domain/pencairan_interactor.dart-34"></a><span class="w">    </span><span class="n">EditPencairanRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-35" name="lib/features/pencairan/domain/pencairan_interactor.dart-35"></a><span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-36" name="lib/features/pencairan/domain/pencairan_interactor.dart-36"></a><span class="hll"><span class="w">      </span><span class="n">_repository</span><span class="p">.</span><span class="n">editPencairan</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</span><a id="lib/features/pencairan/domain/pencairan_interactor.dart-37" name="lib/features/pencairan/domain/pencairan_interactor.dart-37"></a>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-38" name="lib/features/pencairan/domain/pencairan_interactor.dart-38"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/domain/pencairan_interactor.dart-39" name="lib/features/pencairan/domain/pencairan_interactor.dart-39"></a><span class="w">  </span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Either</span><span class="o">&lt;</span><span class="n">NetworkException</span><span class="p">,</span><span class="w"> </span><span class="n">RiwayatRevisiPencairan</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">getRevisi</span><span class="p">(</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-40" name="lib/features/pencairan/domain/pencairan_interactor.dart-40"></a><span class="w">    </span><span class="kt">String</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-41" name="lib/features/pencairan/domain/pencairan_interactor.dart-41"></a><span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="lib/features/pencairan/domain/pencairan_interactor.dart-42" name="lib/features/pencairan/domain/pencairan_interactor.dart-42"></a><span class="hll"><span class="w">      </span><span class="n">_repository</span><span class="p">.</span><span class="n">getRevisi</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+</span><a id="lib/features/pencairan/domain/pencairan_interactor.dart-43" name="lib/features/pencairan/domain/pencairan_interactor.dart-43"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+        <div class="src-snippet">
+            <div class="src-name">lib/features/pencairan/presentation/pages/edit_pencairan_page.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-18" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-18"></a><span class="w">  </span><span class="kd">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/edit-pencairan&#39;</span><span class="p">;</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-19" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-19"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-20" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-20"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">Pencairan</span><span class="w"> </span><span class="n">pencairan</span><span class="p">;</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-21" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-21"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-22" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-22"></a><span class="hll"><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">EditPencairanPage</span><span class="p">({</span><span class="k">super</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">pencairan</span><span class="p">});</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-23" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-23"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-24" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-24"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-25" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-25"></a><span class="w">  </span><span class="n">Widget</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-26" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-26"></a><span class="hll"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BlocProvider</span><span class="p">(</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-27" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-27"></a><span class="hll"><span class="w">      </span><span class="nl">create:</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">di</span><span class="o">&lt;</span><span class="n">EditPencairanCubit</span><span class="o">&gt;</span><span class="p">(),</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-28" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-28"></a><span class="hll"><span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="n">EditPencairanView</span><span class="p">(</span><span class="nl">pencairan:</span><span class="w"> </span><span class="n">pencairan</span><span class="p">),</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-29" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-29"></a><span class="w">    </span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-30" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-30"></a><span class="w">  </span><span class="p">}</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-31" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-31"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
+
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-66" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-66"></a><span class="w">  </span><span class="p">}</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-67" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-67"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-68" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-68"></a><span class="w">  </span><span class="kt">int</span><span class="o">?</span><span class="w"> </span><span class="kd">get</span><span class="w"> </span><span class="n">_nominal</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">int</span><span class="p">.</span><span class="n">tryParse</span><span class="p">(</span><span class="n">_nominalController</span><span class="p">.</span><span class="n">text</span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-69" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-69"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-70" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-70"></a><span class="hll"><span class="w">  </span><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_pickTanggal</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-71" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-71"></a><span class="hll"><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">widget</span><span class="p">.</span><span class="n">now</span><span class="p">();</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-72" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-72"></a><span class="hll"><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">picked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">showDatePicker</span><span class="p">(</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-73" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-73"></a><span class="hll"><span class="w">      </span><span class="nl">context:</span><span class="w"> </span><span class="n">context</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-74" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-74"></a><span class="hll"><span class="w">      </span><span class="nl">initialDate:</span><span class="w"> </span><span class="n">_tanggal</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-75" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-75"></a><span class="hll"><span class="w">      </span><span class="nl">firstDate:</span><span class="w"> </span><span class="n">DateUtils</span><span class="p">.</span><span class="n">dateOnly</span><span class="p">(</span><span class="n">_tanggalMinimum</span><span class="p">),</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-76" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-76"></a><span class="w">      </span><span class="nl">lastDate:</span><span class="w"> </span><span class="n">now</span><span class="p">,</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-77" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-77"></a><span class="w">    </span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-78" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-78"></a><span class="hll"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">picked</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">mounted</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-79" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-79"></a><span class="w">    </span><span class="c1">// Keep the recorded time of day, clamped to the allowed range.</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-80" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-80"></a><span class="hll"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">tanggal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">(</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-81" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-81"></a><span class="hll"><span class="w">      </span><span class="n">picked</span><span class="p">.</span><span class="n">year</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-82" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-82"></a><span class="hll"><span class="w">      </span><span class="n">picked</span><span class="p">.</span><span class="n">month</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-83" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-83"></a><span class="hll"><span class="w">      </span><span class="n">picked</span><span class="p">.</span><span class="n">day</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-84" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-84"></a><span class="hll"><span class="w">      </span><span class="n">_tanggal</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-85" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-85"></a><span class="hll"><span class="w">      </span><span class="n">_tanggal</span><span class="p">.</span><span class="n">minute</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-86" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-86"></a><span class="w">    </span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-87" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-87"></a><span class="hll"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tanggal</span><span class="p">.</span><span class="n">isBefore</span><span class="p">(</span><span class="n">_tanggalMinimum</span><span class="p">))</span><span class="w"> </span><span class="n">tanggal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_tanggalMinimum</span><span class="p">;</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-88" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-88"></a><span class="hll"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tanggal</span><span class="p">.</span><span class="n">isAfter</span><span class="p">(</span><span class="n">now</span><span class="p">))</span><span class="w"> </span><span class="n">tanggal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-89" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-89"></a><span class="hll"><span class="w">    </span><span class="n">setState</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_tanggal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tanggal</span><span class="p">);</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-90" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-90"></a><span class="w">  </span><span class="p">}</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-91" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-91"></a>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-92" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-92"></a><span class="w">  </span><span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_confirmAndSubmit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nominal</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-93" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-93"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">confirmed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">showDialog</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span>
+</pre></div></td></tr></table></div>
+
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-99" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-99"></a><span class="w">          </span><span class="s1">&#39;Versi lama tetap tersimpan di riwayat perubahan.&#39;</span><span class="p">,</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-100" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-100"></a><span class="w">        </span><span class="p">),</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-101" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-101"></a><span class="w">        </span><span class="nl">actions:</span><span class="w"> </span><span class="p">[</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-102" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-102"></a><span class="w">          </span><span class="n">TextButton</span><span class="p">(</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-103" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-103"></a><span class="hll"><span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Navigator</span><span class="p">.</span><span class="n">of</span><span class="p">(</span><span class="n">dialogContext</span><span class="p">).</span><span class="n">pop</span><span class="p">(</span><span class="kc">false</span><span class="p">),</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-104" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-104"></a><span class="w">            </span><span class="nl">child:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;Batal&#39;</span><span class="p">),</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-105" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-105"></a><span class="w">          </span><span class="p">),</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-106" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-106"></a><span class="w">          </span><span class="n">TextButton</span><span class="p">(</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-107" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-107"></a><span class="w">            </span><span class="nl">onPressed:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">Navigator</span><span class="p">.</span><span class="n">of</span><span class="p">(</span><span class="n">dialogContext</span><span class="p">).</span><span class="n">pop</span><span class="p">(</span><span class="kc">true</span><span class="p">),</span>
+</pre></div></td></tr></table></div>
+
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-129" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-129"></a><span class="w">      </span><span class="nl">listener:</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-130" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-130"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">EditStatus</span><span class="p">.</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-131" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-131"></a><span class="w">          </span><span class="n">Navigator</span><span class="p">.</span><span class="n">of</span><span class="p">(</span><span class="n">context</span><span class="p">).</span><span class="n">pop</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-132" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-132"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">errorMessage</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-133" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-133"></a><span class="hll"><span class="w">          </span><span class="n">AppNotification</span><span class="p">.</span><span class="n">showError</span><span class="p">(</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-134" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-134"></a><span class="w">            </span><span class="n">context</span><span class="p">,</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-135" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-135"></a><span class="w">            </span><span class="nl">title:</span><span class="w"> </span><span class="s1">&#39;Perubahan gagal disimpan&#39;</span><span class="p">,</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-136" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-136"></a><span class="hll"><span class="w">            </span><span class="nl">message:</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="n">errorMessage</span><span class="o">!</span><span class="p">,</span>
+</span><a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-137" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-137"></a><span class="w">          </span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-138" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-138"></a><span class="w">        </span><span class="p">}</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-139" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-139"></a><span class="w">      </span><span class="p">},</span>
+<a id="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-140" name="lib/features/pencairan/presentation/pages/edit_pencairan_page.dart-140"></a><span class="w">      </span><span class="nl">builder:</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+        <div class="src-snippet">
+            <div class="src-name">lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart</div>
+            <div class="snippets">
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-14" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-14"></a><span class="w">  </span><span class="kd">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/riwayat-perubahan-pencairan&#39;</span><span class="p">;</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-15" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-15"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-16" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-16"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">pencairanId</span><span class="p">;</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-17" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-17"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-18" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-18"></a><span class="hll"><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">RevisiPencairanPage</span><span class="p">({</span><span class="k">super</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">pencairanId</span><span class="p">});</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-19" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-19"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-20" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-20"></a><span class="hll"><span class="w">  </span><span class="nd">@override</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-21" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-21"></a><span class="w">  </span><span class="n">Widget</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">BuildContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-22" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-22"></a><span class="hll"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BlocProvider</span><span class="p">(</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-23" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-23"></a><span class="hll"><span class="w">      </span><span class="nl">create:</span><span class="w"> </span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">di</span><span class="o">&lt;</span><span class="n">RevisiPencairanCubit</span><span class="o">&gt;</span><span class="p">(),</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-24" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-24"></a><span class="hll"><span class="w">      </span><span class="nl">child:</span><span class="w"> </span><span class="n">RevisiPencairanView</span><span class="p">(</span><span class="nl">pencairanId:</span><span class="w"> </span><span class="n">pencairanId</span><span class="p">),</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-25" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-25"></a><span class="w">    </span><span class="p">);</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-26" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-26"></a><span class="w">  </span><span class="p">}</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-27" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-27"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
+
+            <div class="snippet"><table class="snippettable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-28" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-28"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-29" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-29"></a><span class="kd">class</span><span class="w"> </span><span class="nc">RevisiPencairanView</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">StatefulWidget</span><span class="w"> </span><span class="p">{</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-30" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-30"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">pencairanId</span><span class="p">;</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-31" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-31"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-32" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-32"></a><span class="hll"><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">RevisiPencairanView</span><span class="p">({</span><span class="k">super</span><span class="p">.</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">pencairanId</span><span class="p">});</span>
+</span><a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-33" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-33"></a>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-34" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-34"></a><span class="w">  </span><span class="nd">@override</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-35" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-35"></a><span class="w">  </span><span class="n">State</span><span class="o">&lt;</span><span class="n">RevisiPencairanView</span><span class="o">&gt;</span><span class="w"> </span><span class="n">createState</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_RevisiPencairanViewState</span><span class="p">();</span>
+<a id="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-36" name="lib/features/pencairan/presentation/pages/revisi_pencairan_page.dart-36"></a><span class="p">}</span>
+</pre></div></td></tr></table></div>
+
+            </div>
+        </div>
+    </body>
+</html>
