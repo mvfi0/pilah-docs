@@ -48,12 +48,12 @@ Two issues on `pilah-be-staging` land on my code, both rule S1192 (duplicated st
 
 | Step | Commit |
 |---|---|
-| Pin the output first: 4 tests fix `bank_sampah_id` / `dicatat_oleh` in all five serializers that use the paths | [`dd9357e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/dd9357e) |
-| Define each path once ([`_BANK_SAMPAH_ID`, `_DICATAT_OLEH_ID`](https://github.com/bank-sampah-PILAH/pilah-be/blob/7a4fe58/api/serializers.py#L32-L34)) and use it at all 7 places | [`7a4fe58`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7a4fe58) |
+| Pin the output first: 4 tests fix `bank_sampah_id` / `dicatat_oleh` in all five serializers that use the paths | [`80a1aa1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/80a1aa1) |
+| Define each path once ([`_BANK_SAMPAH_ID`, `_DICATAT_OLEH_ID`](https://github.com/bank-sampah-PILAH/pilah-be/blob/c177fa8/api/serializers.py#L32-L34)) and use it at all 7 places | [`c177fa8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c177fa8) |
 
 The pin tests were checked to guard the change: pointing `_DICATAT_OLEH_ID` at the wrong field made 2 of them fail. 255 tests pass locally with ruff and format clean.
 
-**Status (28 Sep):** #67's CI is red, but not because of this change. Its only failure is 3 `mypy` errors in `api/management/commands/seed_testing_data.py`, which arrived on `staging` with a direct commit ([`372e921`](https://github.com/bank-sampah-PILAH/pilah-be/commit/372e921)) and have turned `staging`'s own CI red too. Once that is fixed on `staging` and #67 is merged, SonarQube should show no issues on my code.
+**Status (29 Sep):** rebased onto `staging` after [#66](https://github.com/bank-sampah-PILAH/pilah-be/pull/66) fixed the unrelated `seed_testing_data.py` mypy errors; the full checks now pass (ruff, format, mypy strict, migrations, 255 tests). Waiting for review and merge; once merged, SonarQube should show no issues on my code.
 
 The other open issues on `pilah-be-staging` are attributed to other team members (Author facet); the setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
 
