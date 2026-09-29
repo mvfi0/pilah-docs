@@ -4,7 +4,7 @@ Evidence for the individual review (IR), organised by competency. Each page stat
 
 Part B — Hardskills: Best Practice, for Sprint 1 week 2 (23–29 Sep 2026).
 
-| Competency | Level | Status (28 Sep) |
+| Competency | Level | Status (29 Sep) |
 |---|---|---|
 | [Test Driven Development](part-b/tdd.md) | **4** | 100% coverage (backend changes, whole mobile pencairan feature); mock/stub test isolation |
 | [Programming](part-b/programming.md) | **3** | Evidence complete |
