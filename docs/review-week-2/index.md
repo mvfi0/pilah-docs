@@ -6,7 +6,7 @@ Part B — Hardskills: Best Practice, for Sprint 1 week 2 (23–29 Sep 2026).
 
 | Competency | Level | Status (29 Sep) |
 |---|---|---|
-| [Test Driven Development](part-b/tdd.md) | **4** | 100% coverage (backend changes, whole mobile pencairan feature); mock/stub test isolation |
+| [Test Driven Development](part-b/tdd.md) | **4** | 100% coverage, merged (backend changes; whole mobile pencairan feature incl. generated files); mock/stub test isolation |
 | [Programming](part-b/programming.md) | **3** | Evidence complete |
 | [Development Discipline](part-b/development-discipline.md) | **3** | Evidence complete |
 | [Team Development Management](part-b/team-development-management.md) | **3** | Review responses on 4 PRs, conflict coordination across 9, review given on pilah-be #64 |

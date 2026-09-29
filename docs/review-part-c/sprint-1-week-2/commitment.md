@@ -16,7 +16,7 @@ The hours, their sources and every work block are in the **[Work Log, week of 22
 ## Output of that time
 
 - Merged: PIL-222 (pilah-be #32, pilah-mobile #27) and PIL-230 (pilah-be #52, pilah-mobile #33), plus two rounds of review fixes on PIL-176 (#19, #26).
-- Opened: test-only pilah-mobile #52 (pencairan feature at 100% coverage) and pilah-be #67 (SonarQube fix).
+- Also merged: test-only pilah-mobile #52 (pencairan feature at 100% coverage) and pilah-be #67 (SonarQube fix).
 - Reviewed a teammate's PR (pilah-be #64) and coordinated merge conflicts with nine open PRs.
 
 Details per competency are in [IR Part B, Sprint 1 Week 2](../../review-week-2/index.md).

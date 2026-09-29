@@ -47,7 +47,7 @@ The stale-response tests drive the race deliberately with a `Completer`: one req
 
 | Level 3 requires | Evidence |
 |---|---|
-| **100% coverage, without ignoring important files** | Backend: 100% of the lines I changed in [#52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (148) and in the #19 review round (34). Mobile: 100% of all of `lib/features/pencairan` (831 lines) after [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52); only generated `*.g.dart` serializers are excluded. HTML reports below. |
+| **100% coverage, without ignoring important files** | Backend: 100% of the lines I changed in [#52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) (148) and in the #19 review round (34). Mobile: 100% of all of `lib/features/pencairan` (898 lines, generated `*.g.dart` serializers included, nothing excluded) after [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52), merged 29 Sep. HTML reports below. |
 | **Disciplined red-green-refactor commits** | Every behaviour has a failing-test commit before its implementation; from PIL-230 on, subjects carry `[RED]`/`[GREEN]` ([tables below](#pil-230-backend-pilah-be-52-26-sep)). Tests that pass immediately are labelled `test(...): cover …` instead of pretending to be red. |
 | **Positive, negative and corner cases** | See the next table. |
 
@@ -121,9 +121,9 @@ Plus a coverage test that a nasabah still cannot record a pencairan once list an
 
 Each red test failed for the reason in the finding before its fix: the admin allowed `add`, history said Rp 7.001 against a stored Rp 7.000,50, a payout dated before the only setoran was accepted (201), and a nasabah got 403.
 
-## Closing the mobile gap — [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (28 Sep)
+## Closing the mobile gap — [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (28–29 Sep, merged)
 
-Mobile #27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow). 652 → 659 tests.
+Mobile #27 and #33 were merged at 87.5% and 82.8%. A test-only PR brings the whole pencairan feature to 100%: [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) (detail sheet edit and history links), [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) (history refresh), [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) (empty-nasabah submit, back arrow), [`3a851e0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3a851e0) (JSON round trip of the generated serializers). 652 → 662 tests; merged into `staging` on 29 Sep as [`56acf60`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/56acf60).
 
 ## Test isolation: mocks, stubs and controlled async
 

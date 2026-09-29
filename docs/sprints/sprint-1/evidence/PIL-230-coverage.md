@@ -7,7 +7,7 @@ Diff-coverage evidence for the week-2 TDD claim: how much of the code I **added 
 | PIL-230 backend: edit pencairan, revision history | [pilah-be #52](https://github.com/bank-sampah-PILAH/pilah-be/pull/52) | [`011fda3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/011fda3) vs its base [`28fca9c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/28fca9c) | 148 | **100%** | [pil-230-be-diff-coverage.html](pil-230-be-diff-coverage.html) |
 | PIL-176 second review round (Tristan's 4 findings) | [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) | [`8349b37`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8349b37) vs the staging merge [`9a89c01`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9a89c01) | 34 | **100%** | [pil-176-review2-diff-coverage.html](pil-176-review2-diff-coverage.html) |
 | PIL-230 mobile: edit form, change history, entry points (as merged, superseded by the next row) | [pilah-mobile #33](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/33) | [`4a52399`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/4a52399) vs its base [`a6cdfe6`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a6cdfe6) | 325 | 82.8% as merged, **now 100%** (next row) | [pil-230-mobile-diff-coverage.html](pil-230-mobile-diff-coverage.html) |
-| **Whole pencairan feature (mobile), after the coverage PR** | [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) | [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) on top of `staging` | 831 (all of `lib/features/pencairan`) | **100%** | [pencairan-mobile-coverage.html](pencairan-mobile-coverage.html) |
+| **Whole pencairan feature (mobile), after the coverage PR** | [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52), merged 29 Sep as [`56acf60`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/56acf60) | [`3a851e0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3a851e0) on top of `staging` | 898 (all of `lib/features/pencairan`, generated serializers included) | **100%** | [pencairan-mobile-coverage.html](pencairan-mobile-coverage.html) |
 
 Measured 28 Sep 2026. Test code, migrations and generated files (`*.freezed.dart`, `*.g.dart`) are excluded, so tests never count as covering themselves.
 
@@ -54,15 +54,16 @@ The report lists every missed line.
 
 ## Closing the mobile gap: 100% on the whole feature
 
-The 82.8% above is #33 as it was merged. By 28 Sep, later PRs had already covered most of those lines, and the remaining gaps sat in code that had been moved or added around my screens (the shared detail sheet, the nasabah history tab, the catat page's back arrow and empty-nasabah submit). [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) is a test-only PR that brings **all of `lib/features/pencairan`** to 100% (831/831 lines, generated `*.g.dart` excluded), which covers every line PIL-176, PIL-222 and PIL-230 introduced on mobile:
+The 82.8% above is #33 as it was merged. By 28 Sep, later PRs had already covered most of those lines, and the remaining gaps sat in code that had been moved or added around my screens (the shared detail sheet, the nasabah history tab, the catat page's back arrow and empty-nasabah submit). [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) is a test-only PR that brings **all of `lib/features/pencairan`** to 100% (898/898 lines, generated `*.g.dart` serializers included; merged into `staging` on 29 Sep), which covers every line PIL-176, PIL-222 and PIL-230 introduced on mobile:
 
 | Commit | Covers |
 |---|---|
 | [`54c6877`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/54c6877) | the pengurus detail sheet: edit refreshes only after a real save; history link only for edited pencairan |
 | [`348d7f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/348d7f2) | refreshing the nasabah history keeps the list visible with a spinner below |
 | [`b619aba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b619aba) | submitting before picking a nasabah; the back arrow |
+| [`3a851e0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3a851e0) | the generated `toJson` of the pencairan, revision and revision-history responses (JSON round trip back to the API field names) |
 
-Because these tests came after the code, one was checked to be able to fail: making the sheet refresh after *any* edit turned "leaving the edit form without saving refreshes nothing" red.
+Because these tests came after the code, one was checked to be able to fail: making the sheet refresh after *any* edit turned "leaving the edit form without saving refreshes nothing" red, and renaming the `alasan` key in the generated revision serializer turned both revision round-trip tests red.
 
 ## How to reproduce
 
