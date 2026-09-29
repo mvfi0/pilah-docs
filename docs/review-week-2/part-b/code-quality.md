@@ -1,7 +1,7 @@
 # Code Quality
 
 !!! success "Competency level: 3"
-    Every CI quality check passes on the PIL-222 and PIL-230 PRs, and I traced why the mobile SonarQube project reports nothing at all. SonarQube found two maintainability issues on my serializer code; both are fixed in [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), which is **not merged yet**, so they still show as open on `pilah-be-staging` until it is.
+    Every CI quality check passes on the PIL-222 and PIL-230 PRs, and I traced why the mobile SonarQube project reports nothing at all. SonarQube found two maintainability issues on my serializer code; both were fixed test-first in [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), now merged, and `pilah-be-staging` shows no open issue authored by me.
 
 ## Automated checks in CI, all passing
 
@@ -44,7 +44,7 @@ Two issues on `pilah-be-staging` land on my code, both rule S1192 (duplicated st
 
 **Root cause.** `"bank_sampah.id"` and `"dicatat_oleh.id"` were already repeated as `source` paths across other members' serializers. My `PencairanDetailSerializer` (from #19) added one more of each, which pushed both to Sonar's threshold of 3, and Sonar reports at the first occurrence, which is my line.
 
-**Fix: [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), open, not merged yet.**
+**Fix: [pilah-be #67](https://github.com/bank-sampah-PILAH/pilah-be/pull/67), merged 29 Sep.**
 
 | Step | Commit |
 |---|---|
@@ -53,9 +53,11 @@ Two issues on `pilah-be-staging` land on my code, both rule S1192 (duplicated st
 
 The pin tests were checked to guard the change: pointing `_DICATAT_OLEH_ID` at the wrong field made 2 of them fail. 255 tests pass locally with ruff and format clean.
 
-**Status (29 Sep):** rebased onto `staging` after [#66](https://github.com/bank-sampah-PILAH/pilah-be/pull/66) fixed the unrelated `seed_testing_data.py` mypy errors; the full checks now pass (ruff, format, mypy strict, migrations, 255 tests). Waiting for review and merge; once merged, SonarQube should show no issues on my code.
+**Status (29 Sep): fixed and merged.** #67 was rebased onto `staging` after [#66](https://github.com/bank-sampah-PILAH/pilah-be/pull/66) fixed the unrelated `seed_testing_data.py` mypy errors, passed every check, and was merged at 15:25 WIB ([`88f4155`](https://github.com/bank-sampah-PILAH/pilah-be/commit/88f4155)). SonarQube's next analysis of `pilah-be-staging` shows **no open issue authored by me**: the Author facet lists only the other five team members across the 25 remaining issues.
 
-The other open issues on `pilah-be-staging` are attributed to other team members (Author facet); the setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
+![SonarQube pilah-be-staging, 29 Sep: 25 open issues, Author facet lists five other team members and none of mine](sonar-authors-after-fix.png){ width="680" }
+
+The setup gaps I found are on the [week 1 page](../../review/part-b/code-quality.md).
 
 ## Quality of the PIL-230 change
 
