@@ -1,7 +1,7 @@
 # Programming
 
 !!! success "Competency level: 3"
-    Standard principles applied and shown in this week's code: a deep module with a small interface, validation before any write, DRY shared rules, and an explicit fix for an N+1 query.
+    Standard principles applied and shown in this week's code: SOLID (single responsibility, open/closed, interface segregation, dependency inversion; see [SOLID in this week's code](#solid-in-this-weeks-code)), a deep module with a small interface, validation before any write, DRY shared rules, and an explicit fix for an N+1 query.
 
 ## 26 Sep — PIL-230, editing a pencairan
 
@@ -60,3 +60,111 @@ Letting nasabah read their own pencairan needed "active pengurus **or** nasabah"
 ### Fixing the root cause, not the symptom — [`fd91ee8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fd91ee8)
 
 Saldo history disagreed with the stored saldo after a pencairan dropped sen. Patching the displayed number would have hidden it. The cause was that history debited only `nominal`, while the saldo actually lost `nominal` plus the dropped sen. Both history paths now debit `saldo_sebelum - saldo_sesudah`, the amount that really left, which needed no new column.
+
+## SOLID in this week's code
+
+### Single Responsibility: one permission class per access rule — [`3c4aac0`](https://github.com/bank-sampah-PILAH/pilah-be/commit/3c4aac0)
+
+Each permission class answers one question, and the view only picks which one applies to an action. The combined rule reuses the two existing classes instead of repeating their checks.
+
+```python
+class IsNasabah(BasePermission):
+    message = "Endpoint ini hanya untuk nasabah"
+
+    def has_permission(self, request: Request, view: APIView) -> bool:
+        return request.user.is_authenticated and request.user.role == User.Role.NASABAH
+
+
+class IsActivePengelolaOrNasabah(BasePermission):
+    message = "Endpoint ini hanya untuk pengelola aktif atau nasabah"
+
+    def has_permission(self, request: Request, view: APIView) -> bool:
+        return IsActivePengelola().has_permission(request, view) or IsNasabah().has_permission(
+            request, view
+        )
+```
+
+```python
+    def get_permissions(self) -> list[BasePermission]:
+        # Recording stays pengurus-only; nasabah may read their own riwayat.
+        if self.action in ("list", "retrieve"):
+            return [IsActivePengelolaOrNasabah()]
+        return [IsActivePengelola()]
+```
+
+### Open/Closed: edit history as a new table, `Pencairan` unchanged — [`f0afdef`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f0afdef)
+
+PIL-230 needed an audit trail for edits. Instead of adding version columns to `Pencairan`, which every existing reader (list, detail, saldo history, admin) would then have to account for, the history lives in a new append-only model. Existing code keeps working unmodified; only the new `riwayat` endpoint reads it.
+
+```python
+class PencairanRevisi(models.Model):
+    """A replaced version of a pencairan (PIL-230). Append-only: never edited or deleted."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    pencairan = models.ForeignKey(Pencairan, on_delete=models.PROTECT, related_name="revisi")
+    versi = models.PositiveIntegerField()
+    ...
+    # Why this version was replaced, by whom and when.
+    alasan = models.CharField(max_length=255)
+    diubah_oleh = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name="pencairan_revisi_dibuat"
+    )
+    diubah_pada = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "pencairan_revisi"
+        ordering = ["pencairan", "versi"]
+        constraints = [
+            models.UniqueConstraint(fields=["pencairan", "versi"], name="pencairan_revisi_unik"),
+        ]
+```
+
+### Interface Segregation: an edit contract separate from the create contract — [`f0afdef`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f0afdef), [`f9b70d8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f9b70d8)
+
+An edit client should not have to send (or be able to change) the nasabah or bank sampah. `PencairanEditSerializer` exposes only the editable fields, all optional, plus the required `alasan`, while the validation rules are shared with the create serializer rather than copied.
+
+```python
+class PencairanEditSerializer(serializers.Serializer[Any]):
+    nominal = serializers.DecimalField(max_digits=14, decimal_places=2, required=False)
+    metode = serializers.ChoiceField(choices=Pencairan.Metode.choices, required=False)
+    tanggal = serializers.DateTimeField(required=False)
+    keterangan = serializers.CharField(
+        required=False, allow_blank=True, allow_null=True, max_length=255
+    )
+    alasan = serializers.CharField(required=True, max_length=255, ...)
+
+    def validate_nominal(self, value: Decimal) -> Decimal:
+        return _validate_nominal_pencairan(value)
+
+    def validate_tanggal(self, value: datetime) -> datetime:
+        return _validate_tanggal_pencairan(value)
+```
+
+### Dependency Inversion: the cubit depends on an abstraction — [`1c2b0f2`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/1c2b0f2), [`76aa268`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/76aa268)
+
+On mobile, `EditPencairanCubit` depends on the abstract `PencairanUseCases`, not on the repository or HTTP client. The concrete implementation is supplied by dependency injection (`injectable`), so the test replaces it with a mocktail mock.
+
+```dart
+abstract class PencairanUseCases {
+  ...
+  Future<Either<NetworkException, Pencairan>> editPencairan(
+    EditPencairanRequest request,
+  );
+}
+```
+
+```dart
+@Injectable()
+class EditPencairanCubit extends Cubit<EditPencairanState> {
+  final PencairanUseCases _useCases;
+
+  EditPencairanCubit(this._useCases) : super(const EditPencairanState());
+```
+
+```dart
+class _MockUseCases extends Mock implements PencairanUseCases {}
+...
+      when(() => useCases.editPencairan(_request))
+```
+
+Liskov Substitution is the same boundary seen from the test side: any `PencairanUseCases` implementation, real or mocked, can be passed to the cubit without it behaving differently.
