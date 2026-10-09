@@ -44,3 +44,11 @@ It checked each competency against the rubric and **stopped to ask** where the e
 - Security named four OWASP categories, where level 2 needs five.
 
 Both gaps were closed with real work, not wording: a review of Pascal's #84 that I approved before it was posted, and an allow-list for the jenis filters (A03), written test-first.
+
+## Example: the design decisions stayed mine
+
+PIL-304 had two choices that would be hard to undo: dropping a column that real data lives in, and how precisely a scheduled price can start. The AI didn't decide either on its own. It laid out a recommendation and the alternative, then waited:
+
+![Prompt history: before starting PIL-304 the AI asks whether to drop harga_per_kg now or keep it for a sprint, and whether a date is enough or a time of day is also needed; I answer, ask what "time of day" means, and it explains with an example before starting](ai-design-questions.png){ width="620" }
+
+When I asked what "picking a time of day" meant, it answered with a concrete case (13:00 on 15 Oct instead of 00:00) and the consequence of my choice (every scheduled price starts at local midnight; "Sekarang" covers immediate changes) before writing any code. My later "start at every 23:59" message got the same treatment: a question about which day was meant, not a guess.
