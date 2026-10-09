@@ -34,7 +34,11 @@ Two records of the same Claude Code session:
 
 ## Example: "turns out we can just report this week's progress"
 
-When I asked how to claim week 3, the AI first reported, accurately, that the week had almost no recorded development and suggested an honest "no activity" note. When I said this week's progress could be reported instead, it didn't just write pages from what existed. It checked each competency against the rubric and **stopped to ask** where the evidence was short:
+When I asked how to claim week 3, the AI first reported, accurately, that the week had almost no recorded development and suggested an honest "no activity" note. When I said this week's progress could be reported instead, it didn't just write pages from what existed:
+
+![Prompt history: I ask the AI to put this week's progress in the docs and consult me if merge requests are lacking; it starts by reading how the week-2 docs and their evidence were built, then checks each competency for gaps](ai-report-this-week.png){ width="620" }
+
+It checked each competency against the rubric and **stopped to ask** where the evidence was short:
 
 - Team Development Management had no review of a teammate's MR.
 - Security named four OWASP categories, where level 2 needs five.
