@@ -3,7 +3,10 @@
 !!! success "Competency level: 3"
     AI used critically: its claims were checked against git history, the database and the tests before being acted on. Its plans were corrected where they clashed with how the team actually works. Every outward action (pushes, PR reviews, comments) waited for my decision. The prompt history is published below with personal data removed.
 
-[AI prompt history, 7–9 Oct](ai-prompt-history.html): 23 prompts, one Claude Code session. Tool output and screenshots are omitted, and each tool call is shown as one line.
+Two records of the same Claude Code session:
+
+- [AI prompt history, 7–9 Oct](ai-prompt-history.html): 23 prompts, built from the session transcript. Each tool call is one line, and personal data is removed.
+- [Session export](ai-session-export.txt): Claude Code's own `/export` of the whole session, from the 2 Oct check on #64 to 9 Oct, with tool output collapsed as the export shows it. Local home-folder paths are shortened to `~`; nothing else is changed.
 
 ## How AI was used this week
 
