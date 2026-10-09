@@ -103,6 +103,15 @@ nav:
           - Code Quality: review-week-2/part-b/code-quality.md
           - Security: review-week-2/part-b/security.md
           - AI Literacy: review-week-2/part-b/ai-literacy.md
+      - Sprint 1 Week 3:
+          - review-week-3/index.md
+          - TDD: review-week-3/part-b/tdd.md
+          - Programming: review-week-3/part-b/programming.md
+          - Development Discipline: review-week-3/part-b/development-discipline.md
+          - Team Development Management: review-week-3/part-b/team-development-management.md
+          - Code Quality: review-week-3/part-b/code-quality.md
+          - Security: review-week-3/part-b/security.md
+          - AI Literacy: review-week-3/part-b/ai-literacy.md
   - IR Part C:
       - review-part-c/index.md
       - Sprint 1 Week 2:
