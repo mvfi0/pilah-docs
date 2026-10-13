@@ -12,8 +12,8 @@ What was done, when, and how long it took.
 | 22–28 Sep | 20 h 10 min, of which 3 h is the offline UAT and standup and 30 min the Discord standups |
 | 29 Sep – 5 Oct | 1 h 11 min |
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
-| 13–19 Oct (Sprint 2 week 2, in progress) | 5 h 30 min so far, of which 25 min is the Discord standup and 30 min reading |
-| **Total** | **40 h 59 min** |
+| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 00 min so far, of which 25 min is the Discord standup, 30 min reading and ~1 h 30 min the security scan |
+| **Total** | **42 h 29 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -83,7 +83,7 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 | Sun 11 Oct | 19:03–22:41 | 3 h 38 min | Tested PIL-304 locally on Flutter web; requested reviews of #79 and #62 (GitHub and Discord); **built PIL-331 test-first on both sides** and opened both PRs, stacked on PIL-304; traced the uncovered lines to the generated DI graph, found that CI-built apps would crash on launch, and **opened the fix** | [pilah-be #92](https://github.com/bank-sampah-PILAH/pilah-be/pull/92), [pilah-mobile #73](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73), [pilah-mobile #74](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/74) |
 | Mon 12 Oct | 17:41–18:28 | 47 min | **Answered Tristan's review**: verified all 8 notes; fixed the seed's write path and historical prices on #79; moved the filter allow-list into its own stacked PR; fixed #62's partial-save message and refresh race, and #73's lost sen and unread pages (all test-first); resolved #74's conflict; replied in each thread | [pilah-be #96](https://github.com/bank-sampah-PILAH/pilah-be/pull/96), [#79 threads](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) |
 
-## Week of 13–19 Oct (Sprint 2 week 2)
+## Week of 13–19 Oct (Sprint 2 week 1, continued)
 
 | Date | Time | Duration | Work | Output |
 |---|---|---|---|---|
@@ -91,6 +91,7 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 | Tue 13 Oct | 18:11–20:41 | 2 h 30 min | Checked the open PRs for new activity. Merged `staging` into #74 again; covered the lines #62 and #73 add to the generated DI graph; reran the full checks and pushed all three; replied in the #73 and #74 threads. Wrote the 3P; updated the IR week-3 pages and this log. Took **PIL-341** (pencairan on web) and built slice 1, browser downloads for exports, test-first. The Chrome test was shown red in CI before the implementation | [pilah-mobile #83](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) |
 | Tue 13 Oct | 21:40–23:45 | 2 h 5 min | **Reviewed and approved Gabriel's PIL-354** (CORS headers) with two inline suggestions; fixed #83's SonarCloud gate and marked it ready. Built PIL-341 slice 2 test-first: catat, ubah and revisi pencairan on a desktop window, and routes that survive a refresh. Ran it in a local build with Playwright and took desktop and phone screenshots, which caught a dialog bug | [Review of #97](https://github.com/bank-sampah-PILAH/pilah-be/pull/97#pullrequestreview-5505285204), [pilah-mobile #84](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84) |
 | Tue 13 Oct | — | 30 min *(self-reported)* | Read about Playwright: what it is for, how it differs from Selenium (auto-waiting, browser contexts), and how it reaches Flutter web through the semantics tree | — |
+| Tue 14 Oct | — | ~1 h 30 min *(self-reported)* | **Security scan of the backend with Metasploit.** Installed Metasploit in WSL, ran the HTTP auxiliary scanners against a local instance, verified with `curl` and cross-checked with `check --deploy`, and wrote the report with a test-first patch plan. Found the API schema/docs exposed without auth, plus HSTS/CSP gaps | [Security scan report](../security/index.md) |
 
 ### Daily standup — 13 Oct
 
