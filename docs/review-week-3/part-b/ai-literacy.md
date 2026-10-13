@@ -3,7 +3,7 @@
 !!! success "Competency level: 3"
     AI used critically: its claims were checked against git history, the database and the tests before being acted on. Its plans were corrected where they clashed with how the team actually works. Every outward action (pushes, PR reviews, comments) waited for my decision. The prompt history is published below with personal data removed.
 
-Two records of the same Claude Code session:
+Two records of the same Claude Code session (the prompt history covers 7–9 Oct; the 11–12 Oct rows in the table below come from the same session):
 
 - [AI prompt history, 7–9 Oct](ai-prompt-history.html): 23 prompts, built from the session transcript. Each tool call is one line, and personal data is removed.
 - [Session export](ai-session-export.txt): Claude Code's own `/export` of the whole session, from the 2 Oct check on #64 to 9 Oct, with tool output collapsed as the export shows it. Local home-folder paths are shortened to `~`; nothing else is changed.
@@ -31,6 +31,13 @@ Two records of the same Claude Code session:
 | A widget test couldn't see the success toast | It found the toast was raised from a context the test's router had already removed. Rather than change app code for a test-harness detail, it moved the message choice into a pure, unit-tested function. That also fixed the Sonar issue. |
 | Gabriel's review on #89 said the test missed a case "only if setoran can carry sen" | It checked that legacy setoran do carry sen before adding the test, then proved the test guards the loop by moving the rounding and watching it fail. |
 | Counting this week's IR evidence | It first counted week 3 as 30 Sep – 6 Oct. When I showed it the course calendar, it recomputed (29 Sep – 5 Oct) and pointed out the risk of claiming the same 29 Sep merges in both week 2 and week 3. |
+| *11 Oct:* It offered "a button in the expanded card" as the entry point for the price history, and I picked it | On reading the page, it found the card wasn't expandable: tapping it opens the edit sheet. It **told me its option had been based on a wrong premise**, then put the button in the card's info column, the closest match to my choice. |
+| *11 Oct:* SonarCloud showed #62/#73 a few lines short of 100%, all in generated code | I said to always cover 100%, generated or not. Rather than add an exclusion, it traced why lcov skipped the file, and found that the graph CI builds would crash the app on launch. |
+| *11 Oct:* Its first check of that crash passed | It noticed `build_runner` had skipped regenerating the file and left the hand-edited copy in place, so **the check proved nothing**. It deleted the file, regenerated it, and only then reported the crash, with the exact error. |
+| *11 Oct:* The crash fix touched the team's CI and a teammate's code | It stopped and asked how to land it (separate PR, inside #62, or just report it) before changing shared workflows. |
+| *12 Oct:* Tristan's 8 review notes | Each was checked against the code before anything changed. All 8 held up. One (the Sonar exclusion) showed that `staging` had moved since the branch was cut. |
+| *12 Oct:* "Can we use stacked PRs for #79 and #92?" | #92 was already stacked, so the question was ambiguous. It also checked its saved rule against merging a base branch into a stacked one. It **asked which stack shape I meant**, then used a revert plus `cherry-pick -x`, not a force-push, so last week's evidence links stay valid. |
+| *12 Oct:* #74's crash fix became redundant when Tristan's #71 landed the same change | It took `staging`'s version in the conflict and rewrote the PR around what was still new, instead of keeping a duplicate fix. |
 
 ## Example: "turns out we can just report this week's progress"
 

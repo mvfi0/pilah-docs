@@ -1,15 +1,15 @@
 # Security
 
 !!! success "Competency level: 2"
-    Code that prevents five OWASP Top 10 (2021) categories (A01, A03, A04, A08 and A09), each named in the commit that adds its guard or test, and each backed by a test that fails without the guard. All of it is in [pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) (PIL-304).
+    Code that prevents five OWASP Top 10 (2021) categories (A01, A03, A04, A08 and A09), each named in the commit that adds its guard or test, and each backed by a test that fails without the guard. The guards are in [pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) (PIL-304), [#92](https://github.com/bank-sampah-PILAH/pilah-be/pull/92) (PIL-331, the price history) and [#96](https://github.com/bank-sampah-PILAH/pilah-be/pull/96). The A03 allow-list moved to #96 on review because it was outside PIL-304's scope; the commits are the same.
 
 | OWASP category | Guard | Commits |
 |---|---|---|
-| **A01 Broken Access Control** | Only the owning bank's pengurus can change a price | [`c9ee023`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c9ee023) |
-| **A03 Injection** | The jenis list's filter parameters are allow-listed | [`94267c8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/94267c8) → [`cef01bb`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cef01bb) |
+| **A01 Broken Access Control** | Only the owning bank's pengurus can change a price, or read its history | [`c9ee023`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c9ee023), [`8bc2be8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bc2be8) |
+| **A03 Injection** | The jenis list's filter parameters are allow-listed | [`94267c8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/94267c8) → [`cef01bb`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cef01bb), now in #96 as [`44dfafd`](https://github.com/bank-sampah-PILAH/pilah-be/commit/44dfafd) → [`2921a37`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2921a37) |
 | **A04 Insecure Design** | A price cannot be backdated, scheduled years out, or sent with an ambiguous time | [`1c829d6`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1c829d6) → [`78f1945`](https://github.com/bank-sampah-PILAH/pilah-be/commit/78f1945) |
 | **A08 Software and Data Integrity Failures** | The database rejects a price of 0 or below; recorded setoran keep their price | [`8593164`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8593164) → [`915b3d1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/915b3d1), [`90ace04`](https://github.com/bank-sampah-PILAH/pilah-be/commit/90ace04) |
-| **A09 Security Logging and Monitoring Failures** | Every price version records who changed it and when | [`f0fbe9d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f0fbe9d) → [`c729f7a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c729f7a) |
+| **A09 Security Logging and Monitoring Failures** | Every price version records who changed it and when, and the pengurus can read that trail | [`f0fbe9d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f0fbe9d) → [`c729f7a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c729f7a), [`1f43102`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1f43102) → [`50d9392`](https://github.com/bank-sampah-PILAH/pilah-be/commit/50d9392) |
 
 ## A01 · Broken Access Control
 
@@ -22,6 +22,8 @@ The new `POST /jenis-sampah/{id}/harga` changes money-relevant data, so I checke
         self.assertEqual(self.ubah_harga(jenis["id"], {"harga_per_kg": "1"}).status_code, 403)
         self.assertEqual(HargaSampah.objects.filter(jenis_sampah_id=jenis["id"]).count(), 1)
 ```
+
+PIL-331's `GET /jenis-sampah/{id}/harga` exposes every past price of a jenis, so it got the same two checks ([`8bc2be8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bc2be8)). Another bank's pengurus gets 404 and a nasabah 403. Both tests passed when written, because the action reuses the viewset's bank-scoped lookup. I proved they guard it by swapping in an unscoped lookup, which let the other bank read the prices, and watching the test fail.
 
 ## A03 · Injection
 
@@ -65,3 +67,6 @@ Two integrity guards:
 ## A09 · Security Logging and Monitoring Failures
 
 Every price version stores `dibuat_oleh` and `created_at` (BR-11), and versions are never edited or deleted. The full price history of a jenis, including who scheduled a change and when, can always be reconstructed. That's the audit trail a pricing dispute needs.
+
+Since PIL-331 the trail is also readable, not just stored. The history endpoint returns each version's author (`dibuat_oleh`, `null` for prices backfilled by the migration) and status, and the app shows it per jenis ([`1f43102`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1f43102) → [`50d9392`](https://github.com/bank-sampah-PILAH/pilah-be/commit/50d9392)).
+
