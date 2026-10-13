@@ -83,6 +83,7 @@ nav:
       - Mobile: technical/mobile.md
       - API: technical/api.md
   - Testing & QA: testing-qa.md
+  - Security Scan: security/index.md
   - Work Log: logs/index.md
   - IR Part B:
       - Sprint 1 Week 1:
