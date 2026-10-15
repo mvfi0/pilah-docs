@@ -12,7 +12,3 @@ The rubric's level 2 is "works well as a team; does not cause issues that hinder
 - **A team-wide problem raised, not just fixed quietly.** The generated dependency graph CI builds could not construct `AuthenticationBloc`, so any CI-built app would have crashed on launch. Before touching shared CI and a teammate's code, I asked how to land the fix, then opened [pilah-mobile #74](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/74) with a test that now protects everyone's builds.
 - **No blocking of others.** Merges were left to the lead as agreed. Where PIL-331's migrations collide with Pascal's draft-pencairan stack (both add `0020`/`0021`), the conflict and the needed merge migration were flagged for coordination rather than merged unilaterally.
 - **Present at the team meetings:** Sprint Planning 2 on 6 Oct, and the Discord standup on 13 Oct ([Work Log](../../logs/index.md#week-of-612-oct-sprint-2-week-1)).
-
-## What would make this level 3
-
-A knowledge-sharing activity for the team — for example, writing up the generated-DI-graph crash and the Metasploit scan findings as a short guide, or walking the team through the stacked-PR workflow — would move this to level 3 next week.
