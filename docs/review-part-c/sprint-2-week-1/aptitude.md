@@ -1,11 +1,11 @@
 # Aptitude, Applying Knowledge
 
-!!! success "Competency level: 3"
-    New learnings from outside the material generally given in class, each applied in the PILAH project this week (Sprint 2 Week 1, 6–14 Oct) and linked to the commit, PR or report that shows it.
+!!! success "Competency level: 2"
+    Knowledge applied competently across the week's work, including a few concepts picked up outside the material generally given in class, each used in the PILAH project (Sprint 2 Week 1, 6–14 Oct) and linked to the commit, PR or report that shows it.
 
-The rubric's level 3 asks for 1–2 new learnings outside class material that are applied in the project; level 4 asks for 3 or more. Things the course already covers (basic TDD, Django/Flutter CRUD, Git branching) are deliberately left out.
+Claimed conservatively at level 2. The concepts below were applied in real work, but I am not claiming them as the kind of distinct, deliberate new learnings the higher level asks for. Things the course already covers (basic TDD, Django/Flutter CRUD, Git branching) are left out.
 
-## New learnings applied this week
+## Concepts applied this week
 
 | # | Concept | Applied in | Evidence |
 |---|---|---|---|
@@ -21,4 +21,4 @@ The rubric's level 3 asks for 1–2 new learnings outside class material that ar
 
 ## Also explored
 
-- **Playwright driving Flutter web through the semantics tree** (how an end-to-end browser tool reaches a canvas-rendered Flutter app by its accessibility layer), used to screenshot the PIL-341 desktop layouts and catch a dialog-corner bug the widget tests missed. Kept as a local practice for now, not yet a fourth claimed learning because the scripts are not in the repo.
+- **Playwright driving Flutter web through the semantics tree** (how an end-to-end browser tool reaches a canvas-rendered Flutter app by its accessibility layer), used to screenshot the PIL-341 desktop layouts and catch a dialog-corner bug the widget tests missed. Kept as a local practice for now, not yet a repo practice because the scripts are kept local for now.
