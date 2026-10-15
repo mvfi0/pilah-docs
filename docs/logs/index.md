@@ -12,8 +12,8 @@ What was done, when, and how long it took.
 | 22–28 Sep | 20 h 10 min, of which 3 h is the offline UAT and standup and 30 min the Discord standups |
 | 29 Sep – 5 Oct | 1 h 11 min |
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
-| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 00 min so far, of which 25 min is the Discord standup, 30 min reading and ~1 h 30 min the security scan |
-| **Total** | **42 h 29 min** |
+| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 21 min so far, of which 46 min is the two Discord standups, 30 min reading and ~1 h 30 min the security scan |
+| **Total** | **42 h 50 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -91,8 +91,14 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 | Tue 13 Oct | 18:11–20:41 | 2 h 30 min | Checked the open PRs for new activity. Merged `staging` into #74 again; covered the lines #62 and #73 add to the generated DI graph; reran the full checks and pushed all three; replied in the #73 and #74 threads. Wrote the 3P; updated the IR week-3 pages and this log. Took **PIL-341** (pencairan on web) and built slice 1, browser downloads for exports, test-first. The Chrome test was shown red in CI before the implementation | [pilah-mobile #83](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) |
 | Tue 13 Oct | 21:40–23:45 | 2 h 5 min | **Reviewed and approved Gabriel's PIL-354** (CORS headers) with two inline suggestions; fixed #83's SonarCloud gate and marked it ready. Built PIL-341 slice 2 test-first: catat, ubah and revisi pencairan on a desktop window, and routes that survive a refresh. Ran it in a local build with Playwright and took desktop and phone screenshots, which caught a dialog bug | [Review of #97](https://github.com/bank-sampah-PILAH/pilah-be/pull/97#pullrequestreview-5505285204), [pilah-mobile #84](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84) |
 | Tue 13 Oct | — | 30 min *(self-reported)* | Read about Playwright: what it is for, how it differs from Selenium (auto-waiting, browser contexts), and how it reaches Flutter web through the semantics tree | — |
-| Tue 14 Oct | — | ~1 h 30 min *(self-reported)* | **Security scan of the backend with Metasploit.** Installed Metasploit in WSL, ran the HTTP auxiliary scanners against a local instance, verified with `curl` and cross-checked with `check --deploy`, and wrote the report with a test-first patch plan. Found the API schema/docs exposed without auth, plus HSTS/CSP gaps | [Security scan report](../security/index.md) |
+| Wed 14 Oct | — | ~1 h 30 min *(self-reported)* | **Security scan of the backend with Metasploit.** Installed Metasploit in WSL, ran the HTTP auxiliary scanners against a local instance, verified with `curl` and cross-checked with `check --deploy`, and wrote the report with a test-first patch plan. Found the API schema/docs exposed without auth, plus HSTS/CSP gaps | [Security scan report](../security/index.md) |
+| Thu 15 Oct | — | 21 min *(self-reported)* | **Daily standup on Discord** with the team (call timer 21:31 in the screenshot below); reported progress on the PIL-341 web slices and the Metasploit security testing | Screenshot below |
 
 ### Daily standup — 13 Oct
 
 ![The team in the Lounge voice channel on Discord for the daily standup, call timer at 25:27](dsm-2026-10-13.png){ width="620" }
+
+### Daily standup — 15 Oct
+
+![The team on the Discord screenshare of the Daily Scrum Kelompok 2 sheet (Sprint 2 tab), call timer at 21:31; my row notes pencairan di web and security testing with Metasploit](dsm-2026-10-15.png){ width="620" }
+
