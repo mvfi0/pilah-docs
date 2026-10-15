@@ -1,7 +1,7 @@
 # Commitment, Work Ethic
 
 !!! success "Competency level: 3"
-    17 h 23 min of logged work across Sprint 2 Week 1 (6–14 Oct), above the 17-hour minimum, spread over the week, with attendance at the team's planning and standup, and output that is in review or approved.
+    17 h 44 min of logged work across Sprint 2 Week 1 (6–15 Oct), above the 17-hour minimum, spread over the week, with attendance at the team's planning and both standups, and output that is in review or approved.
 
 The rubric's level 1 is under 17 hours a week; level 3 is disciplined, quality work equivalent to 17 hours a week.
 
@@ -12,19 +12,19 @@ The hours, their sources and every work block are in the Work Log — [6–12 Oc
 | Part of the week | Logged |
 |---|---|
 | 6–12 Oct (incl. Sprint Planning 2, 2 h) | 10 h 23 min |
-| 13–14 Oct (standup 25 min, security scan ~1 h 30 min, reading 30 min) | 7 h 00 min |
-| **Sprint 2 Week 1 total** | **17 h 23 min** |
+| 13–15 Oct (two standups 46 min, security scan ~1 h 30 min, reading 30 min) | 7 h 21 min |
+| **Sprint 2 Week 1 total** | **17 h 44 min** |
 
 - Durations come from the Claude Code session and commit timestamps, split into blocks at gaps over 45 minutes; the rows with no session behind them (Sprint Planning, the standup, the security scan, reading) are marked self-reported.
-- Work was spread across the week — 6, 7, 8, 9, 11, 12, 13 and 14 Oct — rather than done in one sitting.
+- Work was spread across the week — 6, 7, 8, 9, 11, 12, 13, 14 and 15 Oct — rather than done in one sitting.
 
 !!! note "On the weekly framing"
-    This sprint week is counted as 6–14 Oct. The 6–12 Oct portion on its own is 10 h 23 min; it is the 13–14 Oct work (PIL-341, the review fixes, the security scan) that brings the week over the 17-hour line.
+    This sprint week is counted as 6–15 Oct. The 6–12 Oct portion on its own is 10 h 23 min; it is the 13–15 Oct work (PIL-341, the review fixes, the security scan) that brings the week over the 17-hour line.
 
 ## Meetings
 
 - **Sprint Planning 2** on 6 Oct (2 h), where Sprint 2's backlog was chosen and I took PIL-304 and later PIL-331.
-- **Daily standup on Discord** on 13 Oct (counted at 25 min, from the call timer in the [screenshot](../../logs/index.md#daily-standup-13-oct)).
+- **Daily standups on Discord** on 13 Oct (25 min) and 15 Oct (21 min), each counted from the call timer in its screenshot ([13 Oct](../../logs/index.md#daily-standup-13-oct), [15 Oct](../../logs/index.md#daily-standup-15-oct)).
 
 ## Output of that time
 
