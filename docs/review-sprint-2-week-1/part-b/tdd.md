@@ -9,6 +9,21 @@
     - **Mutation checks:** tests that passed when written were proven to guard their code by breaking the code and watching them fail.
     - **Full-graph test:** a test builds the app's whole generated dependency graph in both environments.
 
+## Coverage proof at a glance
+
+Every MR this page claims, with SonarCloud's new-code coverage from the MR's last PR analysis and, where I ran it, the local diff-coverage report. The two tools count lines differently: SonarCloud counts executable lines, diff-cover counts changed lines in lcov.
+
+| MR | Work | SonarCloud new-code coverage | Local diff coverage |
+|---|---|---|---|
+| pilah-be [#92](https://github.com/bank-sampah-PILAH/pilah-be/pull/92) | PIL-331 | [100% of 40 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=92&metric=new_coverage&view=list) | [100% of 93 lines](evidence/pilah-be-92-diff-coverage.html) |
+| pilah-be [#96](https://github.com/bank-sampah-PILAH/pilah-be/pull/96) | Filter allow-list (A03) | [100% of 15 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=96&metric=new_coverage&view=list) | [100% of 28 lines](evidence/pilah-be-96-diff-coverage.html) |
+| pilah-be [#79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) | PIL-304, after the review fixes | [100% of 144 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=79&metric=new_coverage&view=list) | [100% of 459 lines](evidence/pilah-be-79-after-review-diff-coverage.html) |
+| pilah-mobile [#73](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73) | PIL-331 | [96.5% of 142 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=73&metric=new_coverage&view=list): the 5 missing lines are generated `di.config.dart`, see [below](#mobile-pil-331-pilah-mobile-73-stacked-on-62) | [100% of 141 lines](evidence/pilah-mobile-73-diff-coverage.html), generated code included |
+| pilah-mobile [#62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62) | PIL-304, after the review fixes | [100% of 120 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=62&metric=new_coverage&view=list) | [100% of 122 lines](evidence/pilah-mobile-62-after-review-diff-coverage.html) |
+| pilah-mobile [#74](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/74) | Generated DI graph | [100% of 6 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=74&metric=new_coverage&view=list) | — |
+| pilah-mobile [#83](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) | PIL-341 slice 1 (13 Oct) | [100% of 12 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=83&metric=new_coverage&view=list), [screenshot](#pil-341-on-sonarcloud) | — |
+| pilah-mobile [#84](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84) | PIL-341 slice 2 (13 Oct) | [100% of 102 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=84&metric=new_coverage&view=list), [screenshot](#pil-341-on-sonarcloud) | — |
+
 ## Backend: PIL-331, [pilah-be #92](https://github.com/bank-sampah-PILAH/pilah-be/pull/92), stacked on #79
 
 | Behaviour | Red | Green |
@@ -77,6 +92,30 @@ SonarCloud showed #62 and #73 a few lines short of 100%. Every missing line was 
 - **The crash:** [`af350f0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/af350f0) `[RED]` reproduced it, and [`320612b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/320612b) `[GREEN]` fixed it. `staging` later got the same fix from Tristan's #71, so #74 now takes `staging`'s version.
 - **The whole graph:** [`06ece1b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/06ece1b) adds `di_graph_test`, which builds every registration in dev and prod. A second test fails if a new registration is missing from its list.
 - **Coverage in CI:** [`941f24d`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/941f24d) and [`26fcf40`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/26fcf40) make CI and SonarCloud measure the file instead of excluding it. Result: every executable line of `di.config.dart` is covered (221/221 on 12 Oct).
+
+## Mobile: PIL-341 slices 1 and 2 (13 Oct), [#83](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) and [#84](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84)
+
+PIL-341 brings pencairan to the web dashboard. Slice 1 (#83) downloads exports in the browser. Slice 2 (#84, stacked on #83 and merged into it by Tristan on 15 Oct) records, edits and revises a pencairan on a desktop window.
+
+| Behaviour | Red | Green |
+|---|---|---|
+| No "Bagikan" (share) after a browser download, for a draft export and for a report | [`36379b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/36379b5), [`298e864`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/298e864) | [`a1d37de`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a1d37de), [`7433830`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/7433830) |
+| An export downloads through the browser on web, tested in real Chrome. The red was shown failing in CI before the implementation | [`1b8b299`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/1b8b299), [`f11b44b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/f11b44b) | [`824f7de`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/824f7de) |
+| The edit and revision routes, opened without their pencairan (after a refresh), go back to the laporan instead of crashing | [`13e8268`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/13e8268) | [`151154c`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/151154c) |
+| Catat Pencairan puts the saldo and the button in a side panel on desktop | [`128d0e5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/128d0e5) | [`19c1d2b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/19c1d2b) |
+| Edit Pencairan and its revision history stay in a readable column on desktop | [`b13b0e1`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b13b0e1) | [`426a8ad`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/426a8ad) |
+| A recorded payout is confirmed in a centred dialog on desktop | [`a221974`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a221974) | [`700d123`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/700d123) |
+| The success dialog clips its content to its rounded corners. The bug was caught by the Playwright screenshot run, not by the widget tests | [`05f0d3e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/05f0d3e) | [`b6c5efb`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b6c5efb) |
+
+**Refactors:** [`bf60b97`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/bf60b97) put the native file saver behind a platform-neutral entry point before slice 1 began, and [`0d0866a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/0d0866a) settled where that entry point lives.
+
+**Coverage:** SonarCloud shows **100% of new code on both** (12 lines on #83, 102 on #84) and no open issue. One file is left out of SonarCloud's coverage on purpose: `file_downloader_web.dart` ([`48cac00`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/48cac00)). `flutter test --coverage` runs on the Dart VM, which can't compile browser-only `package:web` code, so every line would count as uncovered. The file is covered instead by `file_downloader_web_chrome.dart`, which CI runs in Chrome. The app already handles its web-only Google sign-in button the same way.
+
+### PIL-341 on SonarCloud
+
+![SonarCloud coverage on new code for pilah-mobile #83: 100%, 12 lines to cover, 0 uncovered, across three files](evidence/sonar-pilah-mobile-83-coverage.png){ width="720" }
+
+![SonarCloud coverage on new code for pilah-mobile #84: 100% on all five changed files, 0 uncovered lines and conditions](evidence/sonar-pilah-mobile-84-coverage.png){ width="720" }
 
 ## Positive, negative and corner cases
 

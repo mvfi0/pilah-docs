@@ -1,7 +1,7 @@
 # Code Quality
 
 !!! success "Competency level: 3"
-    No open SonarCloud issue on any of this week's four merge requests, checked with the SonarQube CLI, and the quality gate passed on all four. Every CI quality gate passes on both repositories.
+    No open SonarCloud issue on any of this week's six merge requests, checked with the SonarQube CLI, and the quality gate passed on all six. Every CI quality gate passes on both repositories.
 
     I also found and closed a gap in the quality setup itself: the app's generated dependency graph was excluded from coverage, and it hid a startup crash. See [Raising the bar](#raising-the-bar-measuring-generated-code).
 
@@ -12,6 +12,8 @@ $ sonar list issues -p bank-sampah-PILAH_pilah-be --pull-request 92
 $ sonar list issues -p bank-sampah-PILAH_pilah-be --pull-request 96
 $ sonar list issues -p bank-sampah-PILAH_pilah-mobile --pull-request 73
 $ sonar list issues -p bank-sampah-PILAH_pilah-mobile --pull-request 74
+$ sonar list issues -p bank-sampah-PILAH_pilah-mobile --pull-request 83
+$ sonar list issues -p bank-sampah-PILAH_pilah-mobile --pull-request 84
 ```
 
 | Scope | Open issues | New-code coverage (SonarCloud) |
@@ -20,6 +22,8 @@ $ sonar list issues -p bank-sampah-PILAH_pilah-mobile --pull-request 74
 | pilah-be [#96](https://github.com/bank-sampah-PILAH/pilah-be/pull/96) (filter allow-list) | 0 | 100% |
 | pilah-mobile [#73](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73) (PIL-331) | 0 | 96.5% |
 | pilah-mobile [#74](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/74) (generated DI graph) | 0 | 100% |
+| pilah-mobile [#83](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) (PIL-341 slice 1, 13 Oct) | 0 | 100% ([screenshot](tdd.md#pil-341-on-sonarcloud)) |
+| pilah-mobile [#84](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84) (PIL-341 slice 2, 13 Oct) | 0 | 100% ([screenshot](tdd.md#pil-341-on-sonarcloud)) |
 
 #73's 3.5% is the two registrations it adds to the generated `di.config.dart`:
 
