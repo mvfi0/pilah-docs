@@ -9,6 +9,21 @@
     - A stale-response guard against a list-reload race.
     - Seed data written through the one approved write path.
 
+    Each item names the design issue it addresses and the pattern or principle used. Three of the issues were in my own code and were found in Tristan's review; the table says which.
+
+## Design issues and the patterns that address them
+
+| Code | Design issue | Pattern / principle | Origin |
+|---|---|---|---|
+| [Version status](#one-rule-for-a-versions-status-601b948-f0b6b0d) | Two readers of the price history (the history screen and the setoran price lookup) that must never disagree; a status that could depend on where a page breaks | **Consistent ordering invariant**: both use the same order (start, then id), and the status is computed over the whole history before pagination | Designed in (PIL-331) |
+| [Money](#money-kept-exact-4226ca5) | **Primitive obsession with floating point for money**: `3333.99` read through `double` and `toInt()` showed a price that was never stored | **Money in minor units**: the price is an integer number of sen, parsed from the decimal string without a float | Defect in my code, [Tristan's review of #73](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73#discussion_r4242248044) |
+| [Stale response](#a-stale-response-cant-win-bd21f70) | **Race condition on out-of-order async responses**: an older reload answering last overwrote the newer price | **Request sequence token** ("latest request wins"): each reload is numbered and a stale answer is dropped | Defect in my code, [Tristan's review of #62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62#discussion_r4242257029) |
+| [Seed data](#seed-data-follows-the-same-rules-f67a84f-dc29a68) | **Bypassing the domain's write path**: the seed wrote price versions itself and priced old setoran at today's rate, so its rules could drift from the app's (BR-03) | **Service layer as the single write path**: every price goes through `catat_harga`, and each setoran is priced at its own date | Defect in my code, [Tristan's review of #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79#discussion_r4242257376) ([and](https://github.com/bank-sampah-PILAH/pilah-be/pull/79#discussion_r4242257381)) |
+| [Single responsibility](#single-responsibility-601b948) | A **fat view** mixing HTTP with business rules | **SRP**: the rule is a plain port function; the serializer shapes, the view wires | Designed in (PIL-331) |
+| [Open/closed](#single-responsibility-601b948) | Changing PIL-304's working `POST` action to add a read | **OCP**: `@ubah_harga.mapping.get` adds the read without editing the action | Designed in (PIL-331) |
+| [Dependency inversion](#dependency-inversion-35e908a) | A cubit **coupled to the HTTP client**, untestable without a server | **Repository pattern + use case, injected (DIP)**: the cubit sees only the use case and the `HargaRepository` interface | Designed in (PIL-331) |
+| [Don't repeat yourself](#dont-repeat-yourself-2eb1bea) | **Duplicated code**: my first version copied another page's private date formatter | **Extract function** into one tested shared helper | Caught in my own `[REFACTOR]` commit |
+
 ## PIL-331 — the price history, and the review round (10–12 Oct)
 
 ### One rule for a version's status — [`601b948`](https://github.com/bank-sampah-PILAH/pilah-be/commit/601b948), [`f0b6b0d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f0b6b0d)
@@ -40,7 +55,11 @@ def susun_riwayat_harga(jenis: JenisSampah, pada: datetime) -> list[VersiHarga]:
 
 `digantikan` exists because correcting a scheduled price is a new version with the same start (PIL-304's append-only rule). Without it, the history would show two scheduled prices for one day.
 
+**Design issue:** two readers of one history that must agree. **Pattern:** a consistent ordering invariant, computed before pagination. **Origin:** designed in.
+
 ### Money kept exact — [`4226ca5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/4226ca5)
+
+**Design issue:** primitive obsession with floating point for money. **Pattern:** money in minor units (integer sen). **Origin:** a defect in my code, found in [Tristan's review](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73#discussion_r4242248044).
 
 Tristan's review found that the mobile model read `3333.99` through `double` and `toInt()`, showing a price that was never stored. A version now holds its price in sen, and the backend's decimal string is cut, not parsed as a float, so no binary rounding can creep in:
 
@@ -55,6 +74,8 @@ int _keSen(String angka) {
 
 ### A stale response can't win — [`bd21f70`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/bd21f70)
 
+**Design issue:** a race condition on out-of-order async responses. **Pattern:** a request sequence token, so the latest request wins. **Origin:** a defect in my code, found in [Tristan's review](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62#discussion_r4242257029).
+
 Saving a price change reloads the list twice: after the `PUT` and after the price `POST`. If the first `GET` answered last, the old price came back. Each reload is now numbered, and an answer is dropped once a newer reload has started:
 
 ```dart title="lib/features/harga/presentation/cubit/harga_cubit.dart"
@@ -68,6 +89,8 @@ Saving a price change reloads the list twice: after the `PUT` and after the pric
 ```
 
 ### Seed data follows the same rules — [`f67a84f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f67a84f), [`dc29a68`](https://github.com/bank-sampah-PILAH/pilah-be/commit/dc29a68)
+
+**Design issue:** bypassing the domain's write path, so the seed's rules could drift from the app's. **Pattern:** the service layer as the single write path. **Origin:** a defect in my code, found in [Tristan's review](https://github.com/bank-sampah-PILAH/pilah-be/pull/79#discussion_r4242257376).
 
 The seed command wrote price versions itself and priced historical setoran at today's rate, so rerunning it after a price change rewrote old totals. It now writes through `catat_harga`, the one approved write path in `AGENTS.md`, and prices each setoran at its own date (BR-03).
 
@@ -99,6 +122,8 @@ class RiwayatHargaCubit extends Cubit<RiwayatHargaState> {
 ```
 
 ### Don't repeat yourself — [`2eb1bea`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/2eb1bea)
+
+**Design issue:** duplicated code. **Pattern:** extract function into a shared, tested helper. **Origin:** my own first version, fixed in its `[REFACTOR]` commit.
 
 The history screen first copied the pencairan revision page's private date-and-time formatter. The refactor moved it to one tested `formatTanggalJamId`, and both screens call it.
 
