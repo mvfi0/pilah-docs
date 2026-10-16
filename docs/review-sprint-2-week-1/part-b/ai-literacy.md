@@ -13,6 +13,7 @@
 Evidence for this week:
 
 - [AI prompt history, 11–12 Oct](ai-prompt-history.html): 10 prompts with every tool call the agent made between them, built from the session transcript. Emails, home-folder paths and tokens are removed. The earlier part of the same session (7–9 Oct) is published with [Sprint 1 Week 3](../../review-week-3/part-b/ai-literacy.md).
+- [Session export](ai-session-export.txt): Claude Code's own `/export` of the same session, from 11 to 16 Oct, with tool output collapsed as the export shows it. It includes the Playwright conversation, the review round and the Metasploit scan. Local home-folder paths are shortened to `~`; nothing else is changed.
 - Screenshots of the 13 Oct conversation about Playwright, [below](#example-playwright-is-not-a-replacement-for-manual-testing).
 
 ## How AI was used this week
