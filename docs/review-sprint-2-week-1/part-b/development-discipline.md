@@ -1,13 +1,14 @@
 # Development Discipline
 
 !!! success "Competency level: 3"
-    Four new merge requests this week:
+    Six new merge requests this week:
 
     - PIL-331 on both repositories;
     - a fix to the app's generated dependency graph;
-    - a scope split asked for in review.
+    - a scope split asked for in review;
+    - PIL-341 slices 1 and 2, pencairan on the web dashboard (13 Oct).
 
-    All use scoped Conventional Commits with the TDD phase in each subject, a detailed description and green CI, and all four are approved. Where one depends on another, it is stacked on it, so each diff shows only its own change. Every finding from the week's review round was fixed on its branch and answered in its thread.
+    All use scoped Conventional Commits with the TDD phase in each subject, a detailed description and green CI, and all six are approved. Where one depends on another, it is stacked on it, so each diff shows only its own change. Every finding from the week's review round was fixed on its branch and answered in its thread.
 
 ## Merge requests
 
@@ -17,8 +18,10 @@
 | [#73 — PIL-331: price history per jenis sampah](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/73) | pilah-mobile | 11 Oct | +797 / −6, 24 files | 22 | approved, after 2 findings fixed |
 | [#74 — fix(di): cover the generated DI graph](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/74) | pilah-mobile | 11 Oct | +381 / −8, 7 files | 12 | approved, after a conflict and 1 finding |
 | [#96 — Allow-list the jenis list filters (OWASP A03)](https://github.com/bank-sampah-PILAH/pilah-be/pull/96) | pilah-be | 12 Oct | +46 / −10, 3 files | 2 | approved |
+| [#83 — PIL-341 (1/3): download exports in the browser](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/83) | pilah-mobile | 13 Oct | +293 / −28, 13 files | 11 | approved |
+| [#84 — PIL-341 (2/3): catat, ubah and revisi pencairan on a desktop window](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/84) | pilah-mobile | 13 Oct | +567 / −300, 11 files | 10 | approved, merged into #83 by Tristan on 15 Oct |
 
-Sizes and commit counts are from GitHub on 14 Oct.
+Sizes and commit counts are from GitHub on 14 Oct; #83's are its own, measured before #84 was merged into it.
 
 The review fixes on 12 Oct also went into [#79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) and [#62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62). Those PRs are claimed in Sprint 1 Week 3, so here they count only as this week's commits.
 
@@ -26,6 +29,7 @@ The review fixes on 12 Oct also went into [#79](https://github.com/bank-sampah-P
 
 - **PIL-331 stacks on PIL-304.** It reads PIL-304's price-version table, so #92 targets `feature/pil-304` and #73 targets #62's branch. Each diff shows only PIL-331, and they merge in order.
 - **#96 was split out in review.** Tristan noted the filter allow-list was outside PIL-304's scope. Instead of force-pushing #79, I reverted it there ([`98456ff`](https://github.com/bank-sampah-PILAH/pilah-be/commit/98456ff)) and re-applied the same two commits with `cherry-pick -x` as #96, stacked on #92: `staging` ← #79 ← #92 ← #96. History stays intact, and the commit links in last week's evidence keep working.
+- **PIL-341 is sliced, and the slices stack.** The issue is split into three reviewable slices (1/3, 2/3, 3/3). #84 targets #83's branch, so each review covers one slice; Tristan merged #84 into #83 once both were approved.
 - **#74 has its own branch off `staging`.** It fixes something the coverage work uncovered, in the app's dependency graph and CI, not in PIL-304 or PIL-331.
 
 ## Example commit messages

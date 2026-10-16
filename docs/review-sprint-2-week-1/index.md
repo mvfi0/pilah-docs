@@ -13,7 +13,7 @@ Part B — Hardskills: Best Practice, for Sprint 2 week 1 (6–12 Oct).
 |---|---|---|
 | [Test Driven Development](part-b/tdd.md) | **4** | PIL-331 and every review fix built test-first; 100% of changed lines covered, generated code included; `Completer`-ordered races, a fake backend at the HTTP boundary, mutation checks and a full-graph DI test |
 | [Programming](part-b/programming.md) | **3** | SOLID (SRP, OCP, DIP) with code blocks; one rule for a version's status; money kept exact without `double`; a stale-response guard |
-| [Development Discipline](part-b/development-discipline.md) | **3** | Four new MRs, stacked where they depend on each other, with detailed descriptions and green CI; every review and CI finding fixed on the branch |
+| [Development Discipline](part-b/development-discipline.md) | **3** | Six new MRs (incl. PIL-341 slices 1–2), stacked where they depend on each other, with detailed descriptions and green CI; every review and CI finding fixed on the branch |
 | [Team Development Management](part-b/team-development-management.md) | **3** | Detailed reviews of Gabriel's #97 (two suggestions, both adopted) and Ghani's #104 (a benchmarked performance suggestion); Tristan's 8 findings on my MRs verified, fixed test-first and answered; a team-wide startup crash found and raised |
 | [Code Quality](part-b/code-quality.md) | **3** | No open SonarCloud issue on any of this week's MRs; generated code brought under coverage, which exposed a startup crash |
 | [Security](part-b/security.md) | **3** | Metasploit scan of the backend, explained, with a test-first patch plan ([report](../security/index.md)); plus A01 guarded and named in its commit on the price-history endpoint |
