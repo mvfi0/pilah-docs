@@ -12,8 +12,8 @@ What was done, when, and how long it took.
 | 22–28 Sep | 20 h 10 min, of which 3 h is the offline UAT and standup and 30 min the Discord standups |
 | 29 Sep – 5 Oct | 1 h 11 min |
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
-| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 21 min so far, of which 46 min is the two Discord standups, 30 min reading and ~1 h 30 min the security scan |
-| **Total** | **42 h 50 min** |
+| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 39 min so far, of which 46 min is the two Discord standups, 30 min reading and ~1 h 30 min the security scan |
+| **Total** | **43 h 8 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -93,6 +93,7 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 | Tue 13 Oct | — | 30 min *(self-reported)* | Read about Playwright: what it is for, how it differs from Selenium (auto-waiting, browser contexts), and how it reaches Flutter web through the semantics tree | — |
 | Wed 14 Oct | — | ~1 h 30 min *(self-reported)* | **Security scan of the backend with Metasploit.** Installed Metasploit in WSL, ran the HTTP auxiliary scanners against a local instance, verified with `curl` and cross-checked with `check --deploy`, and wrote the report with a test-first patch plan. Found the API schema/docs exposed without auth, plus HSTS/CSP gaps | [Security scan report](../security/index.md) |
 | Thu 15 Oct | — | 21 min *(self-reported)* | **Daily standup on Discord** with the team (call timer 21:31 in the screenshot below); reported progress on the PIL-341 web slices and the Metasploit security testing | Screenshot below |
+| Fri 16 Oct | 18:07–18:25 | 18 min | **Reviewed Ghani's PIL-248** (operational report): ran the suite, measured the coverage change and benchmarked a database-aggregate version of the new summary before posting it. Added the reviews of #97 and #104 and the 13 Oct Playwright conversation to the Sprint 2 Week 1 IR pages | [Review of #104](https://github.com/bank-sampah-PILAH/pilah-be/pull/104#pullrequestreview-5547040301) |
 
 ### Daily standup — 13 Oct
 
