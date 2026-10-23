@@ -12,8 +12,9 @@ What was done, when, and how long it took.
 | 22–28 Sep | 20 h 10 min, of which 3 h is the offline UAT and standup and 30 min the Discord standups |
 | 29 Sep – 5 Oct | 1 h 11 min |
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
-| 13–19 Oct (Sprint 2 week 1, continued, in progress) | 7 h 39 min so far, of which 46 min is the two Discord standups, 30 min reading and ~1 h 30 min the security scan |
-| **Total** | **43 h 8 min** |
+| 13–19 Oct (Sprint 2 week 1, continued) | 13 h 8 min, of which 1 h 1 min is the three Discord standups, 30 min reading and ~1 h 30 min the security scan |
+| 20–26 Oct (Sprint 2 week 2, in progress) | 9 h 29 min so far, of which 3 h is the Sprint 2 Review, UAT and Retrospective and 30 min the two Discord standups |
+| **Total** | **58 h 6 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -93,7 +94,10 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 | Tue 13 Oct | — | 30 min *(self-reported)* | Read about Playwright: what it is for, how it differs from Selenium (auto-waiting, browser contexts), and how it reaches Flutter web through the semantics tree | — |
 | Wed 14 Oct | — | ~1 h 30 min *(self-reported)* | **Security scan of the backend with Metasploit.** Installed Metasploit in WSL, ran the HTTP auxiliary scanners against a local instance, verified with `curl` and cross-checked with `check --deploy`, and wrote the report with a test-first patch plan. Found the API schema/docs exposed without auth, plus HSTS/CSP gaps | [Security scan report](../security/index.md) |
 | Thu 15 Oct | — | 21 min *(self-reported)* | **Daily standup on Discord** with the team (call timer 21:31 in the screenshot below); reported progress on the PIL-341 web slices and the Metasploit security testing | Screenshot below |
-| Fri 16 Oct | 18:07–18:25 | 18 min | **Reviewed Ghani's PIL-248** (operational report): ran the suite, measured the coverage change and benchmarked a database-aggregate version of the new summary before posting it. Added the reviews of #97 and #104 and the 13 Oct Playwright conversation to the Sprint 2 Week 1 IR pages | [Review of #104](https://github.com/bank-sampah-PILAH/pilah-be/pull/104#pullrequestreview-5547040301) |
+| Fri 16 Oct | 00:11–00:13, 18:04–19:38 | 1 h 36 min | **Reviewed Ghani's PIL-248** (operational report): ran the suite, measured the coverage change and benchmarked a database-aggregate version of the new summary before posting it. Added the reviews of #97 and #104 and the 13 Oct Playwright conversation to the Sprint 2 Week 1 IR pages. Started bringing the PIL-304 branches up to date with `staging` (the four mobile conflicts resolved, finished the next day) | [Review of #104](https://github.com/bank-sampah-PILAH/pilah-be/pull/104#pullrequestreview-5547040301) |
+| Sat 17 Oct | 15:01–18:52, 22:11–22:13 | 3 h 53 min | **Merged my 8 approved Sprint 2 PRs:** merged `staging` into each branch, resolved the conflicts (incl. semantic ones that only showed in mypy and the design tests), reran the checks, waited for CI and merged each stack bottom first. Built **PIL-341 slice 3** test-first: the desktop side panel for the draft editor, dialogs from tablet width, centred columns, and a draft link that only accepts a bare id (A01, A03). Ran Playwright E2E at desktop and phone sizes and opened #127 | [pilah-mobile #127](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/127) |
+| Sun 18 Oct | 17:17–17:19 | 3 min | Checked #127 (merged by Pascal after his and Aldo's fixes), cleaned up its branch and worktree, and confirmed PIL-304, PIL-331 and PIL-341 were Done in Linear | — |
+| Mon 19 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
 
 ### Daily standup — 13 Oct
 
@@ -103,3 +107,14 @@ Sprint 2 started with Sprint Planning 2 on 6 Oct. Details per day are in the [Sp
 
 ![The team on the Discord screenshare of the Daily Scrum Kelompok 2 sheet (Sprint 2 tab), call timer at 21:31; my row notes pencairan di web and security testing with Metasploit](dsm-2026-10-15.png){ width="620" }
 
+## Week of 20–26 Oct (Sprint 2 week 2)
+
+The IR claims 16–23 Oct as [Sprint 2 Week 2](../review-sprint-2-week-2/index.md); 16–19 Oct is listed in the week above.
+
+| Date | Time | Duration | Work | Output |
+|---|---|---|---|---|
+| Wed 21 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
+| Wed 21 Oct | 18:14–18:25, 19:11–22:47, 23:35–23:38 | 3 h 51 min | **Two QA findings on pencairan.** Traced the first ("Fail – High") to a deliberate ceiling pinned by tests, wrote a proposal for the team, and after the decision (warn, don't block, plus Pascal's confirmation) built **PIL-374** test-first: a note under the Nominal, a confirmation listing every affected nasabah, a line on each capped card. Fixed a SonarCloud complexity finding by refactoring. Found the second finding is a deliberate lock and built **PIL-375**: the locked Tanggal now looks locked. Playwright E2E on both, reviews requested, both merged after Aldo's approval | [pilah-mobile #153](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/153), [#154](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/154) |
+| Thu 22 Oct | — | 3 h *(self-reported)* | **Sprint 2 Review, UAT and Retrospective** with the team | — |
+| Fri 23 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
+| Fri 23 Oct | 15:33–17:08, 18:50–19:16, 20:36–20:38, 22:10–22:14 | 2 h 8 min | **Reviewed Ghani's pilah-mobile #162** (removing draft export): ran the tests locally, restored the old code to prove the new tests catch it (8 of 8 failed), and posted one question and two suggestions. Wrote the **Sprint 2 Week 2 IR pages** (all seven Part B competencies and Part C), with SonarCloud screenshots, the session export, presentation scripts for S2W1 and S2W2, and the claim notes | [Review of #162](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/162#pullrequestreview-5626578469), [IR Sprint 2 Week 2](../review-sprint-2-week-2/index.md) |
