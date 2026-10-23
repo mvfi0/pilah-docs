@@ -1,7 +1,7 @@
 # Commitment, Work Ethic
 
-!!! warning "Competency level: 1"
-    **15 h 16 min** of logged work across Sprint 2 Week 2 (16–23 Oct): below the 17-hour minimum the rubric sets for level 3. The output of that time is merged and reviewed, but the hours are what this competency measures, so I'm claiming level 1.
+!!! success "Competency level: 3"
+    **18 h 16 min** of logged work across Sprint 2 Week 2 (16–23 Oct), above the 17-hour minimum, spread over the week, with attendance at the three standups and the Sprint 2 Review, UAT and Retrospective, and output that is merged and reviewed.
 
 The rubric's level 1 is under 17 hours a week; level 3 is disciplined, quality work equivalent to 17 hours a week.
 
@@ -13,14 +13,15 @@ The hours, their sources and every work block are in the Work Log: [16–19 Oct]
 |---|---|
 | 16–19 Oct: Sprint 2 merges, PIL-341 slice 3, the #104 review follow-up, one standup | 5 h 47 min |
 | 20–23 Oct: the two QA fixes, the review of #162, the IR pages, two standups, and the Sprint 2 Review, UAT and Retrospective (3 h) | **9 h 29 min** |
-| **Sprint 2 Week 2 total** | **15 h 16 min** |
+| 16–23 Oct, self-reported: security lab groundwork (reading how Metasploit works, using it from Kali Linux, planning a dual-boot Linux setup for the security labs and other testing), about 3–4 h, counted as 3 h | 3 h |
+| **Sprint 2 Week 2 total** | **18 h 16 min** |
 
 - Durations come from the Claude Code session and commit timestamps, split into blocks at gaps over 45 minutes.
-- The rows with no session behind them are marked self-reported. The standups are counted at 15 minutes each, and the Sprint Review, UAT and Retrospective at 3 hours.
+- The rows with no session behind them are marked self-reported. The standups are counted at 15 minutes each, the Sprint Review, UAT and Retrospective at 3 hours, and the security lab groundwork at the low end of my 3–4 hour estimate.
 - Work fell on 16, 17, 18, 19, 21, 22 and 23 Oct. The rest of the week had no logged development.
 
-!!! note "If the week's count changes"
-    The work log's week runs to Sunday 25 Oct. If more work is logged by then, this page and its level will be updated.
+!!! note "On the weekly framing"
+    Of the 18 h 16 min, 4 h 36 min (the Sprint 2 Review, UAT and Retrospective, the standups, and the security lab groundwork) is self-reported, with no session behind it. The measured session and commit time is 11 h 28 min.
 
 ## Meetings
 

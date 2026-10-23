@@ -13,8 +13,8 @@ What was done, when, and how long it took.
 | 29 Sep – 5 Oct | 1 h 11 min |
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
 | 13–19 Oct (Sprint 2 week 1, continued) | 13 h 8 min, of which 1 h 1 min is the three Discord standups, 30 min reading and ~1 h 30 min the security scan |
-| 20–26 Oct (Sprint 2 week 2, in progress) | 9 h 29 min so far, of which 3 h is the Sprint 2 Review, UAT and Retrospective and 30 min the two Discord standups |
-| **Total** | **58 h 6 min** |
+| 20–26 Oct (Sprint 2 week 2, in progress) | 12 h 29 min so far, of which 3 h is the Sprint 2 Review, UAT and Retrospective, 30 min the two Discord standups and 3 h the security lab groundwork |
+| **Total** | **61 h 6 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -116,5 +116,6 @@ The IR claims 16–23 Oct as [Sprint 2 Week 2](../review-sprint-2-week-2/index.m
 | Wed 21 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
 | Wed 21 Oct | 18:14–18:25, 19:11–22:47, 23:35–23:38 | 3 h 51 min | **Two QA findings on pencairan.** Traced the first ("Fail – High") to a deliberate ceiling pinned by tests, wrote a proposal for the team, and after the decision (warn, don't block, plus Pascal's confirmation) built **PIL-374** test-first: a note under the Nominal, a confirmation listing every affected nasabah, a line on each capped card. Fixed a SonarCloud complexity finding by refactoring. Found the second finding is a deliberate lock and built **PIL-375**: the locked Tanggal now looks locked. Playwright E2E on both, reviews requested, both merged after Aldo's approval | [pilah-mobile #153](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/153), [#154](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/154) |
 | Thu 22 Oct | — | 3 h *(self-reported)* | **Sprint 2 Review, UAT and Retrospective** with the team | — |
+| 16–23 Oct | — | 3 h *(self-reported, estimated 3–4 h)* | **Security lab groundwork:** read how Metasploit works and used it from Kali Linux, and planned a dual-boot Linux setup on my laptop for the security labs and other testing | — |
 | Fri 23 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
 | Fri 23 Oct | 15:33–17:08, 18:50–19:16, 20:36–20:38, 22:10–22:14 | 2 h 8 min | **Reviewed Ghani's pilah-mobile #162** (removing draft export): ran the tests locally, restored the old code to prove the new tests catch it (8 of 8 failed), and posted one question and two suggestions. Wrote the **Sprint 2 Week 2 IR pages** (all seven Part B competencies and Part C), with SonarCloud screenshots, the session export, presentation scripts for S2W1 and S2W2, and the claim notes | [Review of #162](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/162#pullrequestreview-5626578469), [IR Sprint 2 Week 2](../review-sprint-2-week-2/index.md) |

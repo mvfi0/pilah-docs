@@ -1,13 +1,13 @@
 # Grow Together, Communication, Knowledge Sharing
 
-!!! success "Competency level: 3"
-    Knowledge shared with the team in writing this week, and the team's input built into my work:
+!!! success "Competency level: 2"
+    Worked well with the team this week and caused no issues that held the project back. Along the way, knowledge was shared in writing and the team's input was built into my work:
 
     - A QA finding explained to the team, with options, before anyone treated it as a bug.
     - QA given what they need to retest a by-design behaviour correctly.
     - A teammate's PR reviewed with the method behind each point, not just a verdict.
 
-The rubric's level 2 is working well as a team without causing issues that hinder the project. Level 3 adds knowledge sharing or comparable team activities. This week's sharing was written, in a proposal doc, Linear issues and a review, rather than a session.
+The rubric's level 2 is working well as a team without causing issues that hinder the project. Level 3 adds knowledge sharing or comparable team activities. I am claiming level 2: the sharing this week was written, in a proposal doc, Linear issues and a review, and there was no knowledge-sharing session.
 
 ## This week (Sprint 2 Week 2, 16–23 Oct)
 
