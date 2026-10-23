@@ -5,7 +5,9 @@
 
     **Level 4:** advanced testing methods in the commits:
 
-    - **Mocks for isolation:** a mocktail repository, with `verifyNever` (Batal applies nothing) and `verifyInOrder` (save, then confirm).
+    - **Mocks for isolation:**
+        - #153's tests run the real `DraftEditorCubit` on a mocktail `_MockRepository`, a fake `DraftPencairanRepository`, so no server is involved and the tests assert what the cubit holds.
+        - #154's tests use a mocked `PencairanUseCases`, and `verify(… captureAny())` captures the request to check that a locked pencairan still sends its nominal and tanggal exactly as recorded.
     - **Viewport-driven tests:** the test view is resized to phone and desktop, so one test drives each adaptive layout.
     - **Proven guards:** a test that passed when written is shown to guard its code, and a changed test is shown red before the code follows.
     - **E2E through Flutter's semantics tree:** Playwright, at desktop and phone sizes, against a local build and backend.

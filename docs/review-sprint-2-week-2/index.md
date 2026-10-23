@@ -14,7 +14,7 @@ Part B — Hardskills: Best Practice, for Sprint 2 week 2.
 
 | Competency | Level | Status (23 Oct) |
 |---|---|---|
-| [Test Driven Development](part-b/tdd.md) | **4** | Both fixes test-first, one behaviour per red/green pair, refactors after green; 100% of new code on SonarCloud; mocktail `verifyNever`/`verifyInOrder`, viewport-driven layout tests, a proven guard, Playwright E2E through the semantics tree |
+| [Test Driven Development](part-b/tdd.md) | **4** | Both fixes test-first, one behaviour per red/green pair, refactors after green; 100% of new code on SonarCloud; mocktail mocks (a fake repository behind the real cubit; captured use-case calls), viewport-driven layout tests, a proven guard, Playwright E2E through the semantics tree |
 | [Programming](part-b/programming.md) | **3** | SOLID (SRP, OCP) with code blocks; Information Expert for the saldo rule; derived state instead of a stored flag; Extract Method towards command–query separation; one lock flag driving every locked field |
 | [Development Discipline](part-b/development-discipline.md) | **3** | Three MRs (#153, #154, #127), each with its own Linear issue, phase-tagged commits, detailed descriptions and green CI; follow-ups as new commits, never force-pushed; 8 approved MRs brought up to date and merged |
 | [Team Development Management](part-b/team-development-management.md) | **3** | Review of Ghani's #162, verified locally with a mutation check, with one question and two feasible suggestions; Aldo's nits checked against the code; Pascal's suggestion built test-first |
