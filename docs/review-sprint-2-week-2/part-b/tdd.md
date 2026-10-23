@@ -48,13 +48,7 @@ These runs are in the [session export](ai-session-export.txt).
 
 **Proven guards.** "A Nominal every saldo covers applies without asking" went in with the dialog's red commit and passed from the start. It is a guard: it fails if the dialog ever shows when nobody is short.
 
-**Negative and corner cases, all in [`draft_editor_view_test.dart`](https://github.com/bank-sampah-PILAH/pilah-mobile/blob/d90af9d/test/features/draft_pencairan/presentation/draft_editor_view_test.dart):**
-
-- **Covered amount:** a Nominal every saldo covers shows no note and no dialog.
-- **Persen:** a share never exceeds a saldo, so nothing is shown.
-- **Batal:** the draft stays exactly as it was (`[465600, 50000, 250000]`).
-- **Hand-typed nominal:** it clears that card's warning.
-- **One nasabah:** the list still shows, and the nasabah whose saldo covers the amount is left out.
+**Positive, negative and corner cases:** see [the table below](#positive-negative-and-corner-cases).
 
 **Existing tests kept on the real flow.** The shared `_terapkanUmum` helper now confirms the dialog when it appears, so older tests that apply Rp 100.000 still go through it. They don't bypass it.
 
@@ -66,9 +60,21 @@ These runs are in the [session export](ai-session-export.txt).
 
 **What the tests assert.** They check the widget's own state, the disabled decoration and the nulled tap handler. A text lookup alone would pass even if the field still looked tappable.
 
-**Negative case, kept from the existing suite:** a pencairan without a potongan still opens the date picker.
+**Negative case, kept from the existing suite:** a pencairan without a potongan still opens the date picker (see [the table below](#positive-negative-and-corner-cases)).
 
 **An honest note on this one.** While planning the fix, I first assumed the picker still opened on a locked pencairan. Writing the red test showed an existing guard (`_pickTanggal` returns early) and an existing test for it. So the issue was re-scoped to what QA actually saw, a field that looked tappable, before any code changed.
+
+## Positive, negative and corner cases
+
+The examples use the editor tests' three nasabah: Ahmad (saldo Rp 465.600), Budi (Rp 50.000) and Citra (Rp 250.000).
+
+| Behaviour | Positive | Negative | Corner |
+|---|---|---|---|
+| Note under the general Nominal (#153) | Rp 100.000: "1 nasabah saldonya di bawah Rp 100.000. Mereka dicairkan seluruh saldonya." | Rp 40.000, which every saldo covers: no note | Persen: no note, because a share never exceeds a saldo |
+| Confirmation on Terapkan (#153) | Rp 100.000 asks first; "Ya, terapkan" applies (`[100000, 50000, 100000]`) | Batal applies nothing (`[465600, 50000, 250000]`); Rp 40.000 applies without asking | — |
+| List in the confirmation (#153) | Rp 300.000 lists Budi and Citra, each with "Saldo Rp …" | Ahmad, whose saldo covers it, is not listed | Exactly one nasabah affected (Rp 100.000): Budi is still listed, Citra isn't |
+| Line on each capped card (#153) | Budi's card: "Saldo tidak cukup untuk Rp 100.000, dicairkan Rp 50.000" | Ahmad's and Citra's cards: no line | A nominal typed by hand on Budi's card clears his line |
+| Locked Tanggal (#154) | A pencairan with a potongan: Tanggal disabled with no `onTap`, and the note names nominal and tanggal | A pencairan without a potongan: Tanggal still opens the date picker | A locked pencairan still saves a metode change, sending its nominal and tanggal exactly as recorded (checked through the captured use-case call) |
 
 ## E2E (Playwright) on both fixes
 
