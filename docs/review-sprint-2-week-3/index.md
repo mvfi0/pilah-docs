@@ -20,7 +20,7 @@ Part B — Hardskills: Best Practice, for Sprint 2 week 3.
 | [Development Discipline](part-b/development-discipline.md) | **3** | Two MRs from one Linear issue I wrote from the QA finding: 9 and 14 commits, each subject tagged with its TDD phase and, where it applies, its OWASP category; descriptions with cause, contract, tests, E2E and screenshots; tool findings fixed as new commits |
 | [Team Development Management](part-b/team-development-management.md) | **3** | A review of Pascal's #178, verified signed in under its CSP: 8 pages clean, one regression found and pinned to its cause with a control build, three feasible fixes and one hardening suggestion |
 | [Code Quality](part-b/code-quality.md) | **3** | 0 open SonarCloud issues and 0% duplication on both MRs; a critical complexity finding on my own code fixed by refactoring, not suppressed; a design-lint breach caught by hand before CI |
-| [Security](part-b/security.md) | **3** | A new ZAP scan, explained, with a patch plan; four OWASP categories (A01, A04, A07, A09) guarded and named in this week's commits |
+| [Security](part-b/security.md) | **1** | Four OWASP categories (A01, A04, A07, A09) guarded, tested and named in this week's commits, one short of level 2's five. A new ZAP scan with a patch plan is recorded but not claimed |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Claims checked against code, clean `staging` and control builds before acting; its own wrong turns caught and reported; a fix it claimed was complete was shown incomplete by reviewers, and is recorded as such |
 
 Work this week:

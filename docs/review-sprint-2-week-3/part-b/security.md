@@ -1,11 +1,11 @@
 # Security
 
-!!! success "Competency level: 3"
-    A new dynamic security scan with **OWASP ZAP 2.17.0**, explained, with a test-first patch plan: [ZAP scan report, 26 Oct](../../security/zap-2026-10-26.md). It ran signed in, against my own local backend and web build, with every documented endpoint imported from the OpenAPI schema. Every Medium was checked by hand, and the local-only artifacts were separated from real findings. It is not the [14 Oct Metasploit scan](../../security/index.md) claimed in Sprint 2 Week 1.
+!!! warning "Competency level: 1"
+    This week's code guards and names **four** OWASP Top 10 categories in its commits: **A01, A04, A07 and A09**, each with tests. Level 2 needs at least five named in one week's commits, so this week claims level 1. I didn't stretch a fifth label to fill the gap.
 
-    This week's own code also guards and names **four** OWASP Top 10 categories in its commits: A01, A04, A07 and A09. Level 2 asks for five within one week, so that part falls one short. I didn't stretch a fifth label to fill the gap.
+    This week's security work also includes a new dynamic scan with **OWASP ZAP 2.17.0**, explained, with a test-first patch plan: [ZAP scan report, 26 Oct](../../security/zap-2026-10-26.md). It ran signed in, against my own local backend and web build, with every documented endpoint imported from the OpenAPI schema. It is recorded below, but not claimed as a level.
 
-## The ZAP scan (level 3)
+## The ZAP scan
 
 **0 High.** Four real findings, each with a planned fix (full detail in the [report](../../security/zap-2026-10-26.md)):
 
