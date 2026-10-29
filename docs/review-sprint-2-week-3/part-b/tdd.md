@@ -1,7 +1,7 @@
 # Test Driven Development
 
 !!! success "Competency level: 4"
-    **Level 3 met:** both PIL-451 MRs were built test-first, one behaviour per `[RED]` → `[GREEN]` pair, with the phase in every commit subject and `[REFACTOR]` commits only after green. Every changed line is covered: 100% on SonarCloud for both MRs, 35 and 68 new lines. The tests cover the positive case, the negative cases (each refusal) and the corner cases (a stale account object, re-picking the same role, a malformed response).
+    **Level 3 met:** both PIL-451 MRs were built test-first, one behaviour per `[RED]` → `[GREEN]` pair, with the phase in every commit subject and `[REFACTOR]` commits only after green. Every changed line is covered: 100% on SonarCloud for both MRs, 48 and 68 new lines. The tests cover the positive case, the negative cases (each refusal) and the corner cases (a stale account object, re-picking the same role, a malformed response).
 
     **Level 4:** advanced testing methods in the commits:
 
@@ -17,7 +17,7 @@
 
 | MR | Work | SonarCloud new-code coverage | Local diff coverage |
 |---|---|---|---|
-| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | PIL-451: `PATCH /onboarding/role` | [100% of 35 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=137&metric=new_coverage&view=list), [screenshot](#on-sonarcloud) | 100% of 115 changed lines (tests included), on Postgres 16 |
+| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | PIL-451: `PATCH /onboarding/role` | [100% of 48 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=137&metric=new_coverage&view=list), [screenshot](#on-sonarcloud) | 100% of the changed lines (tests included), on Postgres 16, re-run after the review fixes |
 | pilah-mobile [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) | PIL-451: "Ganti peran" and the role page | [100% of 68 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=174&metric=new_coverage&view=list), [screenshot](#on-sonarcloud) | 100% of 70 changed lines |
 
 The local figures come from `diff-cover` against `origin/staging`, after `coverage run manage.py test` (backend) and `flutter test --coverage` (mobile). For #174, SonarCloud's first run showed 97.1%. The PR's CI runs only the changed test files, and two pre-existing lines next to my insertions counted as new; [`b2344b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b2344b5) covered them in the files CI runs. Details on the [Code Quality page](code-quality.md).
@@ -166,6 +166,6 @@ Run on 26 Oct against `flutter build web --profile` and a local backend from #13
 
 ## On SonarCloud
 
-![SonarCloud PR summary for pilah-be #137: quality gate passed, 0 new issues, 100% coverage on 35 new lines, 0.0% duplication](evidence/sonar-pilah-be-137.png){ width="620" }
+![SonarCloud PR summary for pilah-be #137: quality gate passed, 0 new issues, 100% coverage on 48 new lines, 0.0% duplication](evidence/sonar-pilah-be-137.png){ width="620" }
 
 ![SonarCloud PR summary for pilah-mobile #174: quality gate passed, 0 new issues, 100% coverage on 68 new lines, 0.0% duplication](evidence/sonar-pilah-mobile-174.png){ width="620" }

@@ -12,12 +12,12 @@
 
 | Scope | Open issues | New-code coverage | Duplication on new code | Security hotspots | Quality gate |
 |---|---|---|---|---|---|
-| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) (PIL-451) | 0 | 100% of 35 lines | 0.0% | 0 | Passed |
+| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) (PIL-451) | 0 | 100% of 48 lines | 0.0% | 0 | Passed |
 | pilah-mobile [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) (PIL-451) | 0 | 100% of 68 lines | 0.0% | 0 | Passed |
 
 Read from the SonarCloud API on 29 Oct (`api/measures/component` and `api/issues/search` with `pullRequest=<n>`).
 
-![SonarCloud PR summary for pilah-be #137: quality gate passed, 0 new issues, 100% coverage on 35 new lines](evidence/sonar-pilah-be-137.png){ width="620" }
+![SonarCloud PR summary for pilah-be #137: quality gate passed, 0 new issues, 100% coverage on 48 new lines](evidence/sonar-pilah-be-137.png){ width="620" }
 
 ![SonarCloud PR summary for pilah-mobile #174: quality gate passed, 0 new issues, 100% coverage on 68 new lines](evidence/sonar-pilah-mobile-174.png){ width="620" }
 
@@ -60,7 +60,7 @@ $ python manage.py makemigrations --check --dry-run             # no changes
 $ python manage.py check --deploy --fail-level ERROR           # passes (warnings only)
 $ mypy api apps config shared_kernel tests                     # no issues in 221 files
 $ coverage run … manage.py test && diff-cover … --compare-branch=origin/staging
-                                                               # 874 tests; 100% of 115 changed lines
+                                                               # 878 tests; 100% of the changed lines
 ```
 
 mypy caught a missing `api.models.__all__` export before the push, fixed in [`8bf93cf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bf93cf). The 5 failing backend tests are deployment-script tests that need bash paths and LF line endings. They fail the same way on a clean `staging` checkout on Windows, and pass in CI.
