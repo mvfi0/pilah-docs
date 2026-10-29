@@ -9,7 +9,7 @@
         - the mobile data layer runs the real `AuthRepositoryImpl` on mocktail mocks of its remote and local data sources;
         - `captureAny` captures the stored tokens to prove the *new* session is the one saved.
         - The notifier tests run the real `AuthenticationNotifier` on a mocked `LoginWithGoogleUseCase`. Page tests use a fake notifier that records `changeRole` and answers with a configured refusal or session.
-    - **A race reproduced deterministically:** a backend test loads the account, lets a "parallel request" register a bank sampah, then runs the role change on the stale object.
+    - **A real race, made deterministic:** a `TransactionTestCase` on PostgreSQL runs each registration in one thread, pausing right after its role check, and a role change in another. It's been checked both ways: all three paths fail without the row lock, and pass with it.
     - **Guards proven by mutation:** two tests passed when written. For each, I broke the code it guards, watched it fail, and reverted.
     - **E2E with database assertions:** Playwright drives the web build through Flutter's semantics tree at desktop and phone sizes, then checks the backend's database for the stored role and the audit row.
 
@@ -29,6 +29,9 @@ The local figures come from `diff-cover` against `origin/staging`, after `covera
 | An unfinished account switches role, and the new access token names the new role | [`a23ba21`](https://github.com/bank-sampah-PILAH/pilah-be/commit/a23ba21) | [`13c1a44`](https://github.com/bank-sampah-PILAH/pilah-be/commit/13c1a44) | 404: no route yet |
 | The role stays (409 `role_locked`) once the profile is complete, a bank sampah exists (pending included), or a membership is linked | [`e227286`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e227286) | [`52f087f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/52f087f) | Two cases switched with 200. The linked member hit `User.clean`'s `ValidationError`, an unhandled 500 |
 | Each change is recorded in `user_role_change_log`; a refusal or a re-pick of the same role writes nothing | [`62e79e1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/62e79e1) | [`2c591c5`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2c591c5) | `'User' object has no attribute 'role_change_logs'` |
+| **Review P1:** a role change during a bank registration, a membership application or an invite acceptance waits for it, then refuses (`role_locked`) | [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) | [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397) | All three paths: `{'changed': True, 'waited_for_registration': False}`. The role flipped under a registration, which then linked a bank to a nasabah, or hit an unhandled `ValidationError` (membership) |
+
+**Refactor after green:** [`fe17440`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fe17440) makes the race test record its outcome on both paths. The "change went through" branch could only run while the bug existed, so diff-cover showed the test at 98.6%. I re-ran the reworked test against the pre-fix services, and all three cases still fail there.
 
 **Guard tests, proven by mutation.** Both passed when written, so there was no red phase. I mutated the code, watched each test fail, then reverted. The mutations are recorded in the commit bodies:
 
@@ -60,7 +63,25 @@ def test_a_bank_registered_after_the_account_was_loaded_still_keeps_the_role(sel
 
 **A wrong assumption in my own test, corrected.** I first wrote that asking for superadmin returns 400. This API's exception handler answers validation errors with 422 `{"errors": …}`, so I fixed the test to the project's convention. The code was right.
 
-**What this does not cover yet.** Tristan's review found that this test proves only one side of the race: a registration whose role check ran *before* the role change can still write its bank afterwards. His P2 also asks for success tests for all three roles, not just nasabah. Both are open; see [Team Development Management](team-development-management.md#reviews-received-on-137).
+**What review added.** Tristan showed that this test proves only one side of the race. It pre-links the bank, so a registration whose role check ran *before* the role change was never exercised. The P1 race test above does exercise it, with real threads and row locks:
+
+```python title="tests/regression/identity/test_role_change_race.py"
+with patch.object(owner, method, paused):
+    a = threading.Thread(target=registration, name="registration")
+    a.start()
+    self.assertTrue(reached.wait(WAIT), "registration never reached its write")
+    b = threading.Thread(target=role_change, name="role-change")
+    b.start()
+    b.join(1.0)
+    outcome["waited_for_registration"] = b.is_alive()
+    proceed.set()
+    a.join(WAIT)
+    b.join(WAIT)
+```
+
+Thread A's registration pauses inside its write, after the role check. Thread B's role change must still be blocked a second later, which is only possible if both take the same row lock. Then A finishes, and B must come back with `role_locked`.
+
+His **P2** asked for success tests for every Google role, not just nasabah. [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1) switches to each registration role from a different one. It passed as written, so I proved it with a mutation: with `pengelola_induk` removed from the serializer, its case failed with 422.
 
 ## Mobile: [pilah-mobile #174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174)
 
@@ -119,7 +140,7 @@ test('stores the session issued for the new role', () async {
 
 | Behaviour | Positive | Negative | Corner |
 |---|---|---|---|
-| Role change, backend (#137) | An unfinished pengelola becomes nasabah: 200, `next_step` `complete_profile`, token role `nasabah` | Profile complete, a bank sampah (pending), or a linked membership: 409 and the role unchanged. Anonymous: 401. Superadmin caller: 403. Asking for superadmin: 422 | The account loaded before a bank was registered: still 409. Re-picking the current role: 200 with no log row. The linked member used to get a 500 |
+| Role change, backend (#137) | Each registration role reached from another (nasabah → pengelola, pengelola → pengelola_induk, pengelola_induk → nasabah): 200, `next_step` `complete_profile`, token role matching | Profile complete, a bank sampah (pending), or a linked membership: 409 and the role unchanged. Anonymous: 401. Superadmin caller: 403. Asking for superadmin: 422 | A registration in progress in another thread: the change waits, then gets 409. The account loaded before a bank was registered: still 409. Re-picking the current role: 200 with no log row. The linked member used to get a 500 |
 | Audit log (#137) | pengelola → nasabah writes one row (`from_role`, `to_role`, `created_at`) | A refused change writes nothing | A re-pick of the same role writes nothing |
 | Data layer (#174) | Stores the new access and refresh tokens and maps the user | 409: the server's message is shown, and no token is saved | A malformed 2xx body returns a failure instead of crashing |
 | Role page (#174) | Pick Nasabah → `changeRole`, the profile draft dropped, then `/complete-profile` | A refusal: "Ganti Peran Gagal" with the reason; the page and the draft stay | An account past the profile step is sent to login |

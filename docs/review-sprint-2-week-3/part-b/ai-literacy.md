@@ -5,13 +5,13 @@
 
     - Its claims were checked against the code, a clean `staging` checkout or a control build before anything changed.
     - Its own wrong turns were caught and reported, not smoothed over: a wrong test expectation, a skill step that dirtied tracked files, a redaction pass that broke a script, a scan report that came out empty.
-    - One claim it made was shown **incomplete by human reviewers**, and is recorded that way: the race fix on #137.
+    - One claim it made was shown **incomplete by human reviewers**: the race fix on #137. It's recorded that way, along with the fix that followed, proven by a test that really races.
 
     Decisions with team or outside impact were put to me: where to point a pen test, whether to create a Linear issue, and how to post a review.
 
 Evidence for this week:
 
-- [Session export](ai-session-export.txt): Claude Code's own `/export` of the session behind 26–29 Oct, with home-folder paths shortened to `~`.
+- [Session export](ai-session-export.txt): Claude Code's own `/export` of the session behind 26–29 Oct, with home-folder paths shortened to `~`. It was taken at 22:36 on 29 Oct, so it ends before the #137 review fixes. Those are recorded in their commits and review replies.
 - The PRs, review and reports linked below, each of which records the checks described here.
 
 ## How AI was used this week
@@ -44,7 +44,8 @@ Evidence for this week:
 | *26 Oct:* 5 backend and 25 mobile tests failed locally | It **didn't call them pre-existing until it had run them on a clean `staging` checkout**, where they fail the same way, because of Windows paths. |
 | *26 Oct:* The design lints can't run on Windows | Instead of skipping them, it **counted their patterns by hand** against the baselines and **caught its own breach**: a hard-coded font size over the allowed count. Fixed before CI. |
 | *26 Oct:* SonarCloud showed 97.1% where local said 100% | It found that a PR's CI runs only the changed test files, and that two pre-existing methods counted as new lines. It **added the two tests** rather than explaining the number away. |
-| *26 Oct:* "The conditional UPDATE closes the race" | **This claim was incomplete.** Tristan and Pascal showed that a registration already past its role check can still link a bank afterwards. The AI's own race test had pre-linked the bank, so it never exercised that order. It's recorded as open on the [TDM page](team-development-management.md#reviews-received-on-137), not argued with. |
+| *26 Oct:* "The conditional UPDATE closes the race" | **This claim was incomplete.** Tristan and Pascal showed that a registration already past its role check can still link a bank afterwards. The AI's own race test had pre-linked the bank, so it never exercised that order. On 29 Oct it **accepted the finding without arguing**, wrote a test that really races (two threads on PostgreSQL) and **watched it fail** on all three paths, including `accept_invite`, which the review hadn't named. Then it fixed all three with a shared row lock and answered each thread. |
+| *29 Oct:* Making the race test fully covered | The fix left one line of the test that only runs while the bug exists. It reworked the test, then **re-ran it against the pre-fix code** to prove it still fails there, instead of assuming the change was harmless. |
 | *26 Oct:* Pen test target | An active scan sends thousands of attack requests. It **asked whether to scan local or staging** and listed the trade-offs. I chose local only. |
 | *26 Oct:* ZAP reported 17 Medium | It **triaged each one against the production `nginx.conf`** and the real servers, separating local artifacts from real findings. It reproduced the 500 with `curl`, and found the same crash in `terbitkan`, which ZAP had missed. |
 | *26 Oct:* Its own tooling misled it twice | The ZAP report came out empty (a wrong site separator in its call), and the E2E script showed 4 "failures" (Django 6 prints a banner before the output). It **noticed both were its own mistakes, fixed them, and reran**. Neither became a reported bug. |

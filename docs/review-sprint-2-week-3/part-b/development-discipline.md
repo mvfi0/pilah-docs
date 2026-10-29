@@ -3,7 +3,7 @@
 !!! success "Competency level: 3"
     Two meaningful merge requests this week, the backend and mobile halves of one QA finding:
 
-    - [pilah-be #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137): `PATCH /onboarding/role`, 9 commits;
+    - [pilah-be #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137): `PATCH /onboarding/role`, 13 commits;
     - [pilah-mobile #174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174): "Ganti peran" and the role page, 14 commits.
 
     Both come from one Linear issue I wrote from the QA note, and both use the same branch (`feature/pil-451`) off `staging`. Every commit is a scoped Conventional Commit:
@@ -12,13 +12,13 @@
     - the OWASP category is in the subject where it applies;
     - the body names the design issue, the pattern and its origin.
 
-    Each MR description has the cause, the API contract, the red/green table, the E2E results with screenshots, and the local validation. Tool findings were fixed as new commits, never force-pushed. Neither MR is merged yet: #137 has review findings to address first (see [below](#status-and-what-is-left)).
+    Each MR description has the cause, the API contract, the red/green table, the E2E results with screenshots, and the local validation. Tool findings and review findings were fixed as new commits, never force-pushed, and each review thread got a reply linking its fix. Neither MR is merged yet; they wait for approval (see [below](#status-and-what-is-left)).
 
 ## Merge requests
 
 | MR | Opened | Size | Commits | CI / SonarCloud | Status (29 Oct) |
 |---|---|---|---|---|---|
-| [#137 — PIL-451: let an account change a mis-tapped role before onboarding commits it](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | 26 Oct | +271 / −2, 8 files | 9 | green, gate passed, 0 issues | Open. Reviewed by Tristan and Pascal, P1 and P2 to address |
+| [#137 — PIL-451: let an account change a mis-tapped role before onboarding commits it](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | 26 Oct | +469 / −3, 11 files (with the review fixes) | 13 | green, gate passed, 0 issues | Open. Reviewed by Tristan and Pascal; P1, P2 and the nit fixed and answered on 29 Oct |
 | [#174 — PIL-451: change a mis-tapped role from Lengkapi Profil](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) | 26 Oct | +630 / −12, 18 files | 14 | green, gate passed, 0 issues | Open. Must merge after #137 (it calls the new endpoint), no review yet |
 
 Sizes and commit counts are from GitHub on 29 Oct.
@@ -38,7 +38,14 @@ Sizes and commit counts are from GitHub on 29 Oct.
 
 Every change after opening was a new commit, and the description was updated to match:
 
-- **#137:** CI's mypy step caught a model missing from `api.models.__all__`. Fixed in [`8bf93cf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bf93cf) before review.
+- **#137:**
+    - CI's mypy step caught a model missing from `api.models.__all__`. Fixed in [`8bf93cf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bf93cf) before review.
+    - **Tristan's and Pascal's review (26 Oct), answered on 29 Oct:**
+        - P2 with a coverage test, [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1);
+        - P1 as a red/green pair, [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) → [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397), plus a test `[REFACTOR]`, [`fe17440`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fe17440);
+        - the nit by correcting the description.
+
+        Each finding got a reply in its own thread, linking the commit that fixes it. The description's tests, security and validation sections were updated to match.
 - **#174:**
     - SonarCloud's first run flagged S3776 on my own `build` method. Fixed with a `[REFACTOR]` commit, [`87f2f0d`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/87f2f0d).
     - Coverage showed 97.1%. Fixed by covering the two lines in the test files CI runs, [`b2344b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b2344b5).
@@ -107,6 +114,6 @@ refactor(onboarding): [REFACTOR] decide the role note outside build (PIL-451, So
 
 ## Status and what is left
 
-- **#137 is not ready to merge.** Tristan's P1 (serialize the role change with registrations already in progress) and P2 (success tests for all three roles) need commits, and each review thread needs a reply. Pascal's nit about how the PR describes token renewal needs a correction to the description.
+- **#137's review findings are fixed and answered** (29 Oct). It now waits for the reviewers to re-check and approve. Nothing merges without approval.
 - **#174 waits on #137.** It calls the new endpoint, so it merges second, then goes to QA.
 - **Reviewers** came on their own for #137. I still have to request a review of #174 through the team's `ask-for-review` skill.

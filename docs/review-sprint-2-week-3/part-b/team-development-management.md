@@ -7,7 +7,7 @@
     - one regression found (the draft PDF preview on web) and traced to its cause in a dependency;
     - three feasible fixes for it, cheapest first, and one hardening suggestion with the concrete change.
 
-    The other side of reviewing is here too: **Tristan's and Pascal's reviews of my #137**. Their findings are recorded below with what I still owe.
+    The other side of reviewing is here too: **Tristan's and Pascal's reviews of my #137**. Each finding was checked against the code, fixed test-first, and answered in its own thread with the fix linked.
 
 ## Review given: Pascal's [pilah-mobile #178](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/178), 29 Oct
 
@@ -55,11 +55,11 @@ Both reviewers verified on their own machines before commenting. Pascal re-ran t
 
 | Reviewer | Finding | Checked against the code | Status (29 Oct) |
 |---|---|---|---|
-| Tristan, [P1](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327305) | The conditional `UPDATE` only guards against a registration that already committed. `register_bank_sampah` checks the role, then saves the bank later, so a role change in between leaves a nasabah linked to a bank. The membership path has the same gap | **Correct.** My race test pre-links the bank, so it never overlaps the two steps. Pascal confirmed the window at `bank_sampah/services.py` lines 50 and 70 | **Open.** Lock the user row (`select_for_update`) in `change_role` and both registration paths, re-check after the lock, and prove it with a two-thread `TransactionTestCase` |
-| Tristan, [P2](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327311) | The only success test is pengelola → nasabah. The issue asks for every Google role | **Correct.** He quotes the test list I wrote in PIL-451 myself, "untuk tiap peran Google". I didn't follow my own spec | **Open.** Parameterize the success test over the three roles, checking both the user and the token role |
-| Pascal, nit | "No token keeps naming the old role" overstates it: the old access token (24 h) and refresh token (30 d) aren't revoked | **Correct.** Harmless today, since `request.user` comes from the database, but the description overclaims | **Open.** Reword the description, or blacklist the old refresh token |
+| Tristan, [P1](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327305) | The conditional `UPDATE` only guards against a registration that already committed. `register_bank_sampah` checks the role, then saves the bank later, so a role change in between leaves a nasabah linked to a bank. The membership path has the same gap | **Correct.** My race test pre-links the bank, so it never overlaps the two steps. Pascal confirmed the window at `bank_sampah/services.py` lines 50 and 70. Checking, I found `accept_invite` has the same gap | **Fixed, 29 Oct**, red [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) → green [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397): every writer locks the account row (`select_for_update`) and re-reads it, proven by a two-thread `TransactionTestCase` on PostgreSQL for all three paths. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601173) |
+| Tristan, [P2](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327311) | The only success test is pengelola → nasabah. The issue asks for every Google role | **Correct.** He quotes the test list I wrote in PIL-451 myself, "untuk tiap peran Google". I didn't follow my own spec | **Fixed, 29 Oct**, [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1): each role is reached from another, and the test is mutation-proven. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601632) |
+| Pascal, nit | "No token keeps naming the old role" overstates it: the old access token (24 h) and refresh token (30 d) aren't revoked | **Correct.** Harmless today, since `request.user` comes from the database, but the description overclaimed | **Fixed, 29 Oct:** the description now says "the new tokens carry the new role", with the limit stated. Blacklisting was offered as a follow-up. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#issuecomment-6501508303) |
 
-No reply is posted yet. My standing rule is to answer each finding in its own thread once it's fixed, with the fixing commit linked. That's what's left for #137 this week.
+Each finding was answered in its own thread, linking the commit or change that fixes it. The PR's tests, security and validation sections were updated to match. Pascal's suggested approach, a lock then a re-check, plus a two-thread test, is what went in, credited in the reply.
 
 ## Asking the team
 
