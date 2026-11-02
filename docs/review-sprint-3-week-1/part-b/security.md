@@ -1,9 +1,28 @@
 # Security
 
-!!! warning "Competency level: 1"
-    This week's code guards and names **four** OWASP Top 10 categories in its commits: **A01, A04, A08 and A09**, each with tests. Level 2 needs at least five named in one week's commits, so this week claims level 1, as last week did. I didn't stretch a fifth label to fill the gap.
+!!! success "Competency level: 3"
+    **Level 3: a scan, explained, with a patch plan.** Each sub-issue finished this week, PIL-428 and PIL-435, got its own **OWASP ZAP 2.17.0** scan right after the work was done. Both ran signed in, against my own local instances, and were limited to the feature's endpoints. Report: [ZAP scans per sub-issue, 2 Nov](../../security/zap-2026-11-02.md).
 
-    New this week is **A08**: a database constraint that refuses a half-recorded void, proven by attempting one. Review work also touched A09 in a teammate's code (see below), but that isn't counted here, because it isn't my commit.
+    - **0 High.** No alert on the features' own endpoints across about 15,000 attack requests.
+    - **Every alert explained:** each Medium and Low ZAP raised is either a known finding from the [26 Oct scan](../../security/zap-2026-10-26.md), still open on `staging`, or an artifact of the local servers. The report says which, and why.
+    - **Beyond ZAP's alerts:** reading every response in the scan history found a real crash ZAP doesn't flag. A NUL byte in `?search=` gives a 500 on six list endpoints. Reproduced by hand, with a test-first patch plan, plus two debug-only crashes.
+    - **The void's input tested by hand:** injection payloads stored verbatim as data; a NUL byte, an over-long alasan or a blank one rejected with 422.
+
+    The commits also guard and name **four** OWASP categories: **A01, A04, A08 and A09**. That's one short of level 2's five, so the level rests on the scan, not on the count.
+
+## The ZAP scans
+
+| Sub-issue | Target | In-scope requests | ZAP alerts on the feature | Found by reading the history |
+|---|---|---|---|---|
+| [PIL-428](https://linear.app/pilah-2/issue/PIL-428) | #145 backend, #193 web build | about 8,000 (`/transaksi` incl. `/batalkan` and `PATCH`, `/aktivitas`) | none | NUL-byte 500 on `/aktivitas`; debug-only 500s on `/aktivitas` and the setoran detail |
+| [PIL-435](https://linear.app/pilah-2/issue/PIL-435) | `staging` backend, #196 web build | about 7,000 (`/aktivitas`, `/transaksi/export`) | none | The same NUL-byte 500, and the same debug-only one |
+
+| # | Finding | OWASP | Planned fix |
+|---|---|---|---|
+| 1 | A NUL byte in `?search=` crashes six list endpoints (500, not 422); bodies are safe because DRF fields reject NUL | A04 / A10:2025 | Read list query text through a DRF `CharField` in one shared helper; a test per endpoint expects 422. Needs a Linear issue: it spans teammates' views |
+| 2, 3 | The browsable API crashes on `/aktivitas` and on a setoran's detail (debug-only) | A05 | A queryset or JSON-only renderer; `alasan` marked write-only |
+
+Method, every alert's explanation, the reproductions and the full plan are in the [report](../../security/zap-2026-11-02.md). The scan is one command, [`tools/zap_scan.py`](https://github.com/mvfi0/pilah-docs/blob/main/tools/zap_scan.py), plus a small per-feature drive module, so the next sub-issue gets the same scan.
 
 ## OWASP guards in this week's code
 

@@ -21,7 +21,7 @@ Part B — Hardskills: Best Practice, for Sprint 3 week 1.
 | [Development Discipline](part-b/development-discipline.md) | **3** | Three new MRs (#145 with 16 commits, #193 with 17, #196 with 4) and a second round on two more. Each subject is tagged with its TDD phase and OWASP category. Descriptions carry the contract, tables, E2E and screenshots, and are kept current after merges |
 | [Team Development Management](part-b/team-development-management.md) | **3** | Two reviews, each verified by running the code. On #144, a scratch test showed a logging gap: a database bug would hide as a 503 with no traceback. On #202, the restore path had lost its route guards and tests, with a concrete fix. Seven findings received on #137 and #174 were fixed and answered in their threads |
 | [Code Quality](part-b/code-quality.md) | **3** | 0 open SonarCloud issues on all five MRs. Three findings on my own code (two S3776, one S3358) were fixed by refactoring, not suppressed. A duplicated domain rule was removed on my own initiative |
-| [Security](part-b/security.md) | **1** | Four OWASP categories (A01, A04, A08, A09) guarded, tested and named in this week's commits. That's one short of level 2's five, so nothing is stretched to fill the gap |
+| [Security](part-b/security.md) | **3** | A ZAP scan per finished sub-issue (PIL-428, PIL-435), signed in and limited to the feature: 0 High, every alert explained. Reading the scan history found a NUL-byte 500 on six list endpoints, with a test-first patch plan. Four OWASP categories named in commits |
 | [AI Literacy](part-b/ai-literacy.md) | **3** | Claims checked by running the code before acting: on reviews, before blaming the app in E2E, and before calling failures pre-existing. Its own wrong turns are reported. A test-first discipline was kept even inside merge commits |
 
 Work this week:
@@ -36,3 +36,4 @@ Work this week:
     - Tristan, Scallss and Heraldo on #174: draft and form handling on a role change, and spacing tokens. Fixed after merging staging's redesigned onboarding.
 - **Reviews given** (2 Nov): [pilah-be #144](https://github.com/bank-sampah-PILAH/pilah-be/pull/144#pullrequestreview-5737653085) and [pilah-mobile #202](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/202#pullrequestreview-5737765335).
 - **Coordination:** flagged a migration-number clash between #137 and #145 on both PRs (31 Oct).
+- **Security scans** (2 Nov): [OWASP ZAP on PIL-428 and PIL-435](../security/zap-2026-11-02.md), each right after the sub-issue was finished.
