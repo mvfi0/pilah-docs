@@ -12,7 +12,7 @@
 Evidence for this week:
 
 - The PRs, reviews and replies linked below, each of which records the checks described here.
-- The session export for 31 Oct – 2 Nov is to be added here as `ai-session-export.txt` (Claude Code's `/export`), as on [S2W3](../../review-sprint-2-week-3/part-b/ai-literacy.md).
+- [Session export](ai-session-export.txt): Claude Code's own `/export` of the session behind 31 Oct – 3 Nov. It starts after the PIL-428 build, when the context was summarised, and runs from the PR conflict check through the reviews, these docs and the ZAP scans. Before publishing, I scanned it for emails, tokens, JWTs, student and Discord IDs, webhooks and home-folder paths: none found. The only matches were three fake phone numbers from test fixtures.
 
 ## How AI was used this week
 
