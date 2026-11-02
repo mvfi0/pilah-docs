@@ -1,7 +1,7 @@
 # Code Quality
 
 !!! success "Competency level: 3"
-    No open SonarCloud issue on this week's merge requests once each has been re-analysed. All five pass the quality gate with 0 security hotspots, 0.0% duplication and 100% coverage on new code.
+    No open SonarCloud issue on any of this week's merge requests. All five pass the quality gate with 0 security hotspots, 0.0% duplication and 100% coverage on new code.
 
     Three findings did come up, all on my own new code, and all were fixed by refactoring rather than suppressed:
 
@@ -15,7 +15,7 @@
 | Scope | Open issues | New-code coverage | Duplication on new code | Security hotspots | Quality gate |
 |---|---|---|---|---|---|
 | pilah-be [#145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) (PIL-428) | 0 | 100% of 87 lines | 0.0% | 0 | Passed |
-| pilah-mobile [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) (PIL-428) | 3 → 0 expected, fix [`ca2ec7a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ca2ec7a2) awaiting re-analysis | 100% of 138 lines | 0.0% | 0 | Passed |
+| pilah-mobile [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) (PIL-428) | 0 (3 closed by [`ca2ec7a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ca2ec7a2)) | 100% of 140 lines | 0.0% | 0 | Passed |
 | pilah-mobile [#196](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/196) (PIL-435) | 0 | 100% of 23 lines | 0.0% | 0 | Passed |
 | pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) (PIL-451) | 0 | 100% of 51 lines | 0.0% | 0 | Passed |
 | pilah-mobile [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) (PIL-451) | 0 | 100% of 91 lines | 0.0% | 0 | Passed |
@@ -28,7 +28,7 @@ Read from the SonarCloud API on 2 Nov (`api/measures/component` with `pullReques
 |---|---|---|---|---|
 | `dart:S3776` Cognitive Complexity | Critical | #193 `aktivitas_table.dart`, the table row's single `build` (16 of 15) | 31 Oct | `staging`'s PIL-453 split that `build` into small methods. My merge ([`0c6f1e7`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/0c6f1e72)) put the Hapus button and Dibatalkan badge into those methods, so the long method no longer exists |
 | `dart:S3776` Cognitive Complexity | Critical | #174 `CompleteProfileScreen.build` (18 of 15), after my review fix added a role-change check to its `ref.listen` | 2 Nov | [`8bdb1b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/8bdb1b54) moves the listener into `_onAuthChanged`. **Closed** on the next analysis: 0 issues |
-| `dart:S3358` Nested ternary (×3) | Major | #193 TIPE cell, where my merge nested `staging`'s type ternaries inside the Dibatalkan ternary | 2 Nov | [`ca2ec7a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ca2ec7a2) extracts `_typeBadge` with a guard clause |
+| `dart:S3358` Nested ternary (×3) | Major | #193 TIPE cell, where my merge nested `staging`'s type ternaries inside the Dibatalkan ternary | 2 Nov | [`ca2ec7a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ca2ec7a2) extracts `_typeBadge` with a guard clause. **Closed** on the next analysis: 0 issues |
 
 **A duplicated rule, found without a tool.** "A voided setoran counts toward nothing" was written as `filter(status=TERCATAT)` in nine places across three apps. SonarCloud's duplication check doesn't see a one-line filter, but a tenth report could forget it and quietly count voided money. [`ae850a0`](https://github.com/bank-sampah-PILAH/pilah-be/commit/ae850a0) names it once as `Transaksi.objects.tercatat()`. Details are on the [Programming page](programming.md#a-domain-rule-named-once-ae850a0).
 

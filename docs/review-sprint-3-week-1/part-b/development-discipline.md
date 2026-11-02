@@ -20,7 +20,7 @@
 | MR | Opened | Size | Commits | CI / SonarCloud | Status (2 Nov) |
 |---|---|---|---|---|---|
 | [#145 — void (Hapus) a setoran and keep it out of saldo and laporan](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | 31 Oct | +748 / −40, 20 files | 16 | green, gate passed, 0 issues, 100% | Open, no review yet |
-| [#193 — Hapus a setoran from the selection header and the web Aksi column](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | 31 Oct | +980 / −85, 26 files | 17 | green, gate passed; the S3358 fix is awaiting re-analysis | Open, no review yet. `staging` merged in on 2 Nov |
+| [#193 — Hapus a setoran from the selection header and the web Aksi column](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | 31 Oct | +980 / −85, 26 files | 17 | green, gate passed, 0 issues, 100% | Open, no review yet. `staging` merged in on 2 Nov |
 | [#196 — show setoran only in Riwayat Aktivitas](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/196) | 31 Oct | +277 / −65, 8 files | 4 | green, gate passed, 0 issues, 100% | Open, no review yet |
 | [#137 — PIL-451 backend](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) (from last week) | 26 Oct | +565 / −5, 11 files | 17 | green, gate passed, 0 issues, 100% | Second round of findings fixed and answered |
 | [#174 — PIL-451 mobile](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) (from last week) | 26 Oct | +757 / −32, 18 files | 20 | green, gate passed, 0 issues, 100% | Second round fixed and answered; `staging` merged in |
