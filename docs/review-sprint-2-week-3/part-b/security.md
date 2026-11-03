@@ -1,9 +1,13 @@
 # Security
 
-!!! warning "Competency level: 1"
-    This week's code guards and names **four** OWASP Top 10 categories in its commits: **A01, A04, A07 and A09**, each with tests. Level 2 needs at least five named in one week's commits, so this week claims level 1. I didn't stretch a fifth label to fill the gap.
+!!! success "Competency level: 3"
+    **Level 3: a scan, explained, with a patch plan.** This week's security work includes a dynamic scan with **OWASP ZAP 2.17.0**: [ZAP scan report, 26 Oct](../../security/zap-2026-10-26.md).
 
-    This week's security work also includes a new dynamic scan with **OWASP ZAP 2.17.0**, explained, with a test-first patch plan: [ZAP scan report, 26 Oct](../../security/zap-2026-10-26.md). It ran signed in, against my own local backend and web build, with every documented endpoint imported from the OpenAPI schema. It is recorded below, but not claimed as a level.
+    - **How it ran:** signed in, against my own local backend and web build, with every documented endpoint imported from the OpenAPI schema.
+    - **Explained:** every alert type is traced either to a real finding or to an artifact of the local setup, with the reason given.
+    - **A patch plan for each real finding,** test-first.
+
+    The commits also guard and name **four** OWASP Top 10 categories: **A01, A04, A07 and A09**, each with tests. That's one short of level 2's five, so the level rests on the scan, not on the count.
 
 ## The ZAP scan
 
