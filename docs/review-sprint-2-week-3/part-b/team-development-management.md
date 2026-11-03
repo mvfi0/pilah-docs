@@ -1,7 +1,7 @@
 # Team Development Management
 
 !!! success "Competency level: 3"
-    A detailed review of **Pascal's pilah-mobile #178** (29 Oct), which adds HSTS and a real Content-Security-Policy to the web image. It answers the check his description asked for, a signed-in click-through, which he couldn't do himself:
+    A detailed review of **Pascal's pilah-mobile #178**, which adds HSTS and a real Content-Security-Policy to the web image. It answers the check his description asked for, a signed-in click-through, which he couldn't do himself:
 
     - verified signed in under the PR's exact headers, against a control build without them: 8 pages clean;
     - one regression found (the draft PDF preview on web) and traced to its cause in a dependency;
@@ -9,7 +9,7 @@
 
     The other side of reviewing is here too: **Tristan's and Pascal's reviews of my #137**. Each finding was checked against the code, fixed test-first, and answered in its own thread with the fix linked.
 
-## Review given: Pascal's [pilah-mobile #178](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/178), 29 Oct
+## Review given: Pascal's [pilah-mobile #178](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/178)
 
 The PR replaces the web image's `frame-ancestors`-only CSP with a full policy:
 
@@ -53,11 +53,11 @@ I posted it as a comment, not a change request. Point 1 goes away if #162 merges
 
 Both reviewers verified on their own machines before commenting. Pascal re-ran the suites on Postgres and checked the migration number against every open PR.
 
-| Reviewer | Finding | Checked against the code | Status (29 Oct) |
+| Reviewer | Finding | Checked against the code | Status |
 |---|---|---|---|
-| Tristan, [P1](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327305) | The conditional `UPDATE` only guards against a registration that already committed. `register_bank_sampah` checks the role, then saves the bank later, so a role change in between leaves a nasabah linked to a bank. The membership path has the same gap | **Correct.** My race test pre-links the bank, so it never overlaps the two steps. Pascal confirmed the window at `bank_sampah/services.py` lines 50 and 70. Checking, I found `accept_invite` has the same gap | **Fixed, 29 Oct**, red [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) → green [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397): every writer locks the account row (`select_for_update`) and re-reads it, proven by a two-thread `TransactionTestCase` on PostgreSQL for all three paths. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601173) |
-| Tristan, [P2](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327311) | The only success test is pengelola → nasabah. The issue asks for every Google role | **Correct.** He quotes the test list I wrote in PIL-451 myself, "untuk tiap peran Google". I didn't follow my own spec | **Fixed, 29 Oct**, [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1): each role is reached from another, and the test is mutation-proven. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601632) |
-| Pascal, nit | "No token keeps naming the old role" overstates it: the old access token (24 h) and refresh token (30 d) aren't revoked | **Correct.** Harmless today, since `request.user` comes from the database, but the description overclaimed | **Fixed, 29 Oct:** the description now says "the new tokens carry the new role", with the limit stated. Blacklisting was offered as a follow-up. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#issuecomment-6501508303) |
+| Tristan, [P1](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327305) | The conditional `UPDATE` only guards against a registration that already committed. `register_bank_sampah` checks the role, then saves the bank later, so a role change in between leaves a nasabah linked to a bank. The membership path has the same gap | **Correct.** My race test pre-links the bank, so it never overlaps the two steps. Pascal confirmed the window at `bank_sampah/services.py` lines 50 and 70. Checking, I found `accept_invite` has the same gap | **Fixed**, red [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) → green [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397): every writer locks the account row (`select_for_update`) and re-reads it, proven by a two-thread `TransactionTestCase` on PostgreSQL for all three paths. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601173) |
+| Tristan, [P2](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4377327311) | The only success test is pengelola → nasabah. The issue asks for every Google role | **Correct.** He quotes the test list I wrote in PIL-451 myself, "untuk tiap peran Google". I didn't follow my own spec | **Fixed**, [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1): each role is reached from another, and the test is mutation-proven. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4414601632) |
+| Pascal, nit | "No token keeps naming the old role" overstates it: the old access token (24 h) and refresh token (30 d) aren't revoked | **Correct.** Harmless today, since `request.user` comes from the database, but the description overclaimed | **Fixed:** the description now says "the new tokens carry the new role", with the limit stated. Blacklisting was offered as a follow-up. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#issuecomment-6501508303) |
 
 Each finding was answered in its own thread, linking the commit or change that fixes it. The PR's tests, security and validation sections were updated to match. Pascal's suggested approach, a lock then a re-check, plus a two-thread test, is what went in, credited in the reply.
 

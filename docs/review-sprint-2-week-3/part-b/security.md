@@ -18,7 +18,7 @@
 | 1 | `tarik` and `terbitkan` crash (500) on a missing or malformed id. I reproduced it by hand; ZAP only caught `tarik` | A04 | Low–Medium | Load through the bank-scoped `get_object()` (404), test-first |
 | 2 | The backend CSP allows any HTTPS origin (`script-src 'self' https:` and three more directives) | A05 | Medium | `default-src 'none'` for JSON; exact origins for the docs page and the OAuth popup |
 | 3 | Swagger UI loads `@latest` from jsDelivr with no SRI | A08 | Low (debug-only) | Pin it and add hashes, or serve it locally |
-| 4 | The web app shell has no `script-src` | A05 | Low–Medium | In progress as Pascal's #178; [my review](team-development-management.md#review-given-pascals-pilah-mobile-178-29-oct) found one regression in it |
+| 4 | The web app shell has no `script-src` | A05 | Low–Medium | In progress as Pascal's #178; [my review](team-development-management.md#review-given-pascals-pilah-mobile-178) found one regression in it |
 
 **Explained, not just listed.** Of 15 alert types, the missing clickjacking and `nosniff` headers and the version-leaking `Server` header are **local artifacts**. Production nginx already sends those headers, and production doesn't run the dev servers. The report says why for each one, so the patch plan holds only real work.
 
