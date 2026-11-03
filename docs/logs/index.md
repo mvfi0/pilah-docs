@@ -14,7 +14,8 @@ What was done, when, and how long it took.
 | 6–12 Oct (Sprint 2 week 1) | 10 h 23 min, of which 2 h is Sprint Planning 2 |
 | 13–19 Oct (Sprint 2 week 1, continued) | 13 h 8 min, of which 1 h 1 min is the three Discord standups, 30 min reading and ~1 h 30 min the security scan |
 | 20–26 Oct (Sprint 2 week 2, in progress) | 12 h 29 min so far, of which 3 h is the Sprint 2 Review, UAT and Retrospective, 30 min the two Discord standups and 3 h the security lab groundwork |
-| **Total** | **61 h 6 min** |
+| 31 Oct – 6 Nov (Sprint 3 week 1, in progress) | 9 h 47 min so far, of which 2 h is Sprint 3 Planning and 45 min the Discord standups |
+| **Total** | **70 h 53 min** |
 
 Rows are grouped by the date the work happened. The IR pages group the same work differently: PIL-176 is claimed in [week 1](../review/index.md), and PIL-222 — started late on 22 Sep, reviewed and finished afterwards — in [week 2](../review-week-2/index.md), together with PIL-230 and the second review round on PIL-176.
 
@@ -119,3 +120,16 @@ The IR claims 16–23 Oct as [Sprint 2 Week 2](../review-sprint-2-week-2/index.m
 | 16–23 Oct | — | 3 h *(self-reported, estimated 3–4 h)* | **Security lab groundwork:** read how Metasploit works and used it from Kali Linux, and planned a dual-boot Linux setup on my laptop for the security labs and other testing | — |
 | Fri 23 Oct | — | 15 min *(self-reported)* | **Daily standup on Discord** with the team | — |
 | Fri 23 Oct | 15:33–17:08, 18:50–19:16, 20:36–20:38, 22:10–22:14 | 2 h 8 min | **Reviewed Ghani's pilah-mobile #162** (removing draft export): ran the tests locally, restored the old code to prove the new tests catch it (8 of 8 failed), and posted one question and two suggestions. Wrote the **Sprint 2 Week 2 IR pages** (all seven Part B competencies and Part C), with SonarCloud screenshots, the session export, presentation scripts for S2W1 and S2W2, and the claim notes | [Review of #162](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/162#pullrequestreview-5626578469), [IR Sprint 2 Week 2](../review-sprint-2-week-2/index.md) |
+
+## Week of 31 Oct – 6 Nov (Sprint 3 week 1)
+
+The IR claims this week as [Sprint 3 Week 1](../review-sprint-3-week-1/index.md). In progress: logged up to 3 Nov.
+
+| Date | Time | Duration | Work | Output |
+|---|---|---|---|---|
+| Sprint 3 start | — | 2 h *(self-reported)* | **Sprint 3 Planning** with the team | — |
+| Sat 31 Oct | 16:19–18:43 | 2 h 23 min | **Built PIL-428 (void a setoran) test-first in both repos.** Backend: the `batalkan` endpoint, saldo and later-pencairan adjustment, refusal of paid-out money, the audit fields and a check constraint, laporan and exports that leave voids out. Mobile: Hapus in the phone's selection header and the web Aksi column, the dialog, the Dibatalkan label and detail. Ran Playwright E2E. Opened both PRs, checked every open PR for conflicts, and flagged the `0029` migration clash on #137 and #145 | [pilah-be #145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145), [pilah-mobile #193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) |
+| Sat 31 Oct – Sun 1 Nov | 22:26–22:27, 00:03–00:46 | 43 min | Listed the startable Sprint 3 issues; took and **built PIL-435** test-first (Riwayat shows setoran only). Playwright E2E 18/18; opened the PR | [pilah-mobile #196](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/196) |
+| Mon 2 Nov | 19:47–23:05 | 3 h 17 min | **Second review round on PIL-451:** seven findings on #137 and #174, fixed test-first, `staging` merged into #174, each thread answered. Merged `staging` into #193, carried the Pembatalan section onto the new inline detail test-first, re-ran E2E (21/21). Fixed three SonarCloud findings and named the counted-setoran rule once. **Reviewed Rifqi's #144 and Gabriel's #202** (20:50–21:07): checked out and ran both, with a scratch test on #144. Wrote the **Sprint 3 Week 1 Part B pages**. **ZAP scans of PIL-428 and PIL-435**, with the report and a reusable scan script | [Review of #144](https://github.com/bank-sampah-PILAH/pilah-be/pull/144#pullrequestreview-5737653085), [Review of #202](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/202#pullrequestreview-5737765335), [ZAP report](../security/zap-2026-11-02.md), [IR Sprint 3 Week 1](../review-sprint-3-week-1/index.md) |
+| Tue 3 Nov | 03:32–03:35, 12:18–12:19, 13:25–14:02 | 39 min | Published the session export; wrote the 3P; raised the S2W3 Security claim to level 3 on the 26 Oct scan; wrote these Part C pages | [IR Part C, Sprint 3 Week 1](../review-part-c/sprint-3-week-1/commitment.md) |
+| 31 Oct – 6 Nov | — | 45 min *(self-reported)* | **Daily standups on Discord** with the team, the week's total | — |
