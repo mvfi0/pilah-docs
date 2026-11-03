@@ -18,6 +18,7 @@ The rubric's level 2 is working well as a team without causing issues that hinde
 - **Teammates' findings taken in.**
     - Tristan, Scallss and Heraldo raised seven findings on #137 and #174. Each was checked against the code, fixed test-first, and answered in its own thread with the commit and the lines linked.
     - Where a reviewer suggested the approach, the reply credits it: the lock on the Google-login claim, and gating the draft clearing on the role.
+    - On 3 Nov, Rifqi's and Gabriel's reviews of PIL-428 (#145, #193) were answered the same way. One suggestion, naming the constraint's states with an enum, was tried, then reverted when SonarCloud flagged it. The reply on #145 explains the revert and the guard test that replaced it.
 - **Kept teammates' work in view.**
     - #193 was merged with `staging` so it carries PIL-453's new inline detail rather than fighting it.
     - My review of #202 pointed the next person at the same dead-control pattern in PIL-434.

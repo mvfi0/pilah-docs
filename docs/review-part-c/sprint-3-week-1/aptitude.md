@@ -28,3 +28,7 @@ The rubric's level 3 is one or two new learnings outside the class material, app
 
 - **Release toggles as named constants** (PIL-435): closing a feature by configuring a widget rather than editing it, so reopening is one edit and a release.
 - **Reading a merge for lost behaviour.** When `staging` replaced the detail sheet with an inline row (PIL-453), I checked which of my feature's behaviour the merge silently dropped (the Pembatalan section), and rebuilt it test-first. That's a habit rather than a new learning, so it isn't claimed.
+
+## Also read
+
+- **The Metasploit Framework and how it works** (30 min). This was read, not yet applied in PILAH, so it isn't claimed as a learning this week.
