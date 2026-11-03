@@ -5,7 +5,7 @@ Evidence for the individual review (IR), organised by competency. Each page stat
 Part B — Hardskills: Best Practice, for Sprint 3 week 1.
 
 !!! note "What this page covers"
-    [Sprint 2 Week 3](../review-sprint-2-week-3/index.md) claims work up to 30 Oct. This page covers **31 Oct – 6 Nov**. Its status is as of **2 Nov**.
+    [Sprint 2 Week 3](../review-sprint-2-week-3/index.md) claims work up to 30 Oct. This page covers **31 Oct – 3 Nov**, up to the Tuesday it's due.
 
     - **[PIL-428](https://linear.app/pilah-2/issue/PIL-428), "Hapus" (void) a setoran.** This is my assigned Sprint 3 issue, under CPBI-30. A void keeps the row and takes it out of every saldo and laporan. It took two MRs, both built test-first:
         - [pilah-be #145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145): `POST /transaksi/{id}/batalkan`, guarded, audited, and enforced by a database constraint;
@@ -14,7 +14,7 @@ Part B — Hardskills: Best Practice, for Sprint 3 week 1.
     - **Second review round on PIL-451** ([#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137), [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174)): seven findings fixed test-first, each answered in its thread.
     - **Reviews given:** Rifqi's [pilah-be #144](https://github.com/bank-sampah-PILAH/pilah-be/pull/144) and Gabriel's [pilah-mobile #202](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/202), both checked out and run before commenting.
 
-| Competency | Level | Status (2 Nov) |
+| Competency | Level | Status (3 Nov) |
 |---|---|---|
 | [Test Driven Development](part-b/tdd.md) | **4** | Five MRs touched this week, all test-first, with the phase in every commit subject. 100% of new code is covered on SonarCloud. The tests include mocks and stub APIs, a database constraint proven by `IntegrityError`, a two-thread race test on PostgreSQL, and Playwright E2E with database checks (21/21 and 18/18) |
 | [Programming](part-b/programming.md) | **3** | A void kept as an audited state change rather than a delete, enforced by a check constraint. The domain rule is named once as a QuerySet method. Row locks are shared by every writer. A hardcoded release toggle drives a configured widget. All five SOLID principles are shown with code |

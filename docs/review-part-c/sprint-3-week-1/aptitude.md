@@ -1,7 +1,7 @@
 # Aptitude, Applying Knowledge
 
 !!! success "Competency level: 3"
-    Two new learnings from outside the class material, each applied in the PILAH project this week (Sprint 3 Week 1, 31 Oct – 6 Nov) and linked to the code or report that shows it:
+    Two new learnings from outside the class material, each applied in the PILAH project this week (Sprint 3 Week 1, 31 Oct – 3 Nov) and linked to the code or report that shows it:
 
     1. **Automating OWASP ZAP through its API** to scan one feature at a time;
     2. **Database-enforced invariants and row locks** in Django on PostgreSQL.

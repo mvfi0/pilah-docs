@@ -17,10 +17,10 @@
 
 ## Merge requests
 
-| MR | Opened | Size | Commits | CI / SonarCloud | Status (2 Nov) |
+| MR | Opened | Size | Commits | CI / SonarCloud | Status (3 Nov) |
 |---|---|---|---|---|---|
-| [#145 — void (Hapus) a setoran and keep it out of saldo and laporan](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | 31 Oct | +748 / −40, 20 files | 16 | green, gate passed, 0 issues, 100% | Open, no review yet |
-| [#193 — Hapus a setoran from the selection header and the web Aksi column](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | 31 Oct | +980 / −85, 26 files | 17 | green, gate passed, 0 issues, 100% | Open, no review yet. `staging` merged in on 2 Nov |
+| [#145 — void (Hapus) a setoran and keep it out of saldo and laporan](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | 31 Oct | +748 / −40, 20 files | 16 | green, gate passed, 0 issues, 100% | Open. Reviewed by Gabriel (2 Nov): no defect found, three non-blocking points |
+| [#193 — Hapus a setoran from the selection header and the web Aksi column](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | 31 Oct | +980 / −85, 26 files | 17 | green, gate passed, 0 issues, 100% | Open. `staging` merged in on 2 Nov. Reviewed by Gabriel (2 Nov): no defect found, two non-blocking points |
 | [#196 — show setoran only in Riwayat Aktivitas](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/196) | 31 Oct | +277 / −65, 8 files | 4 | green, gate passed, 0 issues, 100% | Open, no review yet |
 | [#137 — PIL-451 backend](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) (from last week) | 26 Oct | +565 / −5, 11 files | 17 | green, gate passed, 0 issues, 100% | Second round of findings fixed and answered |
 | [#174 — PIL-451 mobile](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) (from last week) | 26 Oct | +757 / −32, 18 files | 20 | green, gate passed, 0 issues, 100% | Second round fixed and answered; `staging` merged in |
@@ -129,6 +129,10 @@ refactor(ledger): [REFACTOR] read counted setoran through Transaksi.objects.terc
 
 ## Status and what is left
 
-- **#145, #193 and #196 have no review yet.** They go through the team's `ask-for-review` skill.
+- **#145 and #193:** Gabriel reviewed both on 2 Nov ([#145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145), [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193)). He traced every query site for a place a voided setoran still counts and found none. His points are all non-blocking:
+    - #145: the enum in the constraint, an index for `Transaksi`, and how the statement PDF shows a void;
+    - #193: null-safety order, and trimming the alasan.
+
+    They're answered next. **#196** has no review yet and goes through the team's `ask-for-review` skill.
 - **#137 and #174:** the reviewers need to re-check and approve. Nothing merges without approval.
 - **The migration clash:** whichever of #137 and #145 merges second renumbers its `0029` to `0030`.

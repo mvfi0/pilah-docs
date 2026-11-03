@@ -9,7 +9,7 @@
 
 The rubric's level 2 is working well as a team without causing issues that hinder the project. Level 3 adds knowledge sharing or comparable team activities. I'm claiming level 2: the sharing this week was written (reviews, PR comments, thread replies), and there was no knowledge-sharing session.
 
-## This week (Sprint 3 Week 1, 31 Oct – 6 Nov)
+## This week (Sprint 3 Week 1, 31 Oct – 3 Nov)
 
 - **Two reviews that show their working.**
     - **On Rifqi's [pilah-be #144](https://github.com/bank-sampah-PILAH/pilah-be/pull/144#pullrequestreview-5737653085):** I didn't just say a database bug would be hidden. I showed it with a throwaway test and the two log lines it produced. Then I gave the fix and the test that would pin it, and framed the throttle concern as a question backed by where else the endpoint is called.

@@ -65,7 +65,7 @@ I also pointed out the same dead-control pattern in the greyed "Pencairan" menu 
 
 ## Reviews received
 
-| Reviewer | Finding | Checked against the code | Status (2 Nov) |
+| Reviewer | Finding | Checked against the code | Status (3 Nov) |
 |---|---|---|---|
 | Tristan, [P1 on #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4431159076) | Google login links a pengurus-entered membership without the account lock the other writers now take | **Correct.** My race test covered three writers. This fourth one runs on every Google login | **Fixed**, red [`c428c32`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c428c32) → green [`d19cb8d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d19cb8d). [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4443157430) |
 | Heraldo, [Medium on #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4434504589) | The same gap, with both orderings: a stranded pengelola, and a misleading 401 from `Nasabah.clean` | **Correct, both reproduced** by the red tests | **Fixed** in the same pair; a refactor [`e077084`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e077084) followed. [Reply](https://github.com/bank-sampah-PILAH/pilah-be/pull/137#discussion_r4443157975) |
@@ -79,5 +79,6 @@ Two of these were found by more than one reviewer, which is why seven threads ma
 
 ## Asking the team
 
-- **#145, #193 and #196:** no review yet. They go through the team's `ask-for-review` skill.
+- **#145 and #193:** Gabriel reviewed both on 2 Nov ([#145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145), [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193)). He found no defect and raised five non-blocking points, answered next. He also noted what PIL-429 (bulk void) will need on the client: the selection provider widened from one id to a set.
+- **#196:** no review yet. It goes through the team's `ask-for-review` skill.
 - **#137 and #174:** waiting for the reviewers to re-check after the second round.

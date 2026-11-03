@@ -1,24 +1,26 @@
 # Commitment, Work Ethic
 
-!!! warning "Competency level: 3 if the week reaches 17 h — 9 h 47 min logged so far (3 Nov)"
-    Sprint 3 Week 1 runs from 31 Oct to 6 Nov. By 3 Nov, **9 h 47 min** is logged:
+!!! warning "Competency level: 1"
+    **9 h 47 min** logged across Sprint 3 Week 1 (31 Oct – Tue 3 Nov, the IR due date):
 
     - **7 h 2 min** of measured session time;
     - **2 h 45 min** of self-reported meetings: Sprint 3 Planning and the week's standups.
 
-    That's below the 17-hour minimum so far. The rubric's level 1 is under 17 hours a week, and level 3 is disciplined, quality work equivalent to 17 hours. So the claim stays at 3 only if the rest of the week brings the total to 17 h. This page will be updated with the final figure on 6 Nov.
+    That's under the 17-hour minimum. The rubric's level 1 is under 17 hours a week, so this week claims level 1, whatever the output.
 
-    The output so far:
+    The output itself was substantial:
 
-    - **Three new merge requests:** #145, #193 and #196;
+    - **three new merge requests:** #145, #193 and #196;
     - **a second review round** answered on #137 and #174;
     - **two reviews** of teammates' PRs;
     - **two security scans;**
     - **all of Sprint 3 Week 1's Part B pages.**
 
+    It just didn't take 17 hours of logged time. The week was also short: it started on Saturday 31 Oct, after S2W3's 24–30 Oct, and ended on the Tuesday it was due.
+
 ## Time allocation
 
-The hours and every work block are in the Work Log: [Week of 31 Oct – 6 Nov](../../logs/index.md#week-of-31-oct-6-nov-sprint-3-week-1).
+The hours and every work block are in the Work Log: [Week of 31 Oct – 3 Nov](../../logs/index.md#week-of-31-oct-3-nov-sprint-3-week-1).
 
 | Part of the week | Logged |
 |---|---|
@@ -28,7 +30,7 @@ The hours and every work block are in the Work Log: [Week of 31 Oct – 6 Nov](.
 | 31 Oct – 1 Nov: picked the next startable issue, built PIL-435 test-first and opened #196 | 43 min |
 | 2 Nov: seven review findings on #137 and #174 fixed and answered; `staging` merged into #193 and #174; **reviews of Rifqi's #144 and Gabriel's #202** (20:50–21:07, below); SonarCloud findings fixed; Sprint 3 Week 1 Part B pages; ZAP scans of PIL-428 and PIL-435 | 3 h 17 min |
 | 3 Nov: session export published, 3P, S2W3 Security claim, these Part C pages | 39 min |
-| **Sprint 3 Week 1 so far** | **9 h 47 min** |
+| **Sprint 3 Week 1** | **9 h 47 min** |
 
 **Reviewing other people's PRs.** Both reviews were done in the 2 Nov session, with checkout, tests and a scratch test before posting. They took about 17 minutes of it: from listing the teammates' open PRs at 20:50, to the #144 review at 20:58 and the #202 review at 21:06. The #202 suite run and its write-up followed. This time is counted inside the 2 Nov row above, not on top of it. No other reviews by me on teammates' PRs were posted between 30 Oct and 3 Nov.
 
