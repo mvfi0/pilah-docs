@@ -87,6 +87,7 @@ nav:
       - Metasploit (14 Oct): security/index.md
       - OWASP ZAP (26 Oct): security/zap-2026-10-26.md
       - OWASP ZAP per sub-issue (2 Nov): security/zap-2026-11-02.md
+      - OWASP ZAP per sub-issue (9 Nov): security/zap-2026-11-09.md
   - Work Log: logs/index.md
   - IR Part B:
       - Sprint 1 Week 1:
