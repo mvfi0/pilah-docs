@@ -137,20 +137,20 @@ The IR claims this week as [Sprint 3 Week 1](../review-sprint-3-week-1/index.md)
 | 31 Oct – 3 Nov | — | 30 min *(self-reported)* | **Reading:** the Metasploit Framework and how it works | — |
 | 31 Oct – 3 Nov | — | 45 min *(self-reported)* | **Daily standups on Discord** with the team, the week's total | — |
 
-## Week of 4–8 Nov (Sprint 3 week 2)
+## Week of 4–10 Nov (Sprint 3 week 2)
 
-Sprint 3 Week 2 runs to Tuesday 10 Nov, the IR due date, so the next section continues it. Only the UAT is logged for 4–8 Nov so far.
+The IR claims this week as Sprint 3 Week 2. It ended on Tuesday 10 Nov, the IR due date, so nothing after that day is in it. Only the UAT is logged for 4–8 Nov so far.
 
 | Date | Time | Duration | Work | Output |
 |---|---|---|---|---|
 | Fri 6 Nov | 09:00–11:00 | 2 h *(self-reported)* | **UAT and usability test with the Pengurus** (ibu-ibu pengurus of the partner bank sampah), run from the task script and findings form prepared for PIL-418 | [PIL-418](https://linear.app/pilah-2/issue/PIL-418) |
+| Mon 9 Nov | 14:25–16:20, 17:09–18:20, 19:11–19:14 | 3 h 10 min | Listed the takeable Sprint 3 issues. Stopped **PIL-475** (root cause not confirmed; wrote reproduction steps) and traced the "Google login on mobile web sometimes opens Gmail" finding (no code cause; deferred). **Built PIL-481 (a voided setoran leaves every riwayat list) test-first in both repos:** one named rule, `Transaksi.objects.tercatat()`, for the feeds, the setoran list, the dashboard and the nasabah views, with the detail by id kept for audit; the Hapus dialogs and toast now say it is hidden. Playwright E2E 24/24. **Built PIL-480** (drop the ID Aktivitas column from the export) test-first. Opened three PRs. **ZAP scans of both**, re-run after the disk was freed; report with a patch plan; filed **PIL-482** for the `nasabah_id` 500 | [pilah-be #167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167), [pilah-mobile #238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238), [pilah-be #168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168), [ZAP report](../security/zap-2026-11-09.md) |
+| Tue 10 Nov | 13:41–13:51 | 10 min | Wrote the 3P; diagnosed why the PR checks were red (a date-dependent test that also fails on `staging`, fixed on PIL-239 but not yet merged) | — |
 
-## Week of 9–11 Nov (Sprint 3 week 2 end, week 3 start)
+## Week of 11–17 Nov (Sprint 3 week 3)
 
-11 Nov starts the next week. These rows cover the PIL-481 and PIL-480 work only.
+Sprint 3 Week 3 ends on Tuesday 17 Nov, the IR due date. These rows are the follow-up on the PIL-481 and PIL-480 PRs; they are not part of Sprint 3 Week 2.
 
 | Date | Time | Duration | Work | Output |
 |---|---|---|---|---|
-| Mon 9 Nov | 14:25–16:20, 17:09–18:20, 19:11–19:14 | 3 h 10 min | Listed the takeable Sprint 3 issues. Stopped **PIL-475** (root cause not confirmed; wrote reproduction steps) and traced the "Google login on mobile web sometimes opens Gmail" finding (no code cause; deferred). **Built PIL-481 (a voided setoran leaves every riwayat list) test-first in both repos:** one named rule, `Transaksi.objects.tercatat()`, for the feeds, the setoran list, the dashboard and the nasabah views, with the detail by id kept for audit; the Hapus dialogs and toast now say it is hidden. Playwright E2E 24/24. **Built PIL-480** (drop the ID Aktivitas column from the export) test-first. Opened three PRs. **ZAP scans of both**, re-run after the disk was freed; report with a patch plan; filed **PIL-482** for the `nasabah_id` 500 | [pilah-be #167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167), [pilah-mobile #238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238), [pilah-be #168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168), [ZAP report](../security/zap-2026-11-09.md) |
-| Tue 10 Nov | 13:41–13:51 | 10 min | Wrote the 3P; diagnosed why the PR checks were red (a date-dependent test that also fails on `staging`, fixed on PIL-239 but not yet merged) | — |
 | Wed 11 Nov | 18:19–18:20, 19:15, 20:01–21:02 | 1 h 1 min | **Answered Heraldo's change requests** on #167 and #238: bulk Hapus copy aligned with the single dialog, result panel pointing at the detail, toast copy pinned as a constant, stale comments and docstrings fixed (tests first). Cherry-picked the date-test fix into #167 and #168 so CI could run; replied in each thread; re-requested his review, and requested it on #168 | [Replies on #238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238#issuecomment-6796891632), [#167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167#issuecomment-6796892408), [#168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168#issuecomment-6796893115) |
