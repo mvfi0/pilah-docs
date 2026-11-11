@@ -137,9 +137,17 @@ The IR claims this week as [Sprint 3 Week 1](../review-sprint-3-week-1/index.md)
 | 31 Oct – 3 Nov | — | 30 min *(self-reported)* | **Reading:** the Metasploit Framework and how it works | — |
 | 31 Oct – 3 Nov | — | 45 min *(self-reported)* | **Daily standups on Discord** with the team, the week's total | — |
 
-## Week of 9–11 Nov (Sprint 3)
+## Week of 4–8 Nov (Sprint 3 week 2)
 
-Sprint 3 Week 2 ends on Tuesday 10 Nov, the IR due date; 11 Nov starts the next week. These rows cover the PIL-481 and PIL-480 work only.
+Sprint 3 Week 2 runs to Tuesday 10 Nov, the IR due date, so the next section continues it. Only the UAT is logged for 4–8 Nov so far.
+
+| Date | Time | Duration | Work | Output |
+|---|---|---|---|---|
+| Fri 6 Nov | 09:00–11:00 | 2 h *(self-reported)* | **UAT and usability test with the Pengurus** (ibu-ibu pengurus of the partner bank sampah), run from the task script and findings form prepared for PIL-418 | [PIL-418](https://linear.app/pilah-2/issue/PIL-418) |
+
+## Week of 9–11 Nov (Sprint 3 week 2 end, week 3 start)
+
+11 Nov starts the next week. These rows cover the PIL-481 and PIL-480 work only.
 
 | Date | Time | Duration | Work | Output |
 |---|---|---|---|---|
