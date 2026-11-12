@@ -109,7 +109,26 @@ def load_drive(path: str) -> Callable[..., None]:
     return module.drive  # type: ignore[no-any-return]
 
 
-SECRET = re.compile(r"Bearer\s+[A-Za-z0-9._-]{20,}|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}")
+# What must never reach a published report. A Django debug page (DEBUG=true)
+# dumps the whole process environment, so anything exported on the machine
+# can end up in the evidence, not only the API tokens the script uses:
+# bearer tokens and JWTs, chat webhooks (Discord, Slack), cloud and GitHub
+# tokens, and database URLs that carry a password. Added 13 Nov 2026, after
+# two Discord webhooks from the machine environment reached a public commit.
+SECRET = re.compile(
+    "|".join(
+        [
+            r"Bearer\s+[A-Za-z0-9._-]{20,}",
+            r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}",
+            r"discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9_-]{8,}",
+            r"hooks\.slack\.com/services/[A-Za-z0-9/]{10,}",
+            r"xox[abprs]-[A-Za-z0-9-]{10,}",
+            r"gh[pousr]_[A-Za-z0-9]{20,}",
+            r"AIza[0-9A-Za-z_-]{30,}",
+            r"postgres(?:ql)?://[^\s\"'<:@]+:[^\s\"'<@*]+@",
+        ]
+    )
+)
 
 
 def main() -> int:
