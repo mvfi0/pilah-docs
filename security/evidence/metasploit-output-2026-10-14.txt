@@ -1,0 +1,75 @@
+# Metasploit 6.5.3 scan of PILAH backend (local dev instance), 14 Oct 2026
+# Target: http://172.19.64.1:8001  (manage.py runserver, DEBUG=true)
+
+[*] Spooling to file ~/msf_pilah_scan.txt...
+RHOSTS => 172.19.64.1
+RPORT => 8001
+ServerName => 172.19.64.1
+[*] exec: echo ===== 1. HTTP VERSION / FINGERPRINT =====
+
+[+] 172.19.64.1:8001 WSGIServer/0.2 CPython/3.12.10
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== 2. SECURITY HEADERS =====
+
+TARGETURI => /api/v1/jenis-sampah
+[+] 172.19.64.1:8001     : ALLOW: GET, POST, HEAD, OPTIONS
+[+] 172.19.64.1:8001     : CONTENT-TYPE: application/json
+[+] 172.19.64.1:8001     : CROSS-ORIGIN-OPENER-POLICY: same-origin-allow-popups
+[+] 172.19.64.1:8001     : REFERRER-POLICY: strict-origin-when-cross-origin
+[+] 172.19.64.1:8001     : SERVER: WSGIServer/0.2 CPython/3.12.10
+[+] 172.19.64.1:8001     : WWW-AUTHENTICATE: Bearer realm="api"
+[+] 172.19.64.1:8001     : X-CONTENT-TYPE-OPTIONS: nosniff
+[+] 172.19.64.1:8001     : X-FRAME-OPTIONS: DENY
+[+] 172.19.64.1:8001     : detected 8 headers
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== 3. ROBOTS.TXT =====
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== 4. ALLOWED HTTP METHODS =====
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== 5. DIRECTORY SCAN =====
+
+[*] Detecting error code
+[*] Using code '404' as not found for 172.19.64.1
+[*] Error: 172.19.64.1: ActiveRecord::RecordInvalid Validation failed: Port already exists on this host and protocol
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== 6. STORED SERVICES/VULNS =====
+
+Services
+========
+
+host         port  proto  name  state  info                            resource  parents
+----         ----  -----  ----  -----  ----                            --------  -------
+172.19.64.1  8001  tcp    http  open   WSGIServer/0.2 CPython/3.12.10  {}
+172.19.64.1  8001  tcp          open                                   {}
+
+
+Vulnerabilities
+===============
+
+Timestamp  Host  Service  Resource  Name  References
+---------  ----  -------  --------  ----  ----------
+
+
+===== CLEAN RE-RUN: dir_scanner + options =====
+[*] Spooling to file ~/msf_pilah_dir.txt...
+RHOSTS => 172.19.64.1
+RPORT => 8001
+[*] exec: echo ===== DIRECTORY SCANNER (no DB) =====
+
+THREADS => 4
+[*] Detecting error code
+[*] Using code '404' as not found for 172.19.64.1
+[+] Found http://172.19.64.1:8001/admin/ 302 (172.19.64.1)
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+[*] exec: echo ===== OPTIONS (methods) verbose =====
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
