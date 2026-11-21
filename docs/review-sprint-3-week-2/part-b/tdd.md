@@ -14,6 +14,23 @@
     - **Provider state asserted directly:** the tests read the Riverpod `ProviderContainer` after the void, including that screens never opened were never built.
     - **E2E with database checks:** Playwright drives the PIL-481 web build at desktop and phone sizes and reads the result back from the backend: 24/24.
 
+## When each piece was done
+
+Sprint 3 Week 2 runs from **Wed 4 Nov to Tue 10 Nov** (WIB), the IR due date. Every commit on this page was made on 4 or 9 Nov, before that deadline.
+
+| Date (WIB) | Work | Commits |
+|---|---|---|
+| Wed 4 Nov, 17:20–17:31 | PIL-428, Heraldo's findings: the seed fix (#145) and the in-flight dialog (#193) | [`743ed1c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/743ed1c3), [`abcafa3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/abcafa30), [`17125d0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/17125d07), [`472c506`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/472c506b) |
+| Wed 4 Nov, 20:29–20:36 | PIL-428, Scallss's findings: the reload after a void and the spacing token (#193) | [`6979612`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/69796129), [`be7b6d0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/be7b6d06), [`b815354`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b815354f) |
+| Mon 9 Nov, 14:58–15:04 | PIL-481 backend, three red/green pairs (#167) | [`8143807`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8143807d) … [`646c0d1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/646c0d1c) |
+| Mon 9 Nov, 15:16–15:24 | PIL-481 mobile copy (#238) | [`da003a1`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/da003a1b), [`ff86f6f`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ff86f6f4) |
+| Mon 9 Nov, 16:16–16:18 | PIL-480, refactor first, then red and green (#168) | [`9dbfcf2`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9dbfcf26), [`3d83377`](https://github.com/bank-sampah-PILAH/pilah-be/commit/3d833773), [`2b1fba9`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2b1fba90) |
+| **Tue 10 Nov** | **Due date** | — |
+
+**Not in this week:** Heraldo's fixes on #167 and #238 ([`72fc61c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/72fc61c5), [`5e8e160`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5e8e160d), [`77e612e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/77e612ec), 11 Nov) and the date-test cherry-pick. They are in [Sprint 3 Week 3](../../review-sprint-3-week-3/part-b/tdd.md).
+
+**One date to know about the coverage proof.** SonarCloud couldn't analyse #167, #168 and #238 before the deadline, because their CI was red on a date-dependent test that also failed on `staging`. Their first analysis ran on 11 Nov, after the fix was cherry-picked. The coverage they show is still the 9 Nov code's: the 11 Nov commits changed only a docstring (#167), the copy (#238) and a test file, none of them coverable lines.
+
 ## Mocks, stubs and fakes in this week's tests
 
 A test double stands in for a real collaborator so that a test controls it. A **stub** gives fixed answers, a **mock** is a generated stand-in for an interface, and a **fake** or **spy** is a small working version that also records what was done to it. Each double below has one job, and the code under test around it is real.
@@ -29,17 +46,19 @@ A test double stands in for a real collaborator so that a test controls it. A **
 
 ## Coverage proof at a glance
 
-| MR | Work | SonarCloud new-code coverage | Quality gate |
-|---|---|---|---|
-| pilah-be [#145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | PIL-428, final round (seed fix) | [100% of 95 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=145&metric=new_coverage&view=list) | Passed |
-| pilah-mobile [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | PIL-428, final round (dialog and reload) | [100% of 154 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=193&metric=new_coverage&view=list) | Passed |
-| pilah-be [#167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167) | PIL-481: lists leave a void out | [100% of 7 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=167&metric=new_coverage&view=list) | Passed |
-| pilah-mobile [#238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238) | PIL-481: the Hapus copy | No coverable lines (copy and comments only); pinned by a widget test | Passed |
-| pilah-be [#168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168) | PIL-480: export without ID Aktivitas | [100% of 2 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=168&metric=new_coverage&view=list) | Passed |
+| MR | Work | Commits (WIB) | SonarCloud analysis (WIB) | New-code coverage | Quality gate |
+|---|---|---|---|---|---|
+| pilah-be [#145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | PIL-428, final round (seed fix) | 4 Nov, 17:20–17:21 | 4 Nov, 20:20 | [100% of 95 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=145&metric=new_coverage&view=list) | Passed |
+| pilah-mobile [#193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | PIL-428, final round (dialog and reload) | 4 Nov, 17:29–20:36 | 4 Nov, 20:52 | [100% of 154 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=193&metric=new_coverage&view=list) | Passed |
+| pilah-be [#167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167) | PIL-481: lists leave a void out | 9 Nov, 14:58–15:04 | 11 Nov, 20:21 (CI blocked until then) | [100% of 7 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=167&metric=new_coverage&view=list) | Passed |
+| pilah-mobile [#238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238) | PIL-481: the Hapus copy | 9 Nov, 15:16–15:24 | 11 Nov, 20:45 | No coverable lines (copy and comments only); pinned by a widget test | Passed |
+| pilah-be [#168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168) | PIL-480: export without ID Aktivitas | 9 Nov, 16:16–16:18 | 11 Nov, 20:39 (CI blocked until then) | [100% of 2 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=168&metric=new_coverage&view=list) | Passed |
 
-The figures are from the SonarCloud API (`api/measures/component` with `pullRequest=<n>`), read on 19 Nov for each PR's final analysis. #145 and #193 add the 4 Nov commits to the coverage shown in [Sprint 3 Week 1](../../review-sprint-3-week-1/part-b/tdd.md).
+The figures are from the SonarCloud API (`api/measures/component` with `pullRequest=<n>`), read on 19 Nov; the analysis times are from `api/project_pull_requests/list`. #145 and #193 add the 4 Nov commits to the coverage shown in [Sprint 3 Week 1](../../review-sprint-3-week-1/part-b/tdd.md).
 
 ## PIL-428, the final review round (4 Nov)
+
+Committed on Wed 4 Nov, 17:20–20:36.
 
 | Finding | Red | Green | What the red asserts |
 |---|---|---|---|
@@ -83,6 +102,8 @@ The `latency` on the stub API is what makes this deterministic. Without it the a
 
 ## PIL-481: a voided setoran leaves every list (9 Nov)
 
+Committed on Mon 9 Nov, 14:58–15:24.
+
 Backend, [pilah-be #167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167):
 
 | Behaviour | Red | Green | Tests |
@@ -96,6 +117,8 @@ The "still reachable by id" tests are guards that passed in their red commits on
 Mobile, [pilah-mobile #238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238): red [`da003a1`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/da003a1b), green [`ff86f6f`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ff86f6f4). The single and bulk Hapus dialogs and the toast now say the setoran is hidden from the riwayat, not kept there with a label.
 
 ## PIL-480: the export without ID Aktivitas (9 Nov)
+
+Committed on Mon 9 Nov, 16:16–16:18.
 
 [pilah-be #168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168), refactor first, so the change is one edit:
 

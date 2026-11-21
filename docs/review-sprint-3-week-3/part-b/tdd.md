@@ -14,6 +14,23 @@
     - **An HTTP contract test over three endpoints:** one test drives `/aktivitas`, `/transaksi` and `/pencairan` with the same malformed ids, as sub-tests, so a fourth list can join with one line.
     - **Mutation testing in review:** on Gabriel's PIL-478 pair I put code back on purpose (10 mutants, 6 caught) and reported, with the test that would catch each, the ones that got through. See [Team Development Management](team-development-management.md).
 
+## When each piece was done
+
+Sprint 3 Week 3 runs from **Wed 11 Nov to Tue 17 Nov** (WIB), the IR due date. Every commit and every SonarCloud analysis on this page falls inside that range.
+
+| Date (WIB) | Work | Commits |
+|---|---|---|
+| Wed 11 Nov, 20:11–20:12 | Heraldo's findings on PIL-481: the bulk copy (#238) and a docstring (#167) | [`5e8e160`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5e8e160d), [`77e612e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/77e612ec), [`72fc61c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/72fc61c5) |
+| Thu 12 Nov, 00:33 | Mutation testing in my review of Gabriel's PIL-478 pair (#169, #243) | — (a review, not a commit) |
+| Mon 16 Nov, 18:29–18:32 | #175, PIL-482 | [`5699fff`](https://github.com/bank-sampah-PILAH/pilah-be/commit/5699fffc), [`5c2f7fc`](https://github.com/bank-sampah-PILAH/pilah-be/commit/5c2f7fc2), [`b85819a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/b85819ae) |
+| Mon 16 Nov, 18:35–19:07 | #176, the counted-setoran rule | [`b10fffa`](https://github.com/bank-sampah-PILAH/pilah-be/commit/b10fffaa), [`8d1a931`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8d1a9316) |
+| Mon 16 Nov, 18:42–19:56 | #177, NUL and padded kode | [`04ab0bb`](https://github.com/bank-sampah-PILAH/pilah-be/commit/04ab0bbc) … [`7b7841d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7b7841dc) |
+| Tue 17 Nov, 00:03–00:31 | #137, PIL-451 third round (the race test) | [`9424d9f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9424d9f2), [`870224d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/870224dc), [`51a631e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/51a631ef) |
+| Tue 17 Nov, 00:07–00:52 | #174, PIL-451 third round (Kembali) | [`42d2020`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/42d20201), [`ef55977`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef55977b), [`a363412`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a363412f) |
+| **Tue 17 Nov** | **Due date** | — |
+
+**Not in this week:** the 9 Nov PIL-481 and PIL-480 commits, which are in [Sprint 3 Week 2](../../review-sprint-3-week-2/part-b/tdd.md). Also not here: the merges of #137, #174 and #175–#177 and my replies to Gabriel's comments (18 Nov), and be#185 (18 Nov). Those belong to the next week.
+
 ## Mocks, stubs and fakes in this week's tests
 
 A test double stands in for a real collaborator so that a test controls it. A **stub** gives fixed answers, a **mock** is a generated stand-in for an interface, and a **spy** wraps or records the real thing. Each double below has one job, and the code under test around it is real.
@@ -30,19 +47,21 @@ A test double stands in for a real collaborator so that a test controls it. A **
 
 ## Coverage proof at a glance
 
-| MR | Work | SonarCloud new-code coverage | Quality gate |
-|---|---|---|---|
-| pilah-be [#175](https://github.com/bank-sampah-PILAH/pilah-be/pull/175) | PIL-482: malformed `nasabah_id` is a 422 | [100% of 15 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=175&metric=new_coverage&view=list) | Passed |
-| pilah-be [#176](https://github.com/bank-sampah-PILAH/pilah-be/pull/176) | Waste categories through `tercatat()` | [100% of 2 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=176&metric=new_coverage&view=list) | Passed |
-| pilah-be [#177](https://github.com/bank-sampah-PILAH/pilah-be/pull/177) | NUL or padded kode in a body is a 422 | [100% of 13 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=177&metric=new_coverage&view=list) | Passed |
-| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | PIL-451, third round | [100% of 52 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=137&metric=new_coverage&view=list) | Passed |
-| pilah-mobile [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) | PIL-451, third round | [100% of 96 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=174&metric=new_coverage&view=list) | Passed |
-| pilah-be [#167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167) | PIL-481, review round | [100% of 7 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=167&metric=new_coverage&view=list) | Passed |
-| pilah-mobile [#238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238) | PIL-481, review round | No coverable lines (copy, comments, a constant); pinned by widget tests | Passed |
+| MR | Work | Commits (WIB) | SonarCloud analysis (WIB) | New-code coverage | Quality gate |
+|---|---|---|---|---|---|
+| pilah-be [#175](https://github.com/bank-sampah-PILAH/pilah-be/pull/175) | PIL-482: malformed `nasabah_id` is a 422 | 16 Nov, 18:29–18:32 | 16 Nov, 19:09 | [100% of 15 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=175&metric=new_coverage&view=list) | Passed |
+| pilah-be [#176](https://github.com/bank-sampah-PILAH/pilah-be/pull/176) | Waste categories through `tercatat()` | 16 Nov, 18:35–19:07 | 16 Nov, 19:47 | [100% of 2 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=176&metric=new_coverage&view=list) | Passed |
+| pilah-be [#177](https://github.com/bank-sampah-PILAH/pilah-be/pull/177) | NUL or padded kode in a body is a 422 | 16 Nov, 18:42–19:56 | 16 Nov, 20:01 | [100% of 13 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=177&metric=new_coverage&view=list) | Passed |
+| pilah-be [#137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | PIL-451, third round | 17 Nov, 00:03–00:31 | 17 Nov, 00:36 | [100% of 52 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=137&metric=new_coverage&view=list) | Passed |
+| pilah-mobile [#174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) | PIL-451, third round | 17 Nov, 00:07–00:52 | 17 Nov, 01:09 | [100% of 96 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-mobile&pullRequest=174&metric=new_coverage&view=list) | Passed |
+| pilah-be [#167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167) | PIL-481, review round | 11 Nov, 20:12 | 11 Nov, 20:21 | [100% of 7 lines](https://sonarcloud.io/component_measures?id=bank-sampah-PILAH_pilah-be&pullRequest=167&metric=new_coverage&view=list) | Passed |
+| pilah-mobile [#238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238) | PIL-481, review round | 11 Nov, 20:11 | 11 Nov, 20:45 | No coverable lines (copy, comments, a constant); pinned by widget tests | Passed |
 
-Read from the SonarCloud API on 19 Nov, for each PR's final analysis.
+The figures are from the SonarCloud API, read on 19 Nov, for each PR's last analysis, which in every case ran before the 17 Nov deadline. The analysis times are from `api/project_pull_requests/list`.
 
 ## New PRs (16 Nov)
+
+Committed on Mon 16 Nov, 18:29–19:56.
 
 ### [pilah-be #175](https://github.com/bank-sampah-PILAH/pilah-be/pull/175), PIL-482
 
@@ -103,12 +122,14 @@ The padded-duplicate bug wasn't in the plan. It came up while writing the NUL sl
 
 ## Review rounds
 
+Committed on Wed 11 Nov (#238, #167) and Tue 17 Nov, 00:03–00:52 (#137, #174), both before the deadline.
+
 | Finding | Red | Green / refactor | The red failed on |
 |---|---|---|---|
-| #137, Tristan P2: a profile completed next to a role change answers with a stale role and `next_step` | [`9424d9f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9424d9f2), [`870224d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/870224dc) | [`51a631e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/51a631ef) | The response's role after a role change; and, on PostgreSQL, the role change not waiting for the profile save |
-| #174, Tristan P2: on web the role page has no way back to Lengkapi Profil | [`42d2020`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/42d20201) | [`ef55977`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef55977b), then [`a363412`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a363412f) | "Kembali returns to Lengkapi Profil without changing the role": no Kembali on the page |
-| #238, Heraldo: the bulk dialog and toast word the void's consequence differently from the single dialog | [`5e8e160`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5e8e160d) | [`77e612e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/77e612ec) | "the success toast says the row is hidden, as the backend now does", and the bulk copy |
-| #167, Heraldo: a docstring still said a void stays in the riwayat | — | [`72fc61c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/72fc61c5) `docs(ledger): [REFACTOR]` | Comment-only, so no red; the tests ran unchanged |
+| #137 (17 Nov, 00:03–00:31), Tristan P2: a profile completed next to a role change answers with a stale role and `next_step` | [`9424d9f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9424d9f2), [`870224d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/870224dc) | [`51a631e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/51a631ef) | The response's role after a role change; and, on PostgreSQL, the role change not waiting for the profile save |
+| #174 (17 Nov, 00:07–00:52), Tristan P2: on web the role page has no way back to Lengkapi Profil | [`42d2020`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/42d20201) | [`ef55977`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef55977b), then [`a363412`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a363412f) | "Kembali returns to Lengkapi Profil without changing the role": no Kembali on the page |
+| #238 (11 Nov, 20:11), Heraldo: the bulk dialog and toast word the void's consequence differently from the single dialog | [`5e8e160`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5e8e160d) | [`77e612e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/77e612ec) | "the success toast says the row is hidden, as the backend now does", and the bulk copy |
+| #167 (11 Nov, 20:12), Heraldo: a docstring still said a void stays in the riwayat | — | [`72fc61c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/72fc61c5) `docs(ledger): [REFACTOR]` | Comment-only, so no red; the tests ran unchanged |
 
 The race test reuses the harness from the earlier rounds. Only the paused writer is new:
 
