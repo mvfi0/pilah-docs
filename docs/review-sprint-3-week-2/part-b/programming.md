@@ -24,13 +24,13 @@
 
 What each design change did, compared with the code before it.
 
-| What | Before | After | The difference it made |
-|---|---|---|---|
-| Seed commands (#145) | `Transaksi.objects.filter(...)` summed every setoran, voided ones included | `Transaksi.objects.tercatat().filter(...)`, the method the reports use | Re-seeding after a void no longer puts the voided money back into a saldo |
-| Riwayat lists (#167) | `activity_sources` started from `Transaksi.objects.filter(bank_sampah=bank)`, so a void stayed listed, labelled Dibatalkan | It starts from `Transaksi.objects.tercatat()`. On the nasabah side, `activities(member).tercatat()` at the two list call sites, while the lookup returns everything | A Hapus now reads as a delete in every list, as the UAT asked, yet a voided setoran's detail still answers 200 with who, when and why |
-| Hapus dialog (#193) | Any tap outside or back closed it mid-request. Everything after the request sat behind `if (!mounted) return;` | `PopScope(canPop: !_saving)`, notifiers read before the `await`, the server's answer always applied, and the pop guarded by `route.isCurrent` | A void that succeeds always refreshes the feed, and a late answer can no longer close the Riwayat page underneath |
-| Reload after a void (#193) | The single void reloaded Riwayat only, so the dashboard, recent activity and nasabah saldo stayed stale. The bulk void reloaded four screens its own way | One helper, `reloadAfterSetoranChange`, owns the list and checks `container.exists` | Every screen already open shows the new totals, and no request is sent for a screen never opened |
-| Export (#168) | 14 columns (`A:N`), the last an internal id; two tests counted rows through it | 13 columns (`A:M`); the tests count rows that carry a value | The pengurus's report holds only what they read, and no internal record id leaves the system in a forwarded file |
+| What | Pattern | Before | After | The difference it made |
+|---|---|---|---|---|
+| Seed commands (#145) | **Query Object / Specification** (PoEAA) | `Transaksi.objects.filter(...)` summed every setoran, voided ones included | `Transaksi.objects.tercatat().filter(...)`, the method the reports use | Re-seeding after a void no longer puts the voided money back into a saldo |
+| Riwayat lists (#167) | **Query Object / Specification** (PoEAA), applied at each list; the lookup kept apart (ISP) | `activity_sources` started from `Transaksi.objects.filter(bank_sampah=bank)`, so a void stayed listed, labelled Dibatalkan | It starts from `Transaksi.objects.tercatat()`. On the nasabah side, `activities(member).tercatat()` at the two list call sites, while the lookup returns everything | A Hapus now reads as a delete in every list, as the UAT asked, yet a voided setoran's detail still answers 200 with who, when and why |
+| Hapus dialog (#193) | No design pattern: a **technique** for Flutter's async lifecycle (guard on the route, not `mounted`) | Any tap outside or back closed it mid-request. Everything after the request sat behind `if (!mounted) return;` | `PopScope(canPop: !_saving)`, notifiers read before the `await`, the server's answer always applied, and the pop guarded by `route.isCurrent` | A void that succeeds always refreshes the feed, and a late answer can no longer close the Riwayat page underneath |
+| Reload after a void (#193) | **Facade** (GoF, structural): one call in front of four notifiers; **Observer** (GoF, behavioural, via Riverpod) redraws the screens | The single void reloaded Riwayat only, so the dashboard, recent activity and nasabah saldo stayed stale. The bulk void reloaded four screens its own way | One helper, `reloadAfterSetoranChange`, owns the list and checks `container.exists` | Every screen already open shows the new totals, and no request is sent for a screen never opened |
+| Export (#168) | No design pattern: a principle (SRP) | 14 columns (`A:N`), the last an internal id; two tests counted rows through it | 13 columns (`A:M`); the tests count rows that carry a value | The pengurus's report holds only what they read, and no internal record id leaves the system in a forwarded file |
 
 ## Design issues and the patterns that address them
 
@@ -171,4 +171,5 @@ reloadAfterSetoranChange(container);
 
 - **Query Object / Specification** (PoEAA): `TransaksiQuerySet.tercatat()`, now reused by the seeds and every list.
 - **Observer** (via Riverpod): the screens listen to their providers, so a reload of the notifier redraws the dashboard and the nasabah list without the dialog knowing about them.
+- **Facade** (GoF, structural): `reloadAfterSetoranChange` is one call in front of the Riwayat, dashboard, recent-activity and nasabah notifiers. The dialog, and later edit and bulk, call it without knowing which screens exist. It's a function-level Facade, not a class.
 - The dialog fix is a **technique** for Flutter's async lifecycle, not a design pattern, and is labelled that way in the commit.
