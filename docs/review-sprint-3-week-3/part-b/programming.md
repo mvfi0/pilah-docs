@@ -11,6 +11,16 @@
     - **A navigation policy reused,** not rewritten, and **Extract Method** from a SonarCloud finding.
     - **All five SOLID principles,** each with the code it applies to. See [SOLID in this week's code](#solid-in-this-weeks-code).
 
+## The design issues in brief
+
+- **One input check written three times, with two copies missing.** `nasabah_id` reached the database unchecked on two lists, so a typo was a server error. *Fix:* one validator in the shared kernel that every list calls.
+- **A rule kept only by memory.** `tercatat()` names "counted setoran", but nothing stopped a new query from writing the filter by hand, and one did. *Fix:* a test that reads the source and fails on any hand-written copy.
+- **Checking one value and saving another.** The duplicate-kode check read the raw request before validation, while the save used the cleaned value, so a NUL byte crashed the check and `" HDPE "` slipped past it. *Fix:* check after validation, in the serializer.
+- **Two verbs validating one field two ways.** `POST` validated the device token properly; `DELETE` had a hand-written check that missed the NUL byte. *Fix:* a small serializer for `DELETE` that the `POST` one extends.
+- **A writer that skipped the shared lock.** Profile completion changed the account without the lock the other four writers take, so it could answer with a stale role. *Fix:* it takes the same `lock_account`.
+- **A page with no way back on web.** The role page was pushed, and a push isn't in the browser history. *Fix:* reuse the onboarding steps' existing back policy, then extract it from `build` when SonarCloud flagged the complexity.
+- **One message worded three ways.** The single dialog, the bulk dialog and the toast described a void differently. *Fix:* one named constant per message.
+
 ## Design issues and the patterns that address them
 
 | Code | Design issue | Pattern / principle | Type | Origin |

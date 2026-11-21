@@ -11,6 +11,15 @@
 
     Each item names the design issue it addresses, the pattern or principle used, its type and where the issue came from. The same three lines are in each commit body.
 
+## The design issues in brief
+
+- **A rule that two writers didn't follow.** "A voided setoran doesn't count" had one name, `tercatat()`, but two seed commands summed the raw table, so re-seeding after a void put the money back. *Fix:* the seeds call the same method as the reports.
+- **One query, two different needs.** The riwayat lists must hide a void, but detail, edit and void must still find it, and filtering the shared query would make a voided setoran's detail a 404. *Fix:* each list filters; the shared lookup doesn't.
+- **UI state tied to the widget, not to the server.** If the Hapus dialog was closed mid-request, the app skipped the refresh, although the server had voided the setoran, and a late `pop` could close the wrong page. *Fix:* read what's needed before the request, always apply the server's answer, and close the dialog only if it's still on top.
+- **Each action refreshing its own list of screens.** The single void reloaded one screen, the bulk void four. *Fix:* one helper owns what reloads after a setoran changes, and reloads only screens already open.
+- **An internal key in a user's report.** The export showed a database id no pengurus reads, and two tests depended on it. *Fix:* the tests check visible data first, then the column goes.
+- **Text describing an old rule.** The dialogs said a void stays in the riwayat, which stopped being true. *Fix:* change the text next to the flow it describes, and pin it with a test.
+
 ## Design issues and the patterns that address them
 
 | Code | Design issue | Pattern / principle | Type | Origin |

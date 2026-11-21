@@ -14,6 +14,19 @@
     - **Provider state asserted directly:** the tests read the Riverpod `ProviderContainer` after the void, including that screens never opened were never built.
     - **E2E with database checks:** Playwright drives the PIL-481 web build at desktop and phone sizes and reads the result back from the backend: 24/24.
 
+## Mocks, stubs and fakes in this week's tests
+
+A test double stands in for a real collaborator so that a test controls it. A **stub** gives fixed answers, a **mock** is a generated stand-in for an interface, and a **fake** or **spy** is a small working version that also records what was done to it. Each double below has one job, and the code under test around it is real.
+
+| Double | Kind | Replaces | Why it's needed | Used in |
+|---|---|---|---|---|
+| `StubApi` | Stub, at the HTTP boundary (Dio's `HttpClientAdapter`) | The backend | It answers each `METHOD path` with fixed JSON, and with `latency` set it delays every answer. The real network service, data sources, repositories, use cases and notifiers all still run, so only the server is fake. The one-second latency holds a void in flight while the test taps outside, presses back or closes the dialog | The three in-flight dialog tests and the reload tests on #193 |
+| `_Feed` | Fake and spy (a subclass of `RiwayatAktivitasNotifier`) | The Riwayat feed | It starts with fixed rows and counts its `load()` calls. That lets a test assert the feed reloads exactly once after a void (`expect(feed.loads, 1)`), even when the dialog closed before the answer arrived | The #193 dialog tests |
+| `_MockGetAktivitas`, `_MockExport` | Mocks (mocktail) | The two use cases the feed is built with | `_Feed` never calls them, but its constructor needs them. A mock fills the slot without a network | The #193 dialog tests |
+| `dashboardProvider.overrideWith(...)`, `recentActivityProvider.overrideWith(...)` | Riverpod provider overrides, built on `StubApi` | The real wiring of the dashboard and recent-activity notifiers | The test decides which screens exist in the container, so it can check that open screens reload and that a screen never opened is never built | "a void also reloads the dashboard, recent activity and nasabah", "a void does not load screens that were never opened" |
+
+**Where nothing is faked, on purpose.** The backend tests (#145, #167, #168) run on a real test database through Django's test client. What they check lives in the queries themselves: which rows a list returns, what a seed sums, what columns an export writes. A mocked ORM would only test the mock.
+
 ## Coverage proof at a glance
 
 | MR | Work | SonarCloud new-code coverage | Quality gate |

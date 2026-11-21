@@ -14,6 +14,20 @@
     - **An HTTP contract test over three endpoints:** one test drives `/aktivitas`, `/transaksi` and `/pencairan` with the same malformed ids, as sub-tests, so a fourth list can join with one line.
     - **Mutation testing in review:** on Gabriel's PIL-478 pair I put code back on purpose (10 mutants, 6 caught) and reported, with the test that would catch each, the ones that got through. See [Team Development Management](team-development-management.md).
 
+## Mocks, stubs and fakes in this week's tests
+
+A test double stands in for a real collaborator so that a test controls it. A **stub** gives fixed answers, a **mock** is a generated stand-in for an interface, and a **spy** wraps or records the real thing. Each double below has one job, and the code under test around it is real.
+
+| Double | Kind | Replaces | Why it's needed | Used in |
+|---|---|---|---|---|
+| `patch.object(User, "save", paused)` | Spy (`unittest.mock`) that wraps the real `save` | Nothing: the real `save` still runs, only later | The wrapper signals that the first thread reached its write, then waits on a `threading.Event` before calling the original. That gives the second thread, the role change, an exact moment to run in. Without it a race test would pass or fail by luck | The #137 race test, `test_a_role_change_waits_for_a_profile_being_completed` |
+| `client.force_authenticate(user)` | Stub (DRF test client) | JWT authentication | It signs the request in as a given user object, without issuing a token. On #137 it passes a **stale** user loaded before the role change, which is exactly the situation the bug needs | #137 `test_a_profile_saved_after_a_role_change_answers_for_the_new_role`; the #175 and #177 HTTP tests |
+| `TestAuthenticationNotifier` | Fake and spy | The real authentication notifier | It holds a fixed signed-in account and records every call (`auth.calls`). The Kembali test asserts that going back calls neither `changeRole` nor `logout` | The #174 Kembali test |
+| `_MockDataSource` | Mock (mocktail) | `OnboardingRemoteDataSource`, the API client | The onboarding notifier needs one to be built, and the test must not reach a network | The #174 role-page tests |
+| `pumpRouted(..., extraRoutes: ['/complete-profile', ...])` | Stub routes | The real Lengkapi Profil and login pages | Each extra route renders a placeholder reading `route:/complete-profile`, so the test checks where Kembali goes without building the whole profile screen | The #174 Kembali test |
+
+**Where nothing is faked, on purpose.** #175, #176 and #177 run on a real test database. The bugs were real database behaviour: PostgreSQL refusing a NUL byte, and the ORM raising on a malformed UUID. The architecture test in #176 reads the real source files. Faking either would hide the very thing being tested.
+
 ## Coverage proof at a glance
 
 | MR | Work | SonarCloud new-code coverage | Quality gate |
