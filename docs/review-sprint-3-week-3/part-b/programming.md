@@ -21,6 +21,20 @@
 - **A page with no way back on web.** The role page was pushed, and a push isn't in the browser history. *Fix:* reuse the onboarding steps' existing back policy, then extract it from `build` when SonarCloud flagged the complexity.
 - **One message worded three ways.** The single dialog, the bulk dialog and the toast described a void differently. *Fix:* one named constant per message.
 
+## Before and after
+
+What each design change did, compared with the code before it.
+
+| What | Before | After | The difference it made |
+|---|---|---|---|
+| `nasabah_id` filter (#175) | `/transaksi` and `/pencairan` did `qs.filter(nasabah_id=nasabah_id)` on the raw text; `/aktivitas` had its own `try/except` | All three call `validasi_uuid(nasabah_id, kunci="nasabah_id")` from `shared_kernel` | A malformed id is a 422 with the key named, on every list. ZAP's 9 Nov scan got 226 × 500; the 17 Nov scan got 965 × 422 and no 500 |
+| Duplicate kode (#177) | The jenis sampah view overrode `update` and queried `request.data.get("kode")` before validation | `validate_kode` in the serializer checks the stripped, validated value; the override is gone | A NUL byte is a 422, not a 500, and `" HDPE "` can no longer take another item's kode. `PUT` and `PATCH` follow one rule |
+| Device token (#177) | `DELETE` checked `isinstance(token, str)` and the length by hand | `ForgetDeviceTokenSerializer`, which the `POST` serializer extends | Both verbs validate the token with the same field, so a NUL token is a 422 on logout too |
+| Waste categories (#176) | `DetailTransaksi.objects.filter(transaksi__status=Transaksi.Status.TERCATAT, ...)`, the rule written by hand | `transaksi__in=Transaksi.objects.tercatat().filter(...)`, plus an architecture test | Same numbers, but the rule has one home, and a new hand-written copy fails CI instead of waiting for a reviewer to notice |
+| Profile completion (#137) | `complete_profile` saved the request's cached `User`, without the lock | It starts with `OnboardingService.lock_account(user)` | A profile saved next to a role change answers with the current role and `next_step`, and a role change waits for it and is refused |
+| Role page on web (#174) | In account mode the only visible exit was Keluar (log out); browser Back left the app | A Kembali that reuses `handleOnboardingStepPop`, extracted into `_backToProfile` | The account can go back to Lengkapi Profil without logging out, and `build` is back under SonarCloud's complexity limit (it was 17 of 15) |
+| Void copy (#238) | The toast was a literal string, and the bulk dialog described the consequence in other words | `BatalkanSetoranDialog.berhasilMessage` and one shared sentence | Both flows tell the pengurus the same thing, and the next wording change is one edit |
+
 ## Design issues and the patterns that address them
 
 | Code | Design issue | Pattern / principle | Type | Origin |
