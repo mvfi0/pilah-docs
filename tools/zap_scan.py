@@ -156,7 +156,9 @@ def main() -> int:
     zap = Zap(args.zap)
     api = args.api.rstrip("/")
     token = sign_in(api, args.id_token)
-    log("signed in as the seeded demo Pengurus")
+    # The dev token is `dev:<email>:<name>`; say which seeded account it is.
+    parts = args.id_token.split(":")
+    log(f"signed in as {parts[1] if len(parts) > 2 else 'the given id token'}")
 
     # A rule from an earlier run would hold an old token, so replace it.
     try:
@@ -231,6 +233,13 @@ def main() -> int:
             method, url = message["requestHeader"].split(" ", 2)[:2]
             if url.startswith(f"{api}{prefix}?"):
                 variants.setdefault((method, url), message.get("requestBody", ""))
+            elif not scan and url == f"{api}{prefix}" and method != "GET":
+                # A path only ever sent POST, PUT, PATCH or DELETE has no GET
+                # node, so ZAP refuses to scan it by URL ("URL Not Found in the
+                # Scan Tree", 17 Nov). Scan the recorded request itself, with
+                # its method and body. Later messages win: the drive module's
+                # real body comes after the schema importer's placeholder.
+                variants[(method, url)] = message.get("requestBody", "")
         for (method, url), body in sorted(variants.items()):
             extra = {"method": method, **({"postData": body} if body else {})}
             scan = start_scan(url, False, f"{method} {url[len(api):]}", **extra)
