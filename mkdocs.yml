@@ -94,6 +94,7 @@ nav:
   - IR Part A:
       - review-part-a/index.md
       - Software Methodology, TDD: review-part-a/tdd.md
+      - Team Work with Tools: review-part-a/team-work-with-tools.md
   - IR Part B:
       - Sprint 1 Week 1:
           - review/index.md
