@@ -73,11 +73,7 @@ Each table lists the pairs in the order they were committed. The numbers in brac
 
 **Refactor after green:** [`d244c36`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d244c36) removes a list branch no request could reach (+3 −6).
 
-**The order as GitHub shows it.** Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the commits carry new hashes. The hashes in the table are the ones in the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/19/commits). The screenshot shows the review-round part of that list, pairs 7 to 10 and the refactor: each failing test comes directly before the fix that makes it pass, and the refactor comes only after green.
-
-![The commit list of pilah-be #19, merged by TrayMachi into staging: "test(pencairan): add failing test for unapproved membership" (8eae32e) then "fix(pencairan): require approved membership like setoran" (96be7bd); the same-instant ordering pair (17a6938, 1bd2a1c); the legacy sen saldo pair (6a66617, 8801c68); "refactor(pencairan): drop unreachable unpaginated list branch" (d244c36); then "test(reset): add failing test for pencairan in reset verification" (cadc57e)](evidence/pilah-be-19-commits.png){ width="900" }
-
-One commit sits between pair 1's red and green: [`023d070`](https://github.com/bank-sampah-PILAH/pilah-be/commit/023d070) corrects one assertion in the red test. The saldo endpoint returns `total_saldo` as the string `"265600.00"`, not a `Decimal`, so the old assertion would have failed even with correct code.
+Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the hashes in the table are the ones in the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/19/commits). One commit sits between pair 1's red and green: [`023d070`](https://github.com/bank-sampah-PILAH/pilah-be/commit/023d070) corrects one assertion in the red test. The saldo endpoint returns `total_saldo` as the string `"265600.00"`, not a `Decimal`, so the old assertion would have failed even with correct code.
 
 ### 3.2 Pencairan, app ([pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26))
 
@@ -148,6 +144,13 @@ One commit sits between pair 1's red and green: [`023d070`](https://github.com/b
 
     The serializer, the bank-scoped queryset and the permission class already enforced these, so the tests passed when written. The commit says so.
 - **Refactor after green:** [`ae850a0`](https://github.com/bank-sampah-PILAH/pilah-be/commit/ae850a0) (11 files, +48 −31) routes every counted-setoran query through `Transaksi.objects.tercatat()`.
+
+**The order as GitHub shows it.** The screenshot is the start of the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/145/commits) on 31 Oct, with the same hashes as the table:
+
+- each `[RED]` commit comes directly before the `[GREEN]` commit that makes it pass;
+- the coverage test `f67aa72` sits between pairs 1 and 2, without a phase tag, because it passed when written.
+
+![The commit list of pilah-be #145 on 31 Oct 2026: "test(ledger): [RED] add failing test for voiding a setoran (OWASP A09)" (f3c3db7), "feat(ledger): [GREEN] void a setoran and record who, when and why" (638cb3f), "test(ledger): cover alasan, bank scoping and pengurus-only voiding (OWASP A01)" (f67aa72), then the red and green pairs 997c5d0 → b08e3eb, 99de195 → 966c7ba and 516cc0f → cb0e666, and the start of the reporting red](evidence/pilah-be-145-commits.png){ width="900" }
 
 ### 3.6 Void a setoran, app ([pilah-mobile #193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193))
 
