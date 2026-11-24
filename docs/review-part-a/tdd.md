@@ -255,7 +255,7 @@ Positive and negative say whether the input is valid. Edge and corner say where 
 | Edge case | `quantity = 100` | One parameter at its limit |
 | **Corner case** | `age = 0` **and** `quantity = 100` | Both at their limits together |
 
-**In PILAH.** A setoran can be voided only while the saldo stays at 0 or above, both after the void and at the time of every later pencairan. In the void tests, the nasabah has one setoran of 6,000 (2 kg at 3,000) ([Appendix B](#appendix-b-a-void-at-the-edge-of-the-saldo)):
+**In PILAH.** A setoran can be voided only while the saldo stays at 0 or above, both after the void and at the time of every later pencairan. In the void tests, the nasabah has one setoran of 6,000 (2 kg at 3,000). The tests are shown [below](#how-i-write-the-tests-for-these-cases):
 
 | Situation | Case | Expected |
 |---|---|---|
@@ -264,6 +264,112 @@ Positive and negative say whether the input is valid. Edge and corner say where 
 | A later setoran keeps the final saldo positive, but the saldo at the time of an earlier pencairan would drop below 0 | **Corner**, negative: two saldo values checked together, the one at the end and the one at the pencairan's time | Refused (409) |
 
 The tests cover the end of the range and a value outside it. A value just inside the end, such as a void that leaves 1 rupiah, is not tested separately.
+
+### How I write the tests for these cases
+
+The steps, using the void as the example:
+
+1. **Find the limit in the rule.** The rule is "the saldo stays at 0 or above, at the end and at the time of every later pencairan". So the limit is 0, and it is checked in two places.
+2. **Build dummy data that lands exactly on the limit.** `setUp` records one setoran of 2 kg at 3,000, a saldo of 6,000. Voiding it leaves exactly 0. Because the test makes its own data, the edge is hit on purpose, not by luck.
+3. **Write one test per case, named after the behaviour:**
+    - the edge, accepted;
+    - the negative case, refused;
+    - the corner case, refused.
+4. **Assert the result, and that nothing else changed.** A refusal is not just a 409. The test also checks that:
+    - the setoran is still `tercatat`;
+    - the saldo is unchanged;
+    - the earlier pencairan's snapshot is unchanged.
+5. **Commit the test red, before the code:**
+    - the edge test in [`f3c3db7`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f3c3db7), before the green [`638cb3f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/638cb3f);
+    - the negative and corner tests in [`99de195`](https://github.com/bank-sampah-PILAH/pilah-be/commit/99de195), before the green [`966c7ba`](https://github.com/bank-sampah-PILAH/pilah-be/commit/966c7ba).
+
+**The dummy data.** `setUp` builds a bank, a pengurus, a nasabah and one jenis sampah at 3,000 per kg, then records one setoran of 2 kg through the API. Three helpers keep each test short:
+
+- `_setor` records a setoran;
+- `_cairkan` records a pencairan;
+- `_batalkan` sends the void request.
+
+```python title="apps/ledger/test_setoran_void.py (setUp, from f3c3db7)"
+def setUp(self) -> None:
+    self.bank = BankSampah.objects.create(
+        nama="Bank Void", alamat="Depok", kota="Depok", no_hp_pic="+628123456789"
+    )
+    self.pengelola = User.objects.create_user(
+        email="void@example.test",
+        nama="Pengelola",
+        bank_sampah=self.bank,
+        is_profile_complete=True,
+        is_primary_pengelola=True,
+    )
+    self.nasabah = Nasabah.objects.create(
+        bank_sampah=self.bank,
+        nomor="NAS-0001",
+        nama="Budi",
+        no_hp="+628111111111",
+        alamat="Jl. A",
+    )
+    self.pet = buat_jenis_sampah(
+        bank_sampah=self.bank, nomor="PET", nama_sampah="Botol PET", harga_per_kg=Decimal(3000)
+    )
+    self.client.force_authenticate(self.pengelola)
+    self.transaksi = self._setor("2.000")
+```
+
+**The edge case: the saldo left at exactly 0** ([`f3c3db7`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f3c3db7)). It voids the only setoran and expects 200 and a saldo of exactly 0. The row stays, because a void is a soft delete.
+
+```python title="apps/ledger/test_setoran_void.py"
+def test_void_marks_the_setoran_and_takes_it_out_of_the_saldo(self) -> None:
+    response = self._batalkan()
+
+    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.data["status"], "dibatalkan")
+    self.assertEqual(response.data["alasan_batal"], "Salah nasabah")
+    self.assertEqual(response.data["dibatalkan_oleh"], str(self.pengelola.id))
+    self.assertEqual(response.data["dibatalkan_oleh_nama"], "Pengelola")
+    self.assertIsNotNone(response.data["dibatalkan_pada"])
+    self.assertEqual(self._saldo(), Decimal(0))
+    # Soft delete: the row and its items stay.
+    self.assertTrue(Transaksi.objects.filter(pk=self.transaksi.pk).exists())
+    self.assertEqual(self.transaksi.items.count(), 1)
+```
+
+**The negative case: below 0** ([`99de195`](https://github.com/bank-sampah-PILAH/pilah-be/commit/99de195)). 5,000 is paid out first, so voiding the 6,000 setoran would leave −5,000. The test expects 409 and checks that nothing changed: the setoran is still `tercatat`, and the saldo is still 1,000.
+
+```python title="apps/ledger/test_setoran_void.py"
+def test_void_of_money_already_paid_out_is_rejected(self) -> None:
+    self._cairkan(5000, self.transaksi.tanggal + timedelta(hours=1))
+
+    response = self._batalkan()
+
+    self.assertEqual(response.status_code, 409)
+    self.assertEqual(self._status(), Transaksi.Status.TERCATAT)
+    self.assertEqual(self._saldo(), Decimal(1000))
+```
+
+**The corner case: two limits together** ([`99de195`](https://github.com/bank-sampah-PILAH/pilah-be/commit/99de195)). The test builds a timeline in which only one of the two checks fails:
+
+| Time | Step | Saldo |
+|---|---|---|
+| T | The setoran from `setUp` | 6,000 |
+| T + 1 h | A pencairan of 5,000 | 1,000 |
+| T + 2 h | A second setoran of 6,000 | 7,000 |
+
+Voiding the first setoran would leave a final saldo of 1,000. That is positive, so checking only the end would wrongly allow the void. But at T + 1 h the saldo before the pencairan would be 0, so the 5,000 would have been paid from nothing. The test expects 409, the setoran still `tercatat`, and the pencairan's recorded `saldo_sebelum` still 6,000.
+
+```python title="apps/ledger/test_setoran_void.py"
+def test_void_that_leaves_a_later_pencairan_unfunded_is_rejected(self) -> None:
+    # Saldo ends positive, but the 5.000 pencairan would have been paid from nothing.
+    cair = self._cairkan(5000, self.transaksi.tanggal + timedelta(hours=1))
+    kedua = self._setor("2.000")
+    Transaksi.objects.filter(pk=kedua.pk).update(tanggal=cair.tanggal + timedelta(hours=1))
+
+    response = self._batalkan()
+
+    self.assertEqual(response.status_code, 409)
+    self.assertEqual(self._status(), Transaksi.Status.TERCATAT)
+    cair.refresh_from_db()
+    self.assertEqual(cair.saldo_sebelum, Decimal(6000))
+```
 
 ### Per feature
 
@@ -476,35 +582,7 @@ def test_a_bank_registered_after_the_account_was_loaded_still_keeps_the_role(sel
 
 ### Appendix B: a void at the edge of the saldo
 
-From [`f3c3db7`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f3c3db7) and [`99de195`](https://github.com/bank-sampah-PILAH/pilah-be/commit/99de195): the corner-case rule from section 6. In `setUp`, the nasabah has one setoran of 2 kg at 3,000, a saldo of 6,000.
-
-- **The bottom end:** voiding it takes the saldo to exactly 0, which is allowed.
-- **Outside the range:** after a pencairan of 5,000, the same void would take the saldo to −5,000, so it is refused.
-
-```python title="apps/ledger/test_setoran_void.py"
-def test_void_marks_the_setoran_and_takes_it_out_of_the_saldo(self) -> None:
-    response = self._batalkan()
-
-    self.assertEqual(response.status_code, 200)
-    self.assertEqual(response.data["status"], "dibatalkan")
-    self.assertEqual(response.data["alasan_batal"], "Salah nasabah")
-    self.assertEqual(response.data["dibatalkan_oleh"], str(self.pengelola.id))
-    self.assertEqual(response.data["dibatalkan_oleh_nama"], "Pengelola")
-    self.assertIsNotNone(response.data["dibatalkan_pada"])
-    self.assertEqual(self._saldo(), Decimal(0))
-    # Soft delete: the row and its items stay.
-    self.assertTrue(Transaksi.objects.filter(pk=self.transaksi.pk).exists())
-    self.assertEqual(self.transaksi.items.count(), 1)
-
-def test_void_of_money_already_paid_out_is_rejected(self) -> None:
-    self._cairkan(5000, self.transaksi.tanggal + timedelta(hours=1))
-
-    response = self._batalkan()
-
-    self.assertEqual(response.status_code, 409)
-    self.assertEqual(self._status(), Transaksi.Status.TERCATAT)
-    self.assertEqual(self._saldo(), Decimal(1000))
-```
+The edge, negative and corner tests for the void, with their `setUp`, are in [section 6, How I write the tests for these cases](#how-i-write-the-tests-for-these-cases).
 
 ### Appendix C: a mock that captures the request
 
