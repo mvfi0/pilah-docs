@@ -230,27 +230,38 @@ Part B TDD has been at 3 or above every week since Sprint 1 Week 1, which is mor
 | Case | Meaning |
 |---|---|
 | **Positive** | Valid input: the feature does what it should |
-| **Negative** | Invalid input or a forbidden action: the feature refuses it and changes nothing |
-| **Corner** | The extreme valid inputs: the very first and very last values of the allowed range, and the ones right next to them. Bugs hide at the edges, for example `<` written where `<=` was meant |
+| **Negative** | Invalid input or a forbidden action: the feature refuses it, with an error, and changes nothing |
+| **Edge** | **One** input at the limit of its allowed range: the very first or very last value, or the one right next to it. Bugs hide at the edges, for example `<` written where `<=` was meant |
+| **Corner** | **Several** inputs at their limits **at the same time**. Each limit may work on its own and still fail in combination |
 
-### How corner cases are chosen
+Positive and negative say whether the input is valid. Edge and corner say where the input sits in its range. So an edge or corner case can be positive or negative: in the example below, `age = 120` is a valid edge (positive), while `age = 121` is an invalid one (negative).
 
-Take an input that accepts whole numbers from **1 to 10**:
+### How edge and corner cases are chosen
+
+**One input.** Take an input that accepts whole numbers from **1 to 10**:
 
 | Value | Case | Why it is tested |
 |---|---|---|
 | 5 | Positive | A normal value in the middle of the range |
-| **1** and **10** | Corner | The first and last values allowed. A `<` written for `<=` rejects 10 by mistake |
-| **2** and **9** | Corner | The values just inside the ends, to show the rule is not off by one |
-| 0 and 11 | Negative | The values just outside the range, which must be refused |
+| **1** and **10** | Edge, positive | The first and last values allowed. A `<` written for `<=` rejects 10 by mistake |
+| **2** and **9** | Edge, positive | The values just inside the ends, to show the rule is not off by one |
+| 0 and 11 | Edge, negative | The values just outside the range, which must be refused |
 
-The same idea, applied in PILAH. A setoran can be voided only while the saldo after the void stays at 0 or above. In the void tests, the nasabah has one setoran of 6,000 (2 kg at 3,000) ([Appendix B](#appendix-b-a-void-at-the-edge-of-the-saldo)):
+**Two inputs.** Take a function `calculatePrice(age, quantity)`, where `age` is 0–120 and `quantity` is 1–100:
 
-| Situation | Saldo after the void | Case | Expected |
-|---|---|---|---|
-| Nothing paid out yet | **exactly 0** | Corner, the bottom end of the range | Accepted (200) |
-| 5,000 already paid out | −5,000 | Negative, outside the range | Refused (409), and the saldo stays 1,000 |
-| A later pencairan would have been paid from nothing, although the final saldo is positive | positive at the end, negative in between | Corner in time | Refused (409) |
+| Type | Example input | Why |
+|---|---|---|
+| Edge case | `age = 0` | One parameter at its limit |
+| Edge case | `quantity = 100` | One parameter at its limit |
+| **Corner case** | `age = 0` **and** `quantity = 100` | Both at their limits together |
+
+**In PILAH.** A setoran can be voided only while the saldo stays at 0 or above, both after the void and at the time of every later pencairan. In the void tests, the nasabah has one setoran of 6,000 (2 kg at 3,000) ([Appendix B](#appendix-b-a-void-at-the-edge-of-the-saldo)):
+
+| Situation | Case | Expected |
+|---|---|---|
+| Nothing paid out yet: the void leaves the saldo at **exactly 0** | Edge, positive: one value (the final saldo) at its limit | Accepted (200) |
+| 5,000 already paid out: the void would leave −5,000 | Negative: outside the range | Refused (409), and the saldo stays 1,000 |
+| A later setoran keeps the final saldo positive, but the saldo at the time of an earlier pencairan would drop below 0 | **Corner**, negative: two saldo values checked together, the one at the end and the one at the pencairan's time | Refused (409) |
 
 The tests cover the end of the range and a value outside it. A value just inside the end, such as a void that leaves 1 rupiah, is not tested separately.
 
@@ -258,19 +269,19 @@ The tests cover the end of the range and a value outside it. A value just inside
 
 **Scheduled prices**
 
-| Positive | Negative | Corner |
+| Positive | Negative | Edge and corner |
 |---|---|---|
 | <ul><li>A price changed now.</li><li>A price changed from a future date.</li><li>A setoran priced from the version in effect.</li><li>The app saves a price now or from a date.</li></ul> | <ul><li>A backdated date, a date more than 365 days ahead, or a date without a UTC offset.</li><li>Another bank gets 404; a nasabah gets 403.</li><li>A price of 0 or below is refused by the database.</li><li>An unchanged price records nothing.</li></ul> | <ul><li>Two versions starting at the same instant: the newest row wins.</li><li>A scheduled version is invisible before its start.</li><li>A `PUT` from an older app with the same price adds no version.</li><li>The migration's reverse restores the price *in effect*, ignoring a future one.</li><li>A local midnight is sent with its UTC offset.</li><li>An older reload answering last.</li></ul> |
 
 **Role change before onboarding**
 
-| Positive | Negative | Corner |
+| Positive | Negative | Edge and corner |
 |---|---|---|
 | <ul><li>Each registration role reached from another: 200, the next step is Lengkapi Profil, and the new token carries the new role.</li><li>Each change writes one log row.</li><li>In the app, picking another role drops the old draft and opens Lengkapi Profil, which names the role with "Ganti peran".</li></ul> | <ul><li>A completed profile, a bank sampah (pending included) or a linked membership: 409, and the role is unchanged.</li><li>Anonymous: 401. Superadmin: 403. Asking to become superadmin: 422.</li><li>A refused change writes no log row.</li><li>In the app, a refusal shows "Ganti Peran Gagal" with the reason, and the page and draft stay.</li></ul> | <ul><li>A registration in progress in another thread: the change waits, then gets 409.</li><li>An account loaded before a bank was registered: still 409.</li><li>Re-picking the current role: 200, no log row, and the app keeps the draft.</li><li>A malformed success response returns a failure instead of crashing.</li><li>An account past the profile step is sent to login.</li></ul> |
 
 **Void a setoran**
 
-| Positive | Negative | Corner |
+| Positive | Negative | Edge and corner |
 |---|---|---|
 | <ul><li>Response 200, with status, who, when and why stored.</li><li>The saldo is reduced and later pencairan are shifted.</li><li>In the app, hold a row, then Hapus with an alasan.</li></ul> | <ul><li>No alasan gets 422.</li><li>Another bank's setoran gets 404; a nasabah gets 403.</li><li>Voiding again, editing, or resending the WhatsApp receipt gets 409.</li><li>Money already paid out (the saldo would go below 0) gets 409.</li><li>The app shows "Alasan pembatalan wajib diisi" and sends nothing.</li></ul> | <ul><li>Voiding the only setoran takes the saldo to **exactly 0**, which is allowed.</li><li>A void that would leave a *later* pencairan unfunded is refused, even though the final saldo stays positive.</li><li>An export period with only voided rows has no data.</li><li>A partial update straight to the database raises `IntegrityError`.</li></ul> |
 
@@ -429,7 +440,7 @@ Five properties of good unit tests:
 | 2 | Explain how test cases are designed | [Section 3](#3-tdd-commit-flow-with-evidence-of-the-order) (one behaviour per cycle) and [section 6](#6-positive-negative-and-corner-cases) | Met |
 | 3 | Disciplined commits and high coverage; Part B TDD ≥ 3 for at least a month | [Sections 3–5](#3-tdd-commit-flow-with-evidence-of-the-order) | Met |
 | 3 | Positive, negative and corner cases for every feature | [Section 6](#6-positive-negative-and-corner-cases) | Met |
-| 3 | Explain how corner cases are identified | [Section 6](#how-corner-cases-are-chosen) | Met |
+| 3 | Explain how corner cases are identified | [Section 6](#how-edge-and-corner-cases-are-chosen) | Met |
 | 3 | Explain best practices and test isolation (mock/stub) | [Section 9](#9-test-isolation-stubs-mocks-and-dummy-data) and [section 10](#10-the-first-principle) | Met |
 | 4 | A written analysis of TDD's benefits, based on concrete development data | [Section 7](#7-benefits-of-tdd-from-development-data) | Written; not claimed |
 | 4 | Tools or methods that make TDD more efficient and thorough | [Section 8](#8-tools-and-methods) | Written; not claimed |
