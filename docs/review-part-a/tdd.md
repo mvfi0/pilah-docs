@@ -2,14 +2,14 @@
 
 !!! success "Competency level: 3"
     - Three features of PILAH built test-first, each on both the backend (pilah-be) and the app (pilah-mobile, phone and web):
-        - **pencairan** (PIL-176);
         - **scheduled prices** (PIL-304);
+        - **role change before onboarding** (PIL-451);
         - **void a setoran** (PIL-428).
-    - **50 red → green pairs** across six merge requests: 29 on the backend, 21 on the app.
-    - Changed lines covered at 100% in five of the six MRs; the sixth was closed to 100% a week later.
+    - **47 red → green cycles** across six merge requests: 25 on the backend, 22 on the app. Every phase commit carries its `[RED]`, `[GREEN]` or `[REFACTOR]` tag.
+    - Changed lines covered at 100% in all six MRs.
     - Each behaviour tested with positive, negative and corner cases.
     - Part B TDD at 3 or above for seven weeks running.
-    - **11 defects caught by a failing test before merge**, each now guarded by that test.
+    - **12 defects caught by a failing test before merge**, each guarded by that test from then on.
 
 Contents:
 
@@ -42,50 +42,21 @@ In PILAH each step is its own commit, so the order can be checked in the history
 - `feat(...): [GREEN] …` or `fix(...): [GREEN] …` adds the code that makes it pass;
 - `refactor(...): [REFACTOR] …` comes only after green.
 
-The Sprint 1 commits (PIL-176) name the phase in words, as "add failing test for …"; the bracketed tags start with the next feature. A test that already passes when written is committed as a coverage test (`test(...): cover …`) with no phase tag, so it is never presented as a red.
+A test that already passes when written is committed as a coverage test (`test(...): cover …`) with no phase tag, so it is never presented as a red.
 
 ## 2. The three features
 
 | # | Feature | What it does | Backend MR | App MR | Built |
 |---|---|---|---|---|---|
-| 1 | **Pencairan** (PIL-176) | A pengurus records a payout to a nasabah. The nasabah's saldo drops by the nominal, and the saldo history and exports account for it | [pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19) | [pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26) | 20–22 Sep |
-| 2 | **Scheduled prices** (PIL-304) | A jenis sampah's price becomes a history of versions. A change applies now or from a future date, and each setoran is priced at the version in effect on its date | [pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) | [pilah-mobile #62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62) | 7–12 Oct |
+| 1 | **Scheduled prices** (PIL-304) | A jenis sampah's price becomes a history of versions. A change applies now or from a future date, and each setoran is priced at the version in effect on its date | [pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79) | [pilah-mobile #62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62) | 7–12 Oct |
+| 2 | **Role change before onboarding** (PIL-451) | An account that tapped the wrong role at sign-up can change it, until onboarding has started (a completed profile, a bank sampah, or a linked membership). Each change is logged | [pilah-be #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137) | [pilah-mobile #174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174) | 26 Oct – 17 Nov, over three review rounds |
 | 3 | **Void a setoran** (PIL-428) | A pengurus cancels a recorded setoran with a reason. The row stays, marked "dibatalkan", and its total leaves the saldo, the history and every report | [pilah-be #145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145) | [pilah-mobile #193](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/193) | 31 Oct – 2 Nov |
 
 ## 3. TDD commit flow, with evidence of the order
 
-Each table lists the pairs in the order they were committed. The numbers in brackets are lines added and removed by that commit, from `git show --shortstat`. Every red commit changes only test files.
+Each table lists the cycles in the order they were committed. The numbers in brackets are lines added and removed by that commit, from `git show --shortstat`. Every red commit changes only test files.
 
-### 3.1 Pencairan, backend ([pilah-be #19](https://github.com/bank-sampah-PILAH/pilah-be/pull/19))
-
-| # | Behaviour | Red | Green |
-|---|---|---|---|
-| 1 | Recording a pencairan lowers the saldo exactly once | [`475f2b5`](https://github.com/bank-sampah-PILAH/pilah-be/commit/475f2b5) (+48) | [`f119442`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f119442) (+171 −1) |
-| 2 | A nominal above the saldo is rejected, and the saldo is unchanged | [`cb1b774`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cb1b774) (+18) | [`1cf5641`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1cf5641) (+3) |
-| 3 | A zero, negative or decimal nominal and a future `tanggal` are rejected | [`8435245`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8435245) (+40 −1) | [`6461112`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6461112) (+13) |
-| 4 | The detail is readable only within the bank (404, 403, 401) | [`92b062a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/92b062a) (+83) | [`3ac5602`](https://github.com/bank-sampah-PILAH/pilah-be/commit/3ac5602) (+3) |
-| 5 | The saldo history subtracts pencairan | [`55134c3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/55134c3) (+43) | [`da84166`](https://github.com/bank-sampah-PILAH/pilah-be/commit/da84166) (+114 −34) |
-| 6 | The list can be filtered by nasabah | [`2c633e1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2c633e1) (+27) | [`c0fad99`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c0fad99) (+13 −1) |
-| 7 | *Review finding:* a pending or rejected nasabah can't be paid out | [`8eae32e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8eae32e) (+20) | [`96be7bd`](https://github.com/bank-sampah-PILAH/pilah-be/commit/96be7bd) (+6 −1) |
-| 8 | *Review finding:* a setoran and a pencairan at the same instant are ordered the same way every time | [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938) (+38) | [`1bd2a1c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1bd2a1c) (+4 −2) |
-| 9 | *Review finding:* a legacy saldo with sen is rounded down to whole rupiah | [`6a66617`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6a66617) (+15) | [`8801c68`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8801c68) (+6 −3) |
-| 10 | The reset command reports pencairan left behind | [`cadc57e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cadc57e) (+54 −1) | [`f1c1edf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f1c1edf) (+2 −1) |
-
-**Refactor after green:** [`d244c36`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d244c36) removes a list branch no request could reach (+3 −6).
-
-Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the hashes in the table are the ones in the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/19/commits). One commit sits between pair 1's red and green: [`023d070`](https://github.com/bank-sampah-PILAH/pilah-be/commit/023d070) corrects one assertion in the red test. The saldo endpoint returns `total_saldo` as the string `"265600.00"`, not a `Decimal`, so the old assertion would have failed even with correct code.
-
-### 3.2 Pencairan, app ([pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26))
-
-| # | Behaviour | Red | Green |
-|---|---|---|---|
-| 1 | The nominal is validated against the saldo | [`27fcd06`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/27fcd06) (+39) | [`869ae71`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/869ae71) (+14) |
-| 2 | The saldo is read, and the pencairan is posted with the right body | [`02ddd84`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/02ddd84) (+146) | [`dcb7e48`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/dcb7e48) (+156 −35) |
-| 3 | The form cubit loads the saldo, submits, and ignores a double tap | [`6f90aab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6f90aab) (+179) | [`2eaca63`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/2eaca63) (+100 −25) |
-| 4 | The form asks for confirmation, shows a success sheet, and shows a server error inline | [`9887d7e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9887d7e) (+176) | [`e30e6ab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/e30e6ab) (+399 −4) |
-| 5 | The nasabah detail sheet opens the form, for an active nasabah only | [`add3e87`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/add3e87) (+105) | [`98e9b15`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/98e9b15) (+51) |
-
-### 3.3 Scheduled prices, backend ([pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79))
+### 3.1 Scheduled prices, backend ([pilah-be #79](https://github.com/bank-sampah-PILAH/pilah-be/pull/79))
 
 | # | Behaviour | Red | Green |
 |---|---|---|---|
@@ -109,7 +80,7 @@ Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the ha
 - [`1e7da30`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1e7da30) looks the price up at the transaksi's `tanggal`;
 - [`fe5db58`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fe5db58) splits an assertion SonarCloud flagged.
 
-### 3.4 Scheduled prices, app ([pilah-mobile #62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62))
+### 3.2 Scheduled prices, app ([pilah-mobile #62](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/62))
 
 | # | Behaviour | Red | Green |
 |---|---|---|---|
@@ -124,6 +95,53 @@ Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the ha
 | 9 | *Review finding:* an older list reload that answers late can't overwrite a newer one | [`ece524b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ece524b) (+38) | [`bd21f70`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/bd21f70) (+4) |
 
 **Coverage test:** [`52ec8d0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/52ec8d0) (+73 −2) covers the lines the first coverage run showed as missed (92% → 100%): the use case, a failed request, `HargaTerjadwal` equality, and two branches of the sheet.
+
+### 3.3 Role change, backend ([pilah-be #137](https://github.com/bank-sampah-PILAH/pilah-be/pull/137))
+
+| # | Behaviour | Red | Green |
+|---|---|---|---|
+| 1 | An unfinished account switches its role and gets a new session | [`a23ba21`](https://github.com/bank-sampah-PILAH/pilah-be/commit/a23ba21) (+27) | [`13c1a44`](https://github.com/bank-sampah-PILAH/pilah-be/commit/13c1a44) (+25) |
+| 2 | The role stays (409) once onboarding has started: a completed profile, a bank sampah (pending included), or a linked membership | [`e227286`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e227286) (+46 −1) | [`52f087f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/52f087f) (+24 −5) |
+| 3 | Each role change is recorded in `user_role_change_log`; a refusal or a re-pick of the same role writes nothing | [`62e79e1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/62e79e1) (+23) | [`2c591c5`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2c591c5) (+104 −15) |
+| 4 | *Review finding:* a role change during a bank registration, a membership application or an invite acceptance waits for it, then is refused | [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) (+147) | [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397) (+34 −14) |
+| 5 | *Review finding:* a Google login takes the same account lock before it claims a membership | [`c428c32`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c428c32) (+85 −1) | [`d19cb8d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d19cb8d) (+17 −7) |
+| 6 | *Review finding:* completing the profile next to a role change takes the lock and answers with the current role | [`9424d9f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9424d9f2) (+22) and [`870224d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/870224dc) (+18) | [`51a631e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/51a631ef) (+5) |
+
+Cycle 6 has two red commits, one for the stale answer and one for the race, and a single green commit makes both pass.
+
+- **Coverage tests**, each passed when written and was then proven with a mutation check:
+    - [`cafba5a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cafba5a) (+20): who may change a role, and to what;
+    - [`bf3a529`](https://github.com/bank-sampah-PILAH/pilah-be/commit/bf3a529) (+20): a bank registered after the account was loaded ([Appendix A](#appendix-a-a-stale-account-object-role-change-backend));
+    - [`d83b0c1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d83b0c1) (+27): switching to every registration role, after a review finding.
+- **Refactors after green:**
+    - [`fe17440`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fe17440) records the race test's outcome on both paths;
+    - [`7c7c1f3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7c7c1f3) locks and reloads the account in one query;
+    - [`e077084`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e077084) reads the claimable record once, before the lock.
+
+One untagged one-line commit, [`8bf93cf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8bf93cf), exports the new log model from the models registry.
+
+### 3.4 Role change, app ([pilah-mobile #174](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/174))
+
+| # | Behaviour | Red | Green |
+|---|---|---|---|
+| 1 | The data layer PATCHes `onboarding/role`, stores the new session, and keeps the old one on a 409 | [`8ef4514`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/8ef45149) (+82) | [`f8214e3`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/f8214e3a) (+52) |
+| 2 | The notifier switches to the new session, or returns the server's reason | [`79f95a9`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/79f95a9d) (+59) | [`778cad5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/778cad53) (+19) |
+| 3 | The role page serves a signed-in account: its role preselected, the change made, the draft dropped, a refusal shown | [`a0b8fd0`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a0b8fd0c) (+143) | [`9517dbd`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9517dbdf) (+57 −12) |
+| 4 | Lengkapi Profil names the role with a way to change it, hidden once a bank sampah exists or in invite mode | [`9e83120`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9e83120d) (+112) | [`a1b49bd`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a1b49bd4) (+50) |
+| 5 | *Review finding:* re-picking the same role keeps the typed draft, and a real change clears the form | [`26dce38`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/26dce385) (+46) | [`3d0a81b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3d0a81b3) (+33 −1) |
+| 6 | *Review finding:* on web, the role page has a Kembali back to Lengkapi Profil | [`42d2020`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/42d20201) (+20) | [`ef55977`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef55977b) (+20 −5) |
+
+- **Coverage tests:**
+    - [`d3d3dba`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/d3d3dba8) covers the preview session;
+    - [`c578399`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/c578399c) covers a malformed role-change response;
+    - [`b2344b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b2344b5c) covers two lines in the test files CI runs for this PR;
+    - [`240c78a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/240c78af) covers the role page's Keluar.
+- **Refactors after green:**
+    - [`2589b0b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/2589b0b8) names the role page's two Lanjutkan paths;
+    - [`87f2f0d`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/87f2f0df) and [`8bdb1b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/8bdb1b54) move a decision and a listener out of `build`, after SonarCloud rule S3776;
+    - [`a363412`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/a363412f) moves Kembali out of `build`.
+
+Two untagged review fixes change only style tokens, [`00fec19`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/00fec193) and [`6eef5a4`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6eef5a43). They change no behaviour, so they have no test.
 
 ### 3.5 Void a setoran, backend ([pilah-be #145](https://github.com/bank-sampah-PILAH/pilah-be/pull/145))
 
@@ -148,7 +166,7 @@ Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the ha
 **The order as GitHub shows it.** The screenshot is the start of the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/145/commits) on 31 Oct, with the same hashes as the table:
 
 - each `[RED]` commit comes directly before the `[GREEN]` commit that makes it pass;
-- the coverage test `f67aa72` sits between pairs 1 and 2, without a phase tag, because it passed when written.
+- the coverage test `f67aa72` sits between cycles 1 and 2, without a phase tag, because it passed when written.
 
 ![The commit list of pilah-be #145 on 31 Oct 2026: "test(ledger): [RED] add failing test for voiding a setoran (OWASP A09)" (f3c3db7), "feat(ledger): [GREEN] void a setoran and record who, when and why" (638cb3f), "test(ledger): cover alasan, bank scoping and pengurus-only voiding (OWASP A01)" (f67aa72), then the red and green pairs 997c5d0 → b08e3eb, 99de195 → 966c7ba and 516cc0f → cb0e666, and the start of the reporting red](evidence/pilah-be-145-commits.png){ width="900" }
 
@@ -168,14 +186,14 @@ Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the ha
 
 ### 3.7 Totals
 
-| Feature | Pairs (backend + app) | Lines added by red commits | Lines added by green commits |
+| Feature | Cycles (backend + app) | Lines added by red commits | Lines added by green commits |
 |---|---|---|---|
-| Pencairan | 10 + 5 = 15 | 386 + 645 = 1,031 | 335 + 720 = 1,055 |
 | Scheduled prices | 12 + 9 = 21 | 466 + 506 = 972 | 547 + 345 = 892 |
+| Role change | 6 + 6 = 12 | 368 + 462 = 830 | 209 + 231 = 440 |
 | Void a setoran | 7 + 7 = 14 | 427 + 479 = 906 | 270 + 505 = 775 |
-| **Total** | **29 + 21 = 50** | **2,909** | **2,722** |
+| **Total** | **25 + 22 = 47** | **2,708** | **2,107** |
 
-About **1.07 lines of test were written for every line of production code**, and each one before the code it tests. Refactor and coverage commits are not counted here.
+About **1.29 lines of test were written for every line of production code**, and each one before the code it tests. Refactor and coverage commits are not counted here.
 
 ## 4. Coverage
 
@@ -186,10 +204,10 @@ Coverage is measured on the lines each merge request changes, in two ways:
 
 | MR | Coverage of changed lines | Evidence |
 |---|---|---|
-| pilah-be #19 (pencairan) | **100%** of my new code | [S1W1](../review/part-b/tdd.md#coverage-proof), [HTML report](../sprints/sprint-1/evidence/pil-176-diff-coverage.html) |
-| pilah-mobile #26 (pencairan) | **88.07%** at merge. The misses were the route builder, the DI wrapper and two pass-throughs. [pilah-mobile #52](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/52) (29 Sep) took the whole `lib/features/pencairan` to **100%**, 898 lines, generated code included | [S1W1](../review/part-b/tdd.md#mobile-pilah-mobile-26), [S1W2](../review-week-2/part-b/tdd.md#closing-the-mobile-gap-pilah-mobile-52-2829-sep-merged) |
 | pilah-be #79 (scheduled prices) | **100%** of 459 changed lines after the review fixes; SonarCloud 100% of 144 | [S2W1](../review-sprint-2-week-1/part-b/tdd.md#coverage-proof-at-a-glance) |
 | pilah-mobile #62 (scheduled prices) | **100%** of 122 changed lines after the review fixes; SonarCloud 100% of 120 | [S2W1](../review-sprint-2-week-1/part-b/tdd.md#coverage-proof-at-a-glance) |
+| pilah-be #137 (role change) | SonarCloud **100%** of 52 lines after the third review round (48 and 51 after the first two) | [S2W3](../review-sprint-2-week-3/part-b/tdd.md#coverage-proof-at-a-glance), [S3W3](../review-sprint-3-week-3/part-b/tdd.md) |
+| pilah-mobile #174 (role change) | SonarCloud **100%** of 96 lines after the third review round. The first run showed 97.1%, closed by [`b2344b5`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/b2344b5c) | [S2W3](../review-sprint-2-week-3/part-b/tdd.md#coverage-proof-at-a-glance), [S3W3](../review-sprint-3-week-3/part-b/tdd.md) |
 | pilah-be #145 (void) | **100%** of 348 changed lines, on Postgres 16; SonarCloud 100% of 87 | [S3W1](../review-sprint-3-week-1/part-b/tdd.md#coverage-proof-at-a-glance) |
 | pilah-mobile #193 (void) | **100%** of 152 changed `lib/` lines; SonarCloud 100% of 140 | [S3W1](../review-sprint-3-week-1/part-b/tdd.md#coverage-proof-at-a-glance) |
 
@@ -226,29 +244,29 @@ Take an input that accepts whole numbers from **1 to 10**:
 | **2** and **9** | Corner | The values just inside the ends, to show the rule is not off by one |
 | 0 and 11 | Negative | The values just outside the range, which must be refused |
 
-The same rule, applied in PILAH. A pencairan's nominal must be more than 0 and at most the saldo. With a saldo of 465,600, the app's validator test ([`27fcd06`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/27fcd06), [Appendix B](#appendix-b-pencairan-nominal-at-the-edges-of-the-saldo)) checks:
+The same idea, applied in PILAH. A setoran can be voided only while the saldo after the void stays at 0 or above. In the void tests, the nasabah has one setoran of 6,000 (2 kg at 3,000) ([Appendix B](#appendix-b-a-void-at-the-edge-of-the-saldo)):
 
-| Nominal | Case | Expected |
-|---|---|---|
-| 200,000 | Positive | Accepted |
-| **465,600** (exactly the saldo) | Corner, the top end | Accepted |
-| **465,601** (one above the saldo) | Negative, just outside | "Maksimal Rp 465.600" |
-| 0 and −1,000 | Negative, the bottom end | "Nominal harus lebih dari nol" |
-| empty | Negative | "Nominal wajib diisi" |
+| Situation | Saldo after the void | Case | Expected |
+|---|---|---|---|
+| Nothing paid out yet | **exactly 0** | Corner, the bottom end of the range | Accepted (200) |
+| 5,000 already paid out | −5,000 | Negative, outside the range | Refused (409), and the saldo stays 1,000 |
+| A later pencairan would have been paid from nothing, although the final saldo is positive | positive at the end, negative in between | Corner in time | Refused (409) |
+
+The tests cover the end of the range and a value outside it. A value just inside the end, such as a void that leaves 1 rupiah, is not tested separately.
 
 ### Per feature
-
-**Pencairan**
-
-| Positive | Negative | Corner |
-|---|---|---|
-| <ul><li>The saldo is lowered exactly once.</li><li>The list is filtered by nasabah.</li><li>The detail is readable within the bank.</li><li>The app reloads the saldo after success.</li></ul> | <ul><li>A nominal above the saldo, or one that is zero, negative or decimal.</li><li>A future `tanggal`, or an invalid `metode`.</li><li>Another bank's nasabah.</li><li>An inactive, pending or rejected nasabah.</li><li>An outsider gets 404, a superadmin 403, and an unauthenticated request 401.</li><li>A server 422 is shown inline in the app.</li></ul> | <ul><li>A nominal exactly equal to the saldo.</li><li>A double tap on submit records once.</li><li>A setoran and a pencairan at the same instant.</li><li>A legacy saldo with sen.</li><li>The saldo history and the Excel export after a pencairan.</li></ul> |
 
 **Scheduled prices**
 
 | Positive | Negative | Corner |
 |---|---|---|
 | <ul><li>A price changed now.</li><li>A price changed from a future date.</li><li>A setoran priced from the version in effect.</li><li>The app saves a price now or from a date.</li></ul> | <ul><li>A backdated date, a date more than 365 days ahead, or a date without a UTC offset.</li><li>Another bank gets 404; a nasabah gets 403.</li><li>A price of 0 or below is refused by the database.</li><li>An unchanged price records nothing.</li></ul> | <ul><li>Two versions starting at the same instant: the newest row wins.</li><li>A scheduled version is invisible before its start.</li><li>A `PUT` from an older app with the same price adds no version.</li><li>The migration's reverse restores the price *in effect*, ignoring a future one.</li><li>A local midnight is sent with its UTC offset.</li><li>An older reload answering last.</li></ul> |
+
+**Role change before onboarding**
+
+| Positive | Negative | Corner |
+|---|---|---|
+| <ul><li>Each registration role reached from another: 200, the next step is Lengkapi Profil, and the new token carries the new role.</li><li>Each change writes one log row.</li><li>In the app, picking another role drops the old draft and opens Lengkapi Profil, which names the role with "Ganti peran".</li></ul> | <ul><li>A completed profile, a bank sampah (pending included) or a linked membership: 409, and the role is unchanged.</li><li>Anonymous: 401. Superadmin: 403. Asking to become superadmin: 422.</li><li>A refused change writes no log row.</li><li>In the app, a refusal shows "Ganti Peran Gagal" with the reason, and the page and draft stay.</li></ul> | <ul><li>A registration in progress in another thread: the change waits, then gets 409.</li><li>An account loaded before a bank was registered: still 409.</li><li>Re-picking the current role: 200, no log row, and the app keeps the draft.</li><li>A malformed success response returns a failure instead of crashing.</li><li>An account past the profile step is sent to login.</li></ul> |
 
 **Void a setoran**
 
@@ -264,30 +282,37 @@ Each defect below was first reproduced by a red test, then fixed. None of them r
 
 | # | Feature | Defect | How it surfaced | Data | Red → green |
 |---|---|---|---|---|---|
-| 1 | Pencairan | A pending or rejected nasabah could be paid out | Review | — | [`8eae32e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8eae32e) → [`96be7bd`](https://github.com/bank-sampah-PILAH/pilah-be/commit/96be7bd) |
-| 2 | Pencairan | A setoran and a pencairan at the same instant came back in random order, so the saldo after a setoran was wrong some of the time | Review | Against the old sort the test passed **6 runs in 10**; against the fix, **10 in 10** | [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938) → [`1bd2a1c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1bd2a1c) |
-| 3 | Pencairan | A legacy saldo with sen left sen behind after a pencairan | Review | — | [`6a66617`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6a66617) → [`8801c68`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8801c68) |
-| 4 | Pencairan | The test-data reset command didn't check that pencairan were cleared | My own test | — | [`cadc57e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cadc57e) → [`f1c1edf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f1c1edf) |
-| 5 | Pencairan | The submit button sat below the fold of the form | The widget test couldn't tap it | The page layout and the test were fixed together ([`6f4e1ea`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6f4e1ea), +10 −18) | [`9887d7e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9887d7e) → [`e30e6ab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/e30e6ab) |
-| 6 | Prices | The newest-version tie-break worked only because SQLite happened to return rows in that order. Postgres, used in production, makes no such promise | My own test passed with no code | Made explicit as a refactor, with the reason in the commit | [`95a62f3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/95a62f3) |
-| 7 | Prices | Reseeding repriced a historical setoran at today's price | Review | A 3,500 snapshot became **99,999** | [`857735b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/857735b) → [`f67a84f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f67a84f) |
-| 8 | Prices | When only the new price failed after the other fields saved, the sheet reported a total failure | Review | — | [`5a80375`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5a80375) → [`f1ea8d9`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/f1ea8d9) |
-| 9 | Prices | An older reload answering late overwrote the newer price on screen | Review | Reproduced deterministically with `Completer`s ([Appendix D](#appendix-d-a-late-reply-made-deterministic)) | [`ece524b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ece524b) → [`bd21f70`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/bd21f70) |
-| 10 | Void | The Hapus dialog stretched across a desktop window, and a voided detail still showed a saldo | Playwright E2E | Screenshot run at desktop and phone sizes | [`df1fc4c`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/df1fc4c) → [`4d16698`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/4d16698) |
-| 11 | Void | Merging `staging` replaced the detail sheet with an inline row and silently dropped the Pembatalan section | Red test after the merge | The red failed with `Found 0 widgets with text "PEMBATALAN"` | [`5af4e5d`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5af4e5da) → [`ef7a0b9`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef7a0b96) |
+| 1 | Prices | The newest-version tie-break worked only because SQLite happened to return rows in that order. Postgres, used in production, makes no such promise | My own test passed with no code | Made explicit as a refactor, with the reason in the commit | [`95a62f3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/95a62f3) |
+| 2 | Prices | Reseeding repriced a historical setoran at today's price | Review | A 3,500 snapshot became **99,999** | [`857735b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/857735b) → [`f67a84f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f67a84f) |
+| 3 | Prices | When only the new price failed after the other fields saved, the sheet reported a total failure | Review | — | [`5a80375`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5a80375) → [`f1ea8d9`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/f1ea8d9) |
+| 4 | Prices | An older reload answering late overwrote the newer price on screen | Review | Reproduced deterministically with `Completer`s ([Appendix D](#appendix-d-a-late-reply-made-deterministic)) | [`ece524b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ece524b) → [`bd21f70`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/bd21f70) |
+| 5 | Role change | A role change for a member already linked to a bank crashed with an unhandled 500 | My own red test | The red expected 409 and got a 500 from `User.clean` | [`e227286`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e227286) → [`52f087f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/52f087f) |
+| 6 | Role change | A role change during a bank registration, a membership application or an invite acceptance flipped the role under it, so a bank could end up linked to a nasabah | Review (Tristan) | The red failed on all three paths: `{'changed': True, 'waited_for_registration': False}` | [`f4b663d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f4b663d) → [`df45397`](https://github.com/bank-sampah-PILAH/pilah-be/commit/df45397) |
+| 7 | Role change | A Google login could claim a membership without the account lock, racing a role change | Review (Tristan, Heraldo) | A two-thread race test on PostgreSQL | [`c428c32`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c428c32) → [`d19cb8d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d19cb8d) |
+| 8 | Role change | Completing the profile next to a role change answered with a stale role | Review (Tristan) | The red failed on the response's role and, on PostgreSQL, on the role change not waiting | [`9424d9f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9424d9f2), [`870224d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/870224dc) → [`51a631e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/51a631ef) |
+| 9 | Role change | Re-picking the same role dropped the typed draft, and a real change left the old input in the form | Review (Pascal, Heraldo, Tristan) | The red: `hasProfileDraft` false, and "Diketik Untuk Pengurus" still in the name field | [`26dce38`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/26dce385) → [`3d0a81b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/3d0a81b3) |
+| 10 | Role change | On web, the role page had no way back to Lengkapi Profil | Review (Tristan) | The red: no Kembali on the page | [`42d2020`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/42d20201) → [`ef55977`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef55977b) |
+| 11 | Void | The Hapus dialog stretched across a desktop window, and a voided detail still showed a saldo | Playwright E2E | Screenshot run at desktop and phone sizes | [`df1fc4c`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/df1fc4c) → [`4d16698`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/4d16698) |
+| 12 | Void | Merging `staging` replaced the detail sheet with an inline row and silently dropped the Pembatalan section | Red test after the merge | The red failed with `Found 0 widgets with text "PEMBATALAN"` | [`5af4e5d`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/5af4e5da) → [`ef7a0b9`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ef7a0b96) |
 
-Six of the eleven came from review. Writing a failing test first made each one cheap to fix and hard to lose:
+Eight of the twelve came from review. Writing a failing test first made each one cheap to fix and hard to lose:
 
 - the reviewer could see the bug reproduced, then fixed, in two commits;
-- the six green commits for the review findings were between **+4 and +17 lines** each.
+- the eight green commits for the review findings were between **+4 and +34 lines** each.
 
 ### 7.2 Changing existing code safely (maintenance and iteration)
 
-Two of the three features had to change code that other features already depended on. The tests are what made those changes safe.
+Each feature had to change code that other features already depended on. The tests are what made those changes safe.
 
 - **Scheduled prices replaced a column the whole setoran flow depended on.**
     - The green commit [`ad352fb`](https://github.com/bank-sampah-PILAH/pilah-be/commit/ad352fb) touched **14 files (+172 −57)** to replace `JenisSampah.harga_per_kg` with price versions.
     - Its red test, [`caaceab`](https://github.com/bank-sampah-PILAH/pilah-be/commit/caaceab) (+126), drives the migration forwards and backwards. The same migration was also run forwards, backwards and forwards again on a restored copy of the production database.
+- **The role-change rule turned out to have five other code paths that can break it**, all pointed out in review:
+    - bank registration, membership application and invite acceptance (7.1 row 6);
+    - Google login (row 7);
+    - profile completion (row 8).
+
+    Each got a red race test first, then took the same account lock, which is now one `lock_account` entry point.
 - **Voiding changed what every report counts.**
     - The red [`1aa13a0`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1aa13a0) (+124) checks five existing reports: the Excel export, dashboard stats, trends, categories and the nasabah statement.
     - The green commit that made all five pass was only +14 −5.
@@ -299,23 +324,23 @@ Two of the three features had to change code that other features already depende
     | [`ca2ec7a`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ca2ec7a2): the TIPE badge without nested ternaries | +18 −17 | **321** transaksi tests, the same result before and after |
     | [`ee9668d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/ee9668d): price selection out of the shared `kalkulasi` module | 2 files, +8 −20 | The #79 suite, green before and after |
 
-- **The safety net keeps growing.** The backend suite had 68 tests after pencairan (S1W1), 464 after scheduled prices (S1W3), and 898 after void (S3W1). These are whole-suite counts and include teammates' tests. Each feature after the first was built on top of the tests of the ones before it.
+- **The safety net keeps growing.** The backend suite had 464 tests after scheduled prices (S1W3) and 898 by the time of the void (S3W1). These are whole-suite counts and include teammates' tests. Each feature was built on top of the tests of the ones before it.
 
 ### 7.3 Cost
 
-- **Code written:** 2,909 lines of test for 2,722 lines of production code, about 1.07 to 1 (section 3.7).
-- **Time:** many pairs are only a minute apart, so the timestamps show when the commits were recorded, not how long each cycle took. I make no claim about time per cycle.
+- **Code written:** 2,708 lines of test for 2,107 lines of production code, about 1.29 to 1 (section 3.7).
+- **Time:** many cycles are only a minute apart, so the timestamps show when the commits were recorded, not how long each cycle took. I make no claim about time per cycle.
 
 What the data does support:
 
-- each of the 11 defects in 7.1 was fixed in its own red and green commits;
+- each of the 12 defects in 7.1 was fixed in its own red and green commits;
 - none of them needed a fix after merge.
 
 ### 7.4 Limits of this analysis
 
 - There is no control group: I can't show how many of these defects would have reached production without TDD.
-- Six of the eleven defects were spotted by a reviewer, not by my tests. TDD's part was turning each into a permanent regression test.
-- The pencairan app MR merged at 88% coverage of its changed lines. The gap was closed a week later, not before merge.
+- Eight of the twelve defects were spotted by a reviewer, not by my tests. TDD's part was turning each into a permanent regression test.
+- Test fixtures and race harnesses make the red side heavier. The PIL-451 race test alone is +147 lines.
 
 ## 8. Tools and methods
 
@@ -324,15 +349,16 @@ What the data does support:
 | **Phase-tagged commits** (`[RED]`, `[GREEN]`, `[REFACTOR]`) | The red → green order can be checked from `git log` alone | Section 3 |
 | **diff-cover** | Coverage of only the lines a change touches, so a gap can't hide in a large overall percentage | Every MR, [section 4](#4-coverage) |
 | **SonarCloud quality gate** | New-code coverage and code issues on every pull request, before review | Every MR |
-| **Mutation checks** | When a test passes the first time, I break the code it guards and watch it fail, then revert. This proves the test can fail | PIL-304 rounding follow-up ([#89](https://github.com/bank-sampah-PILAH/pilah-be/pull/89)): `315600.75 != 315600.00` |
+| **Mutation checks** | When a test passes the first time, I break the code it guards and watch it fail, then revert. This proves the test can fail | PIL-451's coverage tests (section 3.3); the PIL-304 rounding follow-up ([#89](https://github.com/bank-sampah-PILAH/pilah-be/pull/89)): `315600.75 != 315600.00` |
 | **mocktail** (Flutter) | Mocks and stubs for one layer at a time, `captureAny` for the exact request sent | [Appendix C](#appendix-c-a-mock-that-captures-the-request) |
 | **`Completer`s** | Decide which async call answers first, so a race is reproduced every run | [Appendix D](#appendix-d-a-late-reply-made-deterministic) |
 | **`StubApi`** (a fake HTTP adapter) | The real data source, repository and notifier run against canned server responses | [Appendix F](#appendix-f-a-fake-backend-at-the-http-boundary) |
+| **Two-thread race tests** (`TransactionTestCase` on PostgreSQL) | One thread is paused at a fixed point while the other runs, so a race happens the same way every run | PIL-451, 7.1 rows 6–8 |
 | **Django `MigrationExecutor`** | A migration tested forwards and backwards inside the test suite | [`caaceab`](https://github.com/bank-sampah-PILAH/pilah-be/commit/caaceab) |
 | **`CaptureQueriesContext`** | Asserts a list costs the same number of queries for 1 row and for 5, catching N+1 queries | [`c2a7c71`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c2a7c71) |
 | **The database as the oracle** | A check constraint is tested by attempting the bad write and expecting `IntegrityError` | [Appendix E](#appendix-e-the-database-as-the-test-oracle) |
-| **Postgres 16 locally** (pgserver) | The suite also runs on the production database engine, not only on SQLite. Behaviour SQLite only happens to show, like the row order in 7.1 #6, can't pass by luck | PIL-304, PIL-428 |
-| **Playwright E2E** | Drives the web build at desktop and phone sizes and reads the result back from the database. It found 7.1 #10 | PIL-428 |
+| **Postgres 16 locally** (pgserver) | The suite also runs on the production database engine, not only on SQLite. Behaviour SQLite only happens to show, like the row order in 7.1 row 1, can't pass by luck | PIL-304, PIL-451, PIL-428 |
+| **Playwright E2E** | Drives the web build at desktop and phone sizes and reads the result back from the database. It found 7.1 row 11 | PIL-428 |
 
 ## 9. Test isolation: stubs, mocks and dummy data
 
@@ -360,7 +386,7 @@ A third kind, a **fake**, is a light working implementation of the dependency. A
 
 1. **Isolation.** When a test fails, the failure is in the one unit under test, not somewhere in the layers below it.
 2. **No slow or unavailable dependencies.** App tests don't need a running server, a network or a signed-in Google account.
-3. **Situations that are hard to make for real.** A stub can return a 409 conflict, a timeout, a malformed response, or two responses in reverse order. Defect 7.1 #9 could only be reproduced this way.
+3. **Situations that are hard to make for real.** A stub can return a 409 conflict, a timeout, a malformed response, or two responses in reverse order. Defect 7.1 row 4 could only be reproduced this way.
 4. **Checking side effects that have no return value,** such as a request being sent once, or not at all.
 5. **Building test-first, top down.** A cubit can be built and tested before the repository below it exists, by stubbing the repository.
 
@@ -371,7 +397,7 @@ A test that reads real data **depends** on something it doesn't control. Real da
 | Problem with real data | What happens to the test | With dummy data |
 |---|---|---|
 | **It changes.** Someone records a setoran, and a saldo moves | The same test passes today and fails tomorrow, with no code change | The test creates its own data, so the input is always the same |
-| **It may not contain the case.** No nasabah has a saldo exactly equal to the nominal I want to test | The corner case can't be tested at all | The test creates exactly the case it needs: a saldo of 465,600 and a nominal of 465,600 |
+| **It may not contain the case.** No nasabah has a saldo exactly equal to the setoran I want to void | The corner case can't be tested at all | The test creates exactly the case it needs: one setoran of 6,000, so voiding it takes the saldo to exactly 0 |
 | **It belongs to others.** Tests that write would change or delete real records, and other tests share them | Tests interfere with each other and with real users | Each backend test runs in its own test database, rolled back after every test |
 | **It is personal.** Real nasabah have names, phone numbers and saldo | Personal data ends up in test code, logs and CI | Dummy values: "Bank Void", nasabah "Budi", `void@example.test`, `+628111111111` |
 
@@ -390,7 +416,7 @@ Five properties of good unit tests:
 |---|---|---|
 | **F**ast | Tests run in milliseconds, so they can run after every change | App tests use mocks and `StubApi`, with no server. Backend tests roll back a transaction instead of rebuilding the database |
 | **I**ndependent | No test depends on another test or on the order they run in | Each test creates its own data in `setUp` and shares nothing with the others |
-| **R**epeatable | The same result every run, on any machine, at any time | <ul><li>Time is injected (`now: () => DateTime(2026, 10, 7, 10)`), so a date test doesn't depend on today.</li><li>`Completer`s fix the order of async answers instead of timing them.</li><li>The same-instant sort that passed 6 runs in 10 was made deterministic (7.1 #2).</li></ul> |
+| **R**epeatable | The same result every run, on any machine, at any time | <ul><li>Time is injected (`now: () => DateTime(2026, 10, 7, 10)`), so a date test doesn't depend on today.</li><li>`Completer`s fix the order of async answers instead of timing them.</li><li>Race tests pause one thread at a fixed point, so the race happens the same way every run (7.1 row 7).</li></ul> |
 | **S**elf-validating | The test decides pass or fail by itself; nobody reads its output | Every test asserts exact values: the status code, the saldo, the request body. Mutation checks show the assertions can fail |
 | **T**imely | The test is written at the right time: before the code | The red commit comes before the green one (section 3). Tests written after the code are labelled as coverage tests |
 
@@ -400,7 +426,7 @@ Five properties of good unit tests:
 |---|---|---|---|
 | 1 | TDD on at least one feature, or explain the TDD process | [Section 1](#1-what-tdd-means), [section 3](#3-tdd-commit-flow-with-evidence-of-the-order) | Met |
 | 2 | TDD on at least 3 features (backend and frontend counted separately, CRUD as 1), with positive and negative cases | 3 features × 2 sides = 6, [sections 2–3](#2-the-three-features), [section 6](#6-positive-negative-and-corner-cases) | Met |
-| 2 | Explain how test cases are designed | [Section 3](#3-tdd-commit-flow-with-evidence-of-the-order) (one behaviour per pair) and [section 6](#6-positive-negative-and-corner-cases) | Met |
+| 2 | Explain how test cases are designed | [Section 3](#3-tdd-commit-flow-with-evidence-of-the-order) (one behaviour per cycle) and [section 6](#6-positive-negative-and-corner-cases) | Met |
 | 3 | Disciplined commits and high coverage; Part B TDD ≥ 3 for at least a month | [Sections 3–5](#3-tdd-commit-flow-with-evidence-of-the-order) | Met |
 | 3 | Positive, negative and corner cases for every feature | [Section 6](#6-positive-negative-and-corner-cases) | Met |
 | 3 | Explain how corner cases are identified | [Section 6](#how-corner-cases-are-chosen) | Met |
@@ -410,90 +436,63 @@ Five properties of good unit tests:
 
 ## Appendix: test code
 
-Excerpts from the red commits, as committed. Lines removed for length are marked `…`.
+Excerpts from the commits named, as committed. Lines removed for length are marked `…`.
 
-### Appendix A: same-instant ordering (pencairan, backend)
+### Appendix A: a stale account object (role change, backend)
 
-From [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938). A setoran of 100,000 and a pencairan of 40,000 share one timestamp. The saldo shown after the setoran must be 100,000 every time, in the API and in the Excel export.
+From [`bf3a529`](https://github.com/bank-sampah-PILAH/pilah-be/commit/bf3a529). The request loaded the account before a parallel request registered a bank sampah, so it holds a stale object. The role must still stay locked. The test passed when written, so it is a coverage test. Against a check-then-save version of `change_role` it failed with "AuthServiceError not raised", which proves it guards the code.
 
-```python title="api/tests.py"
-def test_same_instant_pencairan_is_ordered_after_setoran(self) -> None:
-    Saldo.objects.filter(nasabah=self.nasabah).update(total_saldo=Decimal("0.00"))
-    jenis = JenisSampah.objects.create(
-        bank_sampah=self.bank,
-        nomor="PLS-001",
-        nama_sampah="Plastik PET",
-        kategori=JenisSampah.Kategori.PLASTIK,
-        harga_per_kg=Decimal("100000.00"),
+```python title="apps/authentication/test_role_change.py"
+def test_a_bank_registered_after_the_account_was_loaded_still_keeps_the_role(self) -> None:
+    user = self._fresh(User.Role.PENGELOLA)
+    # Loaded by this request before a parallel one registered a bank sampah.
+    stale = User.objects.get(pk=user.pk)
+    bank = BankSampah.objects.create(
+        nama="Bank Baru",
+        alamat="Depok",
+        no_hp_pic="+628111111111",
+        status=BankSampah.Status.PENDING,
     )
-    setoran = self.client.post(
-        "/api/v1/transaksi",
-        {
-            "nasabah_id": str(self.nasabah.id),
-            "items": [{"jenis_sampah_id": str(jenis.id), "berat": "1.000"}],
-        },
-        format="json",
-    )
-    self.assertEqual(setoran.status_code, 201, setoran.data)
-    same_instant = Transaksi.objects.get(id=setoran.data["id"]).tanggal
-    pencairan = self.client.post(
-        "/api/v1/pencairan",
-        {
-            "nasabah_id": str(self.nasabah.id),
-            "nominal": "40000",
-            "metode": "tunai",
-            "tanggal": same_instant.isoformat(),
-        },
-        format="json",
-    )
-    self.assertEqual(pencairan.status_code, 201, pencairan.data)
+    User.objects.filter(pk=user.pk).update(bank_sampah=bank)
 
-    detail = self.client.get(f"/api/v1/transaksi/{setoran.data['id']}")
-    self.assertEqual(detail.data["saldo_setelah_transaksi"], Decimal("100000.00"))
-    export = self.client.get("/api/v1/transaksi/export?periode=bulan_ini")
-    sheet = load_workbook(BytesIO(export.content), data_only=False)["Riwayat Transaksi"]
-    self.assertEqual(sheet.cell(5, 10).value, 100000)
+    with self.assertRaises(AuthServiceError) as refused:
+        AuthService.change_role(stale, User.Role.NASABAH)
+
+    self.assertEqual(refused.exception.code, "role_locked")
+    user.refresh_from_db()
+    self.assertEqual(user.role, User.Role.PENGELOLA)
 ```
 
-### Appendix B: pencairan nominal at the edges of the saldo
+### Appendix B: a void at the edge of the saldo
 
-From [`27fcd06`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/27fcd06): the corner-case rule from section 6 applied to a saldo of 465,600.
+From [`f3c3db7`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f3c3db7) and [`99de195`](https://github.com/bank-sampah-PILAH/pilah-be/commit/99de195): the corner-case rule from section 6. In `setUp`, the nasabah has one setoran of 2 kg at 3,000, a saldo of 6,000.
 
-```dart title="test/features/pencairan/domain/pencairan_validator_test.dart"
-group('PencairanValidator.nominal', () {
-  test('accepts a nominal within the saldo', () {
-    expect(PencairanValidator.nominal(200000, saldo: 465600), isNull);
-  });
+- **The bottom end:** voiding it takes the saldo to exactly 0, which is allowed.
+- **Outside the range:** after a pencairan of 5,000, the same void would take the saldo to −5,000, so it is refused.
 
-  test('accepts a nominal equal to the saldo', () {
-    expect(PencairanValidator.nominal(465600, saldo: 465600), isNull);
-  });
+```python title="apps/ledger/test_setoran_void.py"
+def test_void_marks_the_setoran_and_takes_it_out_of_the_saldo(self) -> None:
+    response = self._batalkan()
 
-  test('requires a nominal', () {
-    expect(
-      PencairanValidator.nominal(null, saldo: 465600),
-      'Nominal wajib diisi',
-    );
-  });
+    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.data["status"], "dibatalkan")
+    self.assertEqual(response.data["alasan_batal"], "Salah nasabah")
+    self.assertEqual(response.data["dibatalkan_oleh"], str(self.pengelola.id))
+    self.assertEqual(response.data["dibatalkan_oleh_nama"], "Pengelola")
+    self.assertIsNotNone(response.data["dibatalkan_pada"])
+    self.assertEqual(self._saldo(), Decimal(0))
+    # Soft delete: the row and its items stay.
+    self.assertTrue(Transaksi.objects.filter(pk=self.transaksi.pk).exists())
+    self.assertEqual(self.transaksi.items.count(), 1)
 
-  test('rejects zero and negative nominals', () {
-    expect(
-      PencairanValidator.nominal(0, saldo: 465600),
-      'Nominal harus lebih dari nol',
-    );
-    expect(
-      PencairanValidator.nominal(-1000, saldo: 465600),
-      'Nominal harus lebih dari nol',
-    );
-  });
+def test_void_of_money_already_paid_out_is_rejected(self) -> None:
+    self._cairkan(5000, self.transaksi.tanggal + timedelta(hours=1))
 
-  test('rejects a nominal above the saldo with the maximum', () {
-    expect(
-      PencairanValidator.nominal(465601, saldo: 465600),
-      'Maksimal Rp 465.600',
-    );
-  });
-});
+    response = self._batalkan()
+
+    self.assertEqual(response.status_code, 409)
+    self.assertEqual(self._status(), Transaksi.Status.TERCATAT)
+    self.assertEqual(self._saldo(), Decimal(1000))
 ```
 
 ### Appendix C: a mock that captures the request
@@ -556,7 +555,7 @@ void main() {
 
 ### Appendix D: a late reply, made deterministic
 
-From [`ece524b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ece524b), review defect 7.1 #9. The use case is **stubbed** to answer from two `Completer`s, and the test decides the order: the newer reload answers first, the older one last. The cubit must keep the newer price.
+From [`ece524b`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/ece524b), review defect 7.1 row 4. The use case is **stubbed** to answer from two `Completer`s, and the test decides the order: the newer reload answers first, the older one last. The cubit must keep the newer price.
 
 ```dart title="test/features/harga/presentation/harga_cubit_test.dart"
 test('an older reload that answers late never overwrites a newer one',
