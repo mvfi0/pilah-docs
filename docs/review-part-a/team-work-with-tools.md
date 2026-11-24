@@ -195,7 +195,7 @@ The path one UAT finding took through Linear, GitHub, CI, SonarCloud and a secur
 
 | Date | Step | Tool | Evidence |
 |---|---|---|---|
-| 6 Nov | UAT with the Pengurus, run from the task script and findings form I prepared | Meeting, findings form | [UAT 6 Nov](../sprints/sprint-3/uat/index.md) |
+| 6 Nov | UAT with the Pengurus, run from the task script and findings form I prepared | Meeting, findings form | PIL-418 task script and findings form |
 | After the UAT | Two findings tracked as issues: PIL-481 (hide a voided setoran from the riwayat lists) and PIL-480 (drop the ID Aktivitas column from the export) | Linear | PIL-481, PIL-480 |
 | 9 Nov | Branches `feature/pil-481` and `feature/pil-480`, built test-first; three PRs opened | Git, GitHub | [pilah-be #167](https://github.com/bank-sampah-PILAH/pilah-be/pull/167), [pilah-be #168](https://github.com/bank-sampah-PILAH/pilah-be/pull/168), [pilah-mobile #238](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/238) |
 | 9 Nov | CI and the SonarCloud quality gate on each PR | GitHub Actions, SonarCloud | PR checks |

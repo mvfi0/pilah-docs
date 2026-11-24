@@ -60,18 +60,24 @@ Each table lists the pairs in the order they were committed. The numbers in brac
 
 | # | Behaviour | Red | Green |
 |---|---|---|---|
-| 1 | Recording a pencairan lowers the saldo exactly once | [`72dcc72`](https://github.com/bank-sampah-PILAH/pilah-be/commit/72dcc72) (+48) | [`fbab07b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/fbab07b) (+171 −1) |
-| 2 | A nominal above the saldo is rejected, and the saldo is unchanged | [`0e7a3f3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/0e7a3f3) (+18) | [`e65ff1d`](https://github.com/bank-sampah-PILAH/pilah-be/commit/e65ff1d) (+3) |
-| 3 | A zero, negative or decimal nominal and a future `tanggal` are rejected | [`f876c63`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f876c63) (+40 −1) | [`6615dc8`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6615dc8) (+13) |
-| 4 | The detail is readable only within the bank (404, 403, 401) | [`9377c90`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9377c90) (+83) | [`cb9da4a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cb9da4a) (+3) |
-| 5 | The saldo history subtracts pencairan | [`575d0f6`](https://github.com/bank-sampah-PILAH/pilah-be/commit/575d0f6) (+43) | [`5447710`](https://github.com/bank-sampah-PILAH/pilah-be/commit/5447710) (+114 −34) |
-| 6 | The list can be filtered by nasabah | [`9c40890`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9c40890) (+27) | [`999882b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/999882b) (+13 −1) |
-| 7 | *Review finding:* a pending or rejected nasabah can't be paid out | [`9ee3525`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9ee3525) (+20) | [`49cd153`](https://github.com/bank-sampah-PILAH/pilah-be/commit/49cd153) (+6 −1) |
-| 8 | *Review finding:* a setoran and a pencairan at the same instant are ordered the same way every time | [`7ff2cdf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7ff2cdf) (+38) | [`765f90f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/765f90f) (+4 −2) |
-| 9 | *Review finding:* a legacy saldo with sen is rounded down to whole rupiah | [`9b135b2`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9b135b2) (+15) | [`2981176`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2981176) (+6 −3) |
-| 10 | The reset command reports pencairan left behind | [`f147fe3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f147fe3) (+54 −1) | [`b98a29b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/b98a29b) (+2 −1) |
+| 1 | Recording a pencairan lowers the saldo exactly once | [`475f2b5`](https://github.com/bank-sampah-PILAH/pilah-be/commit/475f2b5) (+48) | [`f119442`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f119442) (+171 −1) |
+| 2 | A nominal above the saldo is rejected, and the saldo is unchanged | [`cb1b774`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cb1b774) (+18) | [`1cf5641`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1cf5641) (+3) |
+| 3 | A zero, negative or decimal nominal and a future `tanggal` are rejected | [`8435245`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8435245) (+40 −1) | [`6461112`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6461112) (+13) |
+| 4 | The detail is readable only within the bank (404, 403, 401) | [`92b062a`](https://github.com/bank-sampah-PILAH/pilah-be/commit/92b062a) (+83) | [`3ac5602`](https://github.com/bank-sampah-PILAH/pilah-be/commit/3ac5602) (+3) |
+| 5 | The saldo history subtracts pencairan | [`55134c3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/55134c3) (+43) | [`da84166`](https://github.com/bank-sampah-PILAH/pilah-be/commit/da84166) (+114 −34) |
+| 6 | The list can be filtered by nasabah | [`2c633e1`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2c633e1) (+27) | [`c0fad99`](https://github.com/bank-sampah-PILAH/pilah-be/commit/c0fad99) (+13 −1) |
+| 7 | *Review finding:* a pending or rejected nasabah can't be paid out | [`8eae32e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8eae32e) (+20) | [`96be7bd`](https://github.com/bank-sampah-PILAH/pilah-be/commit/96be7bd) (+6 −1) |
+| 8 | *Review finding:* a setoran and a pencairan at the same instant are ordered the same way every time | [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938) (+38) | [`1bd2a1c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1bd2a1c) (+4 −2) |
+| 9 | *Review finding:* a legacy saldo with sen is rounded down to whole rupiah | [`6a66617`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6a66617) (+15) | [`8801c68`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8801c68) (+6 −3) |
+| 10 | The reset command reports pencairan left behind | [`cadc57e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cadc57e) (+54 −1) | [`f1c1edf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f1c1edf) (+2 −1) |
 
-**Refactor after green:** [`bd38dc6`](https://github.com/bank-sampah-PILAH/pilah-be/commit/bd38dc6) removes a list branch no request could reach (+3 −6).
+**Refactor after green:** [`d244c36`](https://github.com/bank-sampah-PILAH/pilah-be/commit/d244c36) removes a list branch no request could reach (+3 −6).
+
+**The order as GitHub shows it.** Tristan rebased the branch onto `staging` before merging it on 27 Sep, so the commits carry new hashes. The hashes in the table are the ones in the [PR's commit list](https://github.com/bank-sampah-PILAH/pilah-be/pull/19/commits). The screenshot shows the review-round part of that list, pairs 7 to 10 and the refactor: each failing test comes directly before the fix that makes it pass, and the refactor comes only after green.
+
+![The commit list of pilah-be #19, merged by TrayMachi into staging: "test(pencairan): add failing test for unapproved membership" (8eae32e) then "fix(pencairan): require approved membership like setoran" (96be7bd); the same-instant ordering pair (17a6938, 1bd2a1c); the legacy sen saldo pair (6a66617, 8801c68); "refactor(pencairan): drop unreachable unpaginated list branch" (d244c36); then "test(reset): add failing test for pencairan in reset verification" (cadc57e)](evidence/pilah-be-19-commits.png){ width="900" }
+
+One commit sits between pair 1's red and green: [`023d070`](https://github.com/bank-sampah-PILAH/pilah-be/commit/023d070) corrects one assertion in the red test. The saldo endpoint returns `total_saldo` as the string `"265600.00"`, not a `Decimal`, so the old assertion would have failed even with correct code.
 
 ### 3.2 Pencairan, app ([pilah-mobile #26](https://github.com/bank-sampah-PILAH/pilah-mobile/pull/26))
 
@@ -255,10 +261,10 @@ Each defect below was first reproduced by a red test, then fixed. None of them r
 
 | # | Feature | Defect | How it surfaced | Data | Red → green |
 |---|---|---|---|---|---|
-| 1 | Pencairan | A pending or rejected nasabah could be paid out | Review | — | [`9ee3525`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9ee3525) → [`49cd153`](https://github.com/bank-sampah-PILAH/pilah-be/commit/49cd153) |
-| 2 | Pencairan | A setoran and a pencairan at the same instant came back in random order, so the saldo after a setoran was wrong some of the time | Review | Against the old sort the test passed **6 runs in 10**; against the fix, **10 in 10** | [`7ff2cdf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7ff2cdf) → [`765f90f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/765f90f) |
-| 3 | Pencairan | A legacy saldo with sen left sen behind after a pencairan | Review | — | [`9b135b2`](https://github.com/bank-sampah-PILAH/pilah-be/commit/9b135b2) → [`2981176`](https://github.com/bank-sampah-PILAH/pilah-be/commit/2981176) |
-| 4 | Pencairan | The test-data reset command didn't check that pencairan were cleared | My own test | — | [`f147fe3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f147fe3) → [`b98a29b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/b98a29b) |
+| 1 | Pencairan | A pending or rejected nasabah could be paid out | Review | — | [`8eae32e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8eae32e) → [`96be7bd`](https://github.com/bank-sampah-PILAH/pilah-be/commit/96be7bd) |
+| 2 | Pencairan | A setoran and a pencairan at the same instant came back in random order, so the saldo after a setoran was wrong some of the time | Review | Against the old sort the test passed **6 runs in 10**; against the fix, **10 in 10** | [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938) → [`1bd2a1c`](https://github.com/bank-sampah-PILAH/pilah-be/commit/1bd2a1c) |
+| 3 | Pencairan | A legacy saldo with sen left sen behind after a pencairan | Review | — | [`6a66617`](https://github.com/bank-sampah-PILAH/pilah-be/commit/6a66617) → [`8801c68`](https://github.com/bank-sampah-PILAH/pilah-be/commit/8801c68) |
+| 4 | Pencairan | The test-data reset command didn't check that pencairan were cleared | My own test | — | [`cadc57e`](https://github.com/bank-sampah-PILAH/pilah-be/commit/cadc57e) → [`f1c1edf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f1c1edf) |
 | 5 | Pencairan | The submit button sat below the fold of the form | The widget test couldn't tap it | The page layout and the test were fixed together ([`6f4e1ea`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/6f4e1ea), +10 −18) | [`9887d7e`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/9887d7e) → [`e30e6ab`](https://github.com/bank-sampah-PILAH/pilah-mobile/commit/e30e6ab) |
 | 6 | Prices | The newest-version tie-break worked only because SQLite happened to return rows in that order. Postgres, used in production, makes no such promise | My own test passed with no code | Made explicit as a refactor, with the reason in the commit | [`95a62f3`](https://github.com/bank-sampah-PILAH/pilah-be/commit/95a62f3) |
 | 7 | Prices | Reseeding repriced a historical setoran at today's price | Review | A 3,500 snapshot became **99,999** | [`857735b`](https://github.com/bank-sampah-PILAH/pilah-be/commit/857735b) → [`f67a84f`](https://github.com/bank-sampah-PILAH/pilah-be/commit/f67a84f) |
@@ -405,7 +411,7 @@ Excerpts from the red commits, as committed. Lines removed for length are marked
 
 ### Appendix A: same-instant ordering (pencairan, backend)
 
-From [`7ff2cdf`](https://github.com/bank-sampah-PILAH/pilah-be/commit/7ff2cdf). A setoran of 100,000 and a pencairan of 40,000 share one timestamp. The saldo shown after the setoran must be 100,000 every time, in the API and in the Excel export.
+From [`17a6938`](https://github.com/bank-sampah-PILAH/pilah-be/commit/17a6938). A setoran of 100,000 and a pencairan of 40,000 share one timestamp. The saldo shown after the setoran must be 100,000 every time, in the API and in the Excel export.
 
 ```python title="api/tests.py"
 def test_same_instant_pencairan_is_ordered_after_setoran(self) -> None:
