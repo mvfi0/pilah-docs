@@ -481,6 +481,9 @@ What the data does support:
 
 ### 9.1 Stub vs mock
 
+- **Stub:** a fake dependency that returns pre-set answers, so my code has the data it needs. The test checks my code's output.
+- **Mock:** a fake dependency that records how my code used it. The test checks that the right calls were made.
+
 Both are **test doubles**: stand-ins for a real dependency, so a test can run one unit without the units it calls.
 
 | | Stub | Mock |
